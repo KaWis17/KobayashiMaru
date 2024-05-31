@@ -1,6 +1,14 @@
 package org.example;
 
+import org.example.Engine.Engine;
+
 public class UniversalChessEngine {
+
+    Engine engine;
+
+    UniversalChessEngine() {
+        engine = new Engine();
+    }
 
     public void dispatch(String command) {
 
@@ -8,7 +16,7 @@ public class UniversalChessEngine {
         String[] splittedCommand = command.split(" ");
 
         switch(splittedCommand[0]) {
-            case "uci" -> sendEngineResponse("uciok");
+            case "uci" -> processUciCommand();
             case "debug" -> processDebugCommand(command);
             case "isready" -> sendEngineResponse("readyok");
             case "setoption" -> processSetOptionCommand(command);
@@ -23,8 +31,10 @@ public class UniversalChessEngine {
         }
     }
 
-    private void sendEngineResponse(String response) {
-        System.out.println(response);
+    private void processUciCommand() {
+        sendEngineResponse("id name " + engine.NAME);
+        sendEngineResponse("id author " + engine.AUTHOR);
+        sendEngineResponse("uciok");
     }
 
     private void processDebugCommand(String command) {
@@ -57,6 +67,10 @@ public class UniversalChessEngine {
 
     private void processPonderHit(String command) {
         sendEngineResponse(command + " ok");
+    }
+
+    private void sendEngineResponse(String response) {
+        System.out.println(response);
     }
 
     private static class UnknownCommandException extends RuntimeException {
