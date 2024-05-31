@@ -18,15 +18,16 @@ public class UniversalChessEngine {
         switch(splittedCommand[0]) {
             case "uci" -> processUciCommand();
             case "debug" -> processDebugCommand(command);
-            case "isready" -> sendEngineResponse("readyok");
+            case "isready" -> processIsReadyCommand();
             case "setoption" -> processSetOptionCommand(command);
             case "register" -> processRegisterCommand(command);
-            case "ucinewgame" -> processNewGameCommand(command);
+            case "ucinewgame" -> processNewGameCommand();
             case "position" -> processPositionCommand(command);
             case "go" -> processGoCommand(command);
-            case "stop" -> processStop(command);
-            case "ponderhit" -> processPonderHit(command);
+            case "stop" -> processStopCommand(command);
+            case "ponderhit" -> processPonderHitCommand(command);
             // case "quit" -> has been handled by App.java
+            case "display" -> processDisplayCommand();
             default -> throw new UniversalChessEngine.UnknownCommandException();
         }
     }
@@ -38,35 +39,68 @@ public class UniversalChessEngine {
     }
 
     private void processDebugCommand(String command) {
-        sendEngineResponse(command + " ok");
+        String[] commandSplit = command.split(" ");
+
+        if(commandSplit[1].equals("on"))
+            engine.debugOn = true;
+        else if(commandSplit[1].equals("off"))
+            engine.debugOn = false;
+        else
+            throw new UnknownCommandException();
+    }
+
+    private void processIsReadyCommand(){
+        sendEngineResponse("readyok");
     }
 
     private void processSetOptionCommand(String command) {
-        sendEngineResponse(command + " ok");
+        //TODO currently unsupported
     }
 
     private void processRegisterCommand(String command) {
-        sendEngineResponse(command + " ok");
+        //TODO currently unsupported
     }
 
-    private void processNewGameCommand(String command) {
-        sendEngineResponse(command + " ok");
+    private void processNewGameCommand() {
+        engine.prepareNewGame();
     }
 
     private void processPositionCommand(String command) {
-        sendEngineResponse(command + " ok");
+
+        handleStartingPosition(command);
+
+        if(command.contains("moves"))
+            handleMovesAfterPosition(command);
+
+    }
+
+    private void handleStartingPosition(String command) {
+        if(command.contains("startpos"))
+            engine.initiateDefaultPosition();
+        else if(command.contains("fen"))
+            engine.initiateCustomPosition(command.split(" ")[3]);
+        else
+            throw new UnknownPositionCommand();
+    }
+
+    private void handleMovesAfterPosition(String command) {
+        //TODO currently unsupported
     }
 
     private void processGoCommand(String command) {
-        sendEngineResponse(command + " ok");
+        //TODO currently unsupported
     }
 
-    private void processStop(String command) {
-        sendEngineResponse(command + " ok");
+    private void processStopCommand(String command) {
+        //TODO currently unsupported
     }
 
-    private void processPonderHit(String command) {
-        sendEngineResponse(command + " ok");
+    private void processPonderHitCommand(String command) {
+        //TODO currently unsupported
+    }
+
+    private void processDisplayCommand() {
+        //TODO currently unsupported
     }
 
     private void sendEngineResponse(String response) {
@@ -76,6 +110,12 @@ public class UniversalChessEngine {
     private static class UnknownCommandException extends RuntimeException {
         UnknownCommandException() {
             super("Unknown command has been entered to UCI!");
+        }
+    }
+
+    private static class UnknownPositionCommand extends RuntimeException {
+        UnknownPositionCommand() {
+            super("Unknown FEN position!");
         }
     }
 }
