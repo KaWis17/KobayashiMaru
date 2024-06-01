@@ -34,6 +34,6 @@ public class Engine {
     }
 
     public void displayBoard() {
-        board.display();
+        System.out.println(board);
     }
 }

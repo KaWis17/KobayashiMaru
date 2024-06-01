@@ -78,7 +78,7 @@ public class UciReceiver {
         if(command.contains("startpos"))
             engine.initiateDefaultPosition();
         else if(command.contains("fen"))
-            engine.initiateCustomPosition(command.split(" ")[3]);
+            engine.initiateCustomPosition(command.split(" ",3)[2]);
         else
             throw new UnknownPositionCommand();
     }
