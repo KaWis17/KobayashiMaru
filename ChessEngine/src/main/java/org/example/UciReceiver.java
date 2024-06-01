@@ -2,11 +2,11 @@ package org.example;
 
 import org.example.Engine.Engine;
 
-public class UniversalChessEngine {
+public class UciReceiver {
 
     Engine engine;
 
-    UniversalChessEngine() {
+    UciReceiver() {
         engine = new Engine();
     }
 
@@ -28,14 +28,14 @@ public class UniversalChessEngine {
             case "ponderhit" -> processPonderHitCommand(command);
             // case "quit" -> has been handled by App.java
             case "display" -> processDisplayCommand();
-            default -> throw new UniversalChessEngine.UnknownCommandException();
+            default -> throw new UciReceiver.UnknownCommandException();
         }
     }
 
     private void processUciCommand() {
-        sendEngineResponse("id name " + engine.NAME);
-        sendEngineResponse("id author " + engine.AUTHOR);
-        sendEngineResponse("uciok");
+        UciSender.sendEngineResponse("id name " + engine.NAME);
+        UciSender.sendEngineResponse("id author " + engine.AUTHOR);
+        UciSender.sendEngineResponse("uciok");
     }
 
     private void processDebugCommand(String command) {
@@ -62,7 +62,7 @@ public class UniversalChessEngine {
     }
 
     private void processNewGameCommand() {
-        engine.prepareNewGame();
+        //TODO currently unsupported
     }
 
     private void processPositionCommand(String command) {
@@ -101,10 +101,6 @@ public class UniversalChessEngine {
 
     private void processDisplayCommand() {
         //TODO currently unsupported
-    }
-
-    private void sendEngineResponse(String response) {
-        System.out.println(response);
     }
 
     private static class UnknownCommandException extends RuntimeException {

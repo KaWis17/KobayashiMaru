@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class App {
     public static void main( String[] args ) {
-        UniversalChessEngine uci = new UniversalChessEngine();
+        UciReceiver uci = new UciReceiver();
 
         Scanner input = new Scanner(System.in);
         while(true) {
