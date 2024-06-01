@@ -29,7 +29,11 @@ public class Engine {
     public void makeBestMove() {
         Move bestMove = searcher.search(board, evaluator);
 
-        board.makeDefiniteMove();
+        board.makeMove(bestMove, true);
         UciSender.sendEngineResponse(bestMove.toString());
+    }
+
+    public void displayBoard() {
+        board.display();
     }
 }

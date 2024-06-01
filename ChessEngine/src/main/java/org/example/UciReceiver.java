@@ -50,7 +50,7 @@ public class UciReceiver {
     }
 
     private void processIsReadyCommand(){
-        sendEngineResponse("readyok");
+        UciSender.sendEngineResponse("readyok");
     }
 
     private void processSetOptionCommand(String command) {
@@ -100,7 +100,7 @@ public class UciReceiver {
     }
 
     private void processDisplayCommand() {
-        //TODO currently unsupported
+        engine.displayBoard();
     }
 
     private static class UnknownCommandException extends RuntimeException {

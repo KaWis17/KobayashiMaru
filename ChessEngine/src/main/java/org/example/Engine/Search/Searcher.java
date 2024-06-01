@@ -12,10 +12,10 @@ public class Searcher {
         if(board.state == BoardConstants.GAME_STATE.EARLY_GAME)
             return findMoveForEarlyGame("../Resources/OpeningLibrary");
 
-        else if(board.state == BoardConstants.GAME_STATE.MID_GAME)
-            return findMoveForMidGame(evaluator);
+        else if(board.state == BoardConstants.GAME_STATE.END_GAME)
+            return findMoveForEndGame("../Resources/EndgameTablebases");
 
-        return findMoveForEndGame("../Resources/EndgameTablebases");
+        return findMoveForMidGame(evaluator);
 
     }
 
