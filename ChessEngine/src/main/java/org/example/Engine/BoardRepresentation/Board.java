@@ -4,6 +4,7 @@ public class Board implements BoardConstants{
 
     public BoardConstants.GAME_STATE state;
     long[] bitBoards = new long[15];
+
     boolean whiteToMove;
     boolean canWhiteCastleKingside, canWhiteCastleQueenside;
     boolean canBlackCastleKingside, canBlackCastleQueenside;
@@ -19,8 +20,15 @@ public class Board implements BoardConstants{
         FenImplementer.implement(this, fen);
     }
 
-    public void makeMove(Move moveToMake, boolean saveMove) {
+    public boolean shouldSwitchToEndgame() {
+        //TODO implement
+        return false;
+    }
 
+    public void makeMove(Move moveToMake, boolean saveMove) {
+        //TODO implement
+        //deletePieceFromSquare(moveToMake.departure, moveToMake.getColor(), moveToMake.getPiece();
+        //addPieceOnSquare(moveToMake.destination, moveToMake.getColor(), moveToMake.getPiece());
     }
 
     void addPieceOnSquare(short square, short color, short piece) {
@@ -29,8 +37,8 @@ public class Board implements BoardConstants{
     }
 
     void deletePieceFromSquare(short square, short color, short piece) {
-        bitBoards[piece | color] &= ~(1L << square);
-        bitBoards[color] &= ~(1L << square);
+        bitBoards[piece | color] &= ~(1L << square-1);
+        bitBoards[color] &= ~(1L << square-1);
     }
 
     @Override

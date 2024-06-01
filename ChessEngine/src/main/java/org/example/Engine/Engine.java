@@ -13,8 +13,8 @@ public class Engine {
 
     private final Board board = new Board();
     private final MoveGenerator moveGenerator = new MoveGenerator();
-    private final Searcher searcher = new Searcher();
     private final Evaluator evaluator = new Evaluator();
+    private final Searcher searcher = new Searcher(board, evaluator);
 
     public boolean debugOn = false;
 
@@ -27,7 +27,7 @@ public class Engine {
     }
 
     public void makeBestMove() {
-        Move bestMove = searcher.search(board, evaluator);
+        Move bestMove = searcher.search();
 
         board.makeMove(bestMove, true);
         UciSender.sendEngineResponse(bestMove.toString());

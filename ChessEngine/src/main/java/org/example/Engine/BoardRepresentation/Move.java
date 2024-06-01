@@ -12,6 +12,30 @@ public class Move implements MoveConstants {
         this.type = type;
     }
 
+    public Move(String move) {
+
+        //TODO not finished
+        this.departure = SquareCalculator.calculate(move.substring(0, 2));
+        this.destination = SquareCalculator.calculate(move.substring(2, 4));
+
+        if(move.length() == 5) {
+            switch(move.charAt(4)) {
+                case 'q':
+                    type = QUEEN_PROMOTION;
+                    break;
+                case 'r':
+                    type = ROOK_PROMOTION;
+                    break;
+                case 'b':
+                    type = BISHOP_PROMOTION;
+                    break;
+                case 'n':
+                    type = KNIGHT_PROMOTION;
+                    break;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         String move = SquareCalculator.calculate(departure);

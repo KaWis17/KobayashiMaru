@@ -5,17 +5,17 @@ public class SquareCalculator {
         return "";
     }
 
-    public static short calculate(String square) {
+    public static byte calculate(String square) {
         if(square.equals("-") || square.equals("0"))
             return 0;
 
-        short value = rowValue(square);
+        byte value = rowValue(square);
         value += columnValue(square);
 
         return value;
     }
 
-    private static short rowValue(String square) {
+    private static byte rowValue(String square) {
         if(square.contains("8")) return 7;
         if(square.contains("7")) return 6;
         if(square.contains("6")) return 5;
@@ -27,15 +27,15 @@ public class SquareCalculator {
         return 0;
     }
 
-    private static short columnValue(String square) {
-        if(square.contains("a")) return 1;
-        if(square.contains("b")) return 2;
-        if(square.contains("c")) return 3;
-        if(square.contains("d")) return 4;
-        if(square.contains("e")) return 5;
-        if(square.contains("f")) return 6;
-        if(square.contains("g")) return 7;
-        if(square.contains("h")) return 8;
+    private static byte columnValue(String square) {
+        if(square.contains("a")) return 8;
+        if(square.contains("b")) return 7;
+        if(square.contains("c")) return 6;
+        if(square.contains("d")) return 5;
+        if(square.contains("e")) return 4;
+        if(square.contains("f")) return 3;
+        if(square.contains("g")) return 2;
+        if(square.contains("h")) return 1;
         return 0;
     }
 }
