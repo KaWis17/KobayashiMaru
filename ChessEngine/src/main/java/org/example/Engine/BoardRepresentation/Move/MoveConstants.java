@@ -1,4 +1,4 @@
-package org.example.Engine.BoardRepresentation;
+package org.example.Engine.BoardRepresentation.Move;
 
 public interface MoveConstants {
     short QUIET_MOVE = 0;

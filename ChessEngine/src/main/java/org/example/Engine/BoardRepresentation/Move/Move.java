@@ -1,4 +1,6 @@
-package org.example.Engine.BoardRepresentation;
+package org.example.Engine.BoardRepresentation.Move;
+
+import org.example.Engine.BoardRepresentation.SquareCalculator;
 
 public class Move implements MoveConstants {
 

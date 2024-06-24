@@ -13,4 +13,12 @@ public interface BoardConstants {
     short ROOK = 4;
     short QUEEN = 5;
     short KING = 6;
+
+    static short getPieceType(short piece) {
+        return (short) (piece & 7);
+    }
+
+    static short getColor(short piece) {
+        return (short) (piece & 8);
+    }
 }

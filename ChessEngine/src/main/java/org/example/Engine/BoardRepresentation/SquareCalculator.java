@@ -2,14 +2,27 @@ package org.example.Engine.BoardRepresentation;
 
 public class SquareCalculator {
     public static String calculate(short square) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        switch(square%8) {
+            case 0 -> sb.append("a");
+            case 7 -> sb.append("b");
+            case 6 -> sb.append("c");
+            case 5 -> sb.append("d");
+            case 4 -> sb.append("e");
+            case 3 -> sb.append("f");
+            case 2 -> sb.append("g");
+            case 1 -> sb.append("h");
+        }
+        sb.append((square-1)/8+1);
+
+        return sb.toString();
     }
 
     public static byte calculate(String square) {
         if(square.equals("-") || square.equals("0"))
             return 0;
 
-        byte value = rowValue(square);
+        byte value = (byte) (8*rowValue(square));
         value += columnValue(square);
 
         return value;
@@ -26,6 +39,7 @@ public class SquareCalculator {
         if(square.contains("1")) return 0;
         return 0;
     }
+
 
     private static byte columnValue(String square) {
         if(square.contains("a")) return 8;
@@ -44,21 +58,21 @@ public class SquareCalculator {
 
     a    b    c    d    e    f    g    h
   +----+----+----+----+----+----+----+----+
-8 | 64 | 63 | 62 | 61 | 60 | 59 | 58 | 57 | 1
+8 | 64 | 63 | 62 | 61 | 60 | 59 | 58 | 57 | 8
   +----+----+----+----+----+----+----+----+
-7 | 56 | 55 | 54 | 53 | 52 | 51 | 50 | 49 | 2
+7 | 56 | 55 | 54 | 53 | 52 | 51 | 50 | 49 | 7
   +----+----+----+----+----+----+----+----+
-6 | 48 | 47 | 46 | 45 | 44 | 43 | 42 | 41 | 3
+6 | 48 | 47 | 46 | 45 | 44 | 43 | 42 | 41 | 6
   +----+----+----+----+----+----+----+----+
-5 | 40 | 39 | 38 | 37 | 36 | 35 | 34 | 33 | 4
+5 | 40 | 39 | 38 | 37 | 36 | 35 | 34 | 33 | 5
   +----+----+----+----+----+----+----+----+
-4 | 32 | 31 | 30 | 29 | 28 | 27 | 26 | 25 | 5
+4 | 32 | 31 | 30 | 29 | 28 | 27 | 26 | 25 | 4
   +----+----+----+----+----+----+----+----+
-3 | 24 | 23 | 22 | 21 | 20 | 19 | 18 | 17 | 6
+3 | 24 | 23 | 22 | 21 | 20 | 19 | 18 | 17 | 3
   +----+----+----+----+----+----+----+----+
-2 | 16 | 15 | 14 | 13 | 12 | 11 | 10 |  9 | 7
+2 | 16 | 15 | 14 | 13 | 12 | 11 | 10 |  9 | 2
   +----+----+----+----+----+----+----+----+
-1 |  8 |  7 |  6 |  5 |  4 |  3 |  2 |  1 | 8
+1 |  8 |  7 |  6 |  5 |  4 |  3 |  2 |  1 | 1
   +----+----+----+----+----+----+----+----+
     a    b    c    d    e    f    g    h
 

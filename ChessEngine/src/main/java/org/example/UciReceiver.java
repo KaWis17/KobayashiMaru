@@ -33,36 +33,37 @@ public class UciReceiver {
     }
 
     private void processUciCommand() {
-        UciSender.sendEngineResponse("id name " + engine.NAME);
-        UciSender.sendEngineResponse("id author " + engine.AUTHOR);
-        UciSender.sendEngineResponse("uciok");
+        UciSender.sendEngineInformation(engine);
+        UciSender.sendOkInformation();
     }
 
     private void processDebugCommand(String command) {
         String[] commandSplit = command.split(" ");
-
+        /*
         if(commandSplit[1].equals("on"))
             engine.debugOn = true;
         else if(commandSplit[1].equals("off"))
             engine.debugOn = false;
         else
             throw new UnknownCommandException();
+            
+         */
     }
 
     private void processIsReadyCommand(){
-        UciSender.sendEngineResponse("readyok");
+        UciSender.sendReadyOk();
     }
 
     private void processSetOptionCommand(String command) {
-        //TODO currently unsupported
+       UciSender.sendUnsupportedCommand();
     }
 
     private void processRegisterCommand(String command) {
-        //TODO currently unsupported
+        UciSender.sendUnsupportedCommand();
     }
 
     private void processNewGameCommand() {
-        //TODO currently unsupported
+        engine = new Engine();
     }
 
     private void processPositionCommand(String command) {
@@ -88,15 +89,30 @@ public class UciReceiver {
     }
 
     private void processGoCommand(String command) {
-        //TODO currently unsupported
+        if(command.contains("movetime"))
+            processGoMoveTimeCommand(command);
+        else
+            processGoWithoutTimeCommand(command);
+    }
+
+    private void processGoMoveTimeCommand(String command) {
+        int indexOfMovetime = command.indexOf("movetime");
+        String[] splittedCommand = command.substring(indexOfMovetime+9).split(" ");
+        int time = Integer.parseInt(splittedCommand[0]);
+
+        engine.makeBestMoveWithSpecificTime(time);
+    }
+
+    private void processGoWithoutTimeCommand(String command) {
+        engine.makeBestMoveWithTimeProposal();
     }
 
     private void processStopCommand(String command) {
-        //TODO currently unsupported
+        engine.stopSearchManually();
     }
 
     private void processPonderHitCommand(String command) {
-        //TODO currently unsupported
+        UciSender.sendUnsupportedCommand();
     }
 
     private void processDisplayCommand() {
@@ -111,7 +127,7 @@ public class UciReceiver {
 
     private static class UnknownPositionCommand extends RuntimeException {
         UnknownPositionCommand() {
-            super("Unknown FEN position!");
+            super("Unknown position command!");
         }
     }
 }
