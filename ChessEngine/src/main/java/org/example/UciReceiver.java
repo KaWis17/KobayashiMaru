@@ -26,7 +26,6 @@ public class UciReceiver {
             case "go" -> processGoCommand(command);
             case "stop" -> processStopCommand(command);
             case "ponderhit" -> processPonderHitCommand(command);
-            // case "quit" -> has been handled by App.java
             case "display" -> processDisplayCommand();
             default -> throw new UciReceiver.UnknownCommandException();
         }
@@ -85,7 +84,11 @@ public class UciReceiver {
     }
 
     private void handleMovesAfterPosition(String command) {
-        //TODO currently unsupported
+        String moves = command.split("moves ")[1];
+        String[] splittedMoves = moves.split(" ");
+
+        for(String move : splittedMoves)
+            engine.makeMove(move);
     }
 
     private void processGoCommand(String command) {
@@ -100,15 +103,15 @@ public class UciReceiver {
         String[] splittedCommand = command.substring(indexOfMovetime+9).split(" ");
         int time = Integer.parseInt(splittedCommand[0]);
 
-        engine.makeBestMoveWithSpecificTime(time);
+        engine.findBestMoveWithSpecificTime(time);
     }
 
     private void processGoWithoutTimeCommand(String command) {
-        engine.makeBestMoveWithTimeProposal();
+        engine.findBestMoveWithTimeProposal();
     }
 
     private void processStopCommand(String command) {
-        engine.stopSearchManually();
+        engine.stopSearchingForBestMoveManually();
     }
 
     private void processPonderHitCommand(String command) {

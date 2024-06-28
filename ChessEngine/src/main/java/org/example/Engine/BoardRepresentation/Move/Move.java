@@ -1,8 +1,10 @@
 package org.example.Engine.BoardRepresentation.Move;
 
+import org.example.Engine.BoardRepresentation.Board;
+import org.example.Engine.BoardRepresentation.BoardConstants;
 import org.example.Engine.BoardRepresentation.SquareCalculator;
 
-public class Move implements MoveConstants {
+public class Move implements MoveConstants, BoardConstants {
 
     public byte departure;
     public byte destination;
@@ -14,12 +16,38 @@ public class Move implements MoveConstants {
         this.type = type;
     }
 
-    public Move(String move) {
-
-        //TODO not finished
+    public Move(String move, Board board) {
         this.departure = SquareCalculator.calculate(move.substring(0, 2));
         this.destination = SquareCalculator.calculate(move.substring(2, 4));
 
+        short pieceToBeMoved = board.getPieceOnSquare(departure);
+        short pieceOnDestination = board.getPieceOnSquare(destination);
+
+        this.type = QUIET_MOVE;
+
+        //check if double pawn push
+        if(pieceToBeMoved == (WHITE|PAWN) || pieceToBeMoved == (BLACK|PAWN)) {
+            if(Math.abs(departure - destination) == 16)
+                type = DOUBLE_PAWN_PUSH;
+        }
+
+        //check if castle
+        if(pieceToBeMoved == (WHITE|KING) || pieceToBeMoved == (BLACK|KING)) {
+            if(Math.abs(departure - destination) == 2)
+                type = KING_CASTLE;
+            if(Math.abs(departure - destination) == 3)
+                type = QUEEN_CASTLE;
+        }
+
+        //check if capture
+        if(pieceOnDestination != 0) {
+            type = CAPTURES;
+            if(pieceToBeMoved == (WHITE|PAWN) || pieceToBeMoved == (BLACK|PAWN))
+                if(destination == board.getEnPassantTarget())
+                    type = EP_CAPTURE;
+        }
+
+        //check if promotion
         if(move.length() == 5) {
             switch(move.charAt(4)) {
                 case 'q':
@@ -35,6 +63,9 @@ public class Move implements MoveConstants {
                     type = KNIGHT_PROMOTION;
                     break;
             }
+            //check for promotion with capture
+            if(type == CAPTURES)
+                type += 4;
         }
     }
 

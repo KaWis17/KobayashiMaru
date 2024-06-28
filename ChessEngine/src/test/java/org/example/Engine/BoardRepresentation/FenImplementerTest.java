@@ -7,7 +7,7 @@ public class FenImplementerTest extends TestCase {
 
     public void testFenToBoard() {
         Board board = new Board();
-        FenImplementer.implement(board, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        FenImplementer.FENToBoard(board, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
         System.out.println(board);
     }
@@ -16,12 +16,12 @@ public class FenImplementerTest extends TestCase {
         Board board = new Board();
         board.startFromDefaultPosition();
 
-        System.out.println(FenImplementer.generateFEN(board));
+        System.out.println(FenImplementer.BoardToFEN(board));
 
-        board.makeMove(new Move("e2e4"));
-        System.out.println(FenImplementer.generateFEN(board));
+        board.makeMove(new Move("e2e4", board));
+        System.out.println(FenImplementer.BoardToFEN(board));
 
-        board.makeMove(new Move("d7d6"));
-        System.out.println(FenImplementer.generateFEN(board));
+        board.makeMove(new Move("d7d6", board));
+        System.out.println(FenImplementer.BoardToFEN(board));
     }
 }

@@ -1,6 +1,7 @@
 package org.example.Engine;
 
 import org.example.Engine.BoardRepresentation.Board;
+import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.Search.Searcher;
 import org.example.UciSender;
 
@@ -31,15 +32,22 @@ public class Engine {
         board.startFromCustomPosition(fen);
     }
 
-    public void makeBestMoveWithTimeProposal() {
+    public void makeMove(String move) {
+        if(Args.DEBUG_ON)
+            UciSender.sendDebugMessage("makingMove: " + move);
+
+        board.makeMove(new Move(move, board));
+    }
+
+    public void findBestMoveWithTimeProposal() {
         if(Args.DEBUG_ON)
             UciSender.sendDebugMessage("makingBestMoveWithTimeProposal");
 
         long time = getTimeProposal();
-        makeBestMoveWithSpecificTime(time);
+        findBestMoveWithSpecificTime(time);
     }
 
-    public void makeBestMoveWithSpecificTime(long time) {
+    public void findBestMoveWithSpecificTime(long time) {
         if(Args.DEBUG_ON)
             UciSender.sendDebugMessage("startingSearchOnNewThread, time = " + time);
 
@@ -47,19 +55,19 @@ public class Engine {
         searcherThread.start();
 
         executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.schedule(this::stopSearch, time, java.util.concurrent.TimeUnit.MILLISECONDS);
+        executorService.schedule(this::stopSearchingForBestMove, time, java.util.concurrent.TimeUnit.MILLISECONDS);
     }
 
-    public void stopSearchManually() {
+    public void stopSearchingForBestMoveManually() {
         if(Args.DEBUG_ON)
             UciSender.sendDebugMessage("stoppingSearchManually");
 
         executorService.shutdownNow();
 
-        stopSearch();
+        stopSearchingForBestMove();
     }
 
-    private void stopSearch() {
+    private void stopSearchingForBestMove() {
         if(Args.DEBUG_ON)
             UciSender.sendDebugMessage("stoppingSearch");
 

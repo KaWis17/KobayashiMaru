@@ -43,15 +43,15 @@ public class Searcher implements Runnable {
         if(Args.DEBUG_ON)
             UciSender.sendDebugMessage("search finished, searchId = " + searchId);
 
-        engine.stopSearchManually();
+        engine.stopSearchingForBestMoveManually();
     }
 
     public void search() {
 
-        if(Args.USE_OPENING_BOOK && board.state == EARLY_GAME) {
+        if(Args.USE_OPENING_BOOK && board.currentBoardState.gameState == EARLY_GAME) {
             bestMove = earlySearcher.search();
             if(bestMove == null) {
-                board.state = MID_GAME;
+                board.currentBoardState.gameState = MID_GAME;
                 search();
             }
         }

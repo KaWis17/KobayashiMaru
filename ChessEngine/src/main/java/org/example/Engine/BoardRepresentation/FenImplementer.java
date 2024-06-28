@@ -1,33 +1,43 @@
 package org.example.Engine.BoardRepresentation;
 
+import org.example.Engine.Args;
+
 public class FenImplementer implements BoardConstants{
 
-    public static void implement(Board board, String fen) {
+    public static void FENToBoard(Board board, String fen) {
         String[] fenSplit = fen.split(" ", 2);
 
-        board.state = GAME_STATE.EARLY_GAME;
+        board.currentBoardState = new State();
+
+        if(Args.USE_OPENING_BOOK)
+            board.currentBoardState.gameState = GAME_STATE.EARLY_GAME;
+        else
+            board.currentBoardState.gameState = GAME_STATE.MID_GAME;
+
         fillValues(board, fenSplit[1]);
         fillFormats(board, fenSplit[0]);
     }
 
-    public static String generateFEN(Board board) {
+    public static String BoardToFEN(Board board) {
         return getBoardFen(board) + " " + getValuesFen(board);
     }
 
     private static void fillValues(Board board, String leftoverFen) {
         String[] leftoverSplit = leftoverFen.split(" ");
 
-        board.whiteToMove = (leftoverSplit[0].equals("w"));
+        State boardState = board.currentBoardState;
 
-        board.canWhiteCastleKingside = (leftoverSplit[1].contains("K"));
-        board.canWhiteCastleQueenside = (leftoverSplit[1].contains("Q"));
-        board.canBlackCastleKingside = (leftoverSplit[1].contains("k"));
-        board.canBlackCastleQueenside = (leftoverSplit[1].contains("q"));
+        boardState.whiteToMove = (leftoverSplit[0].equals("w"));
 
-        board.enPassantTarget = SquareCalculator.calculate(leftoverSplit[2]);
+        boardState.canWhiteCastleKingside = (leftoverSplit[1].contains("K"));
+        boardState.canWhiteCastleQueenside = (leftoverSplit[1].contains("Q"));
+        boardState.canBlackCastleKingside = (leftoverSplit[1].contains("k"));
+        boardState.canBlackCastleQueenside = (leftoverSplit[1].contains("q"));
 
-        board.halfMoveClock = Short.parseShort(leftoverSplit[3]);
-        board.fullMoveNumber = Short.parseShort(leftoverSplit[4]);
+        boardState.enPassantTarget = SquareCalculator.calculate(leftoverSplit[2]);
+
+        boardState.halfMoveClock = Short.parseShort(leftoverSplit[3]);
+        boardState.fullMoveNumber = Short.parseShort(leftoverSplit[4]);
     }
 
 
@@ -164,19 +174,22 @@ public class FenImplementer implements BoardConstants{
     private static String getValuesFen(Board board){
         StringBuilder fen = new StringBuilder();
 
-        if(board.whiteToMove) fen.append("w ");
+        State boardState = board.currentBoardState;
+
+        if(boardState.whiteToMove) fen.append("w ");
         else fen.append("b ");
 
-        if(board.canWhiteCastleKingside) fen.append("K");
-        if(board.canWhiteCastleQueenside) fen.append("Q");
-        if(board.canBlackCastleKingside) fen.append("k");
-        if(board.canBlackCastleQueenside) fen.append("q");
+        fen.append((boardState.canWhiteCastleKingside || boardState.canWhiteCastleQueenside || boardState.canBlackCastleKingside || boardState.canBlackCastleQueenside) ? "" : "-" );
+        if(boardState.canWhiteCastleKingside) fen.append("K");
+        if(boardState.canWhiteCastleQueenside) fen.append("Q");
+        if(boardState.canBlackCastleKingside) fen.append("k");
+        if(boardState.canBlackCastleQueenside) fen.append("q");
 
-        if(board.enPassantTarget == 0) fen.append(" - ");
-        else fen.append(" ").append(SquareCalculator.calculate(board.enPassantTarget)).append(" ");
+        if(boardState.enPassantTarget == 0) fen.append(" - ");
+        else fen.append(" ").append(SquareCalculator.calculate(boardState.enPassantTarget)).append(" ");
 
-        fen.append(board.halfMoveClock).append(" ");
-        fen.append(board.fullMoveNumber);
+        fen.append(boardState.halfMoveClock).append(" ");
+        fen.append(boardState.fullMoveNumber);
 
         return fen.toString();
     }
