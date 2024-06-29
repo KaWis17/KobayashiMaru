@@ -56,6 +56,10 @@ public class Board implements BoardConstants {
         return currentBoardState.enPassantTarget;
     }
 
+    public long getSpecificPiecesBitBoard(short piece) {
+        return bitBoardsRepresentation.bitBoards[piece];
+    }
+
     @Override
     public String toString() {
         return display();
@@ -87,4 +91,7 @@ public class Board implements BoardConstants {
         return sb.toString();
     }
 
+    public boolean isKingInCheck() {
+        return false;
+    }
 }

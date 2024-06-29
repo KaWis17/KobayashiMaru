@@ -3,6 +3,7 @@ package org.example.Engine.BoardRepresentation;
 import junit.framework.TestCase;
 import org.example.Engine.BoardRepresentation.BoardFormats.CohesionCheck;
 import org.example.Engine.BoardRepresentation.Move.Move;
+import org.example.Engine.MoveGeneration.MoveGenerator;
 
 public class BoardTest extends TestCase {
 
@@ -39,6 +40,24 @@ public class BoardTest extends TestCase {
 
         assertEquals(BoardConstants.STARTING_FEN, FenImplementer.BoardToFEN(board));
         assertTrue(CohesionCheck.isCohesive(board));
+    }
+
+    public void testGenerateMakeUnmakeMoves() {
+
+        Board b = new Board();
+        b.startFromDefaultPosition();
+        MoveGenerator g = new MoveGenerator(b);
+
+        State stateBeforeMove = b.currentBoardState;
+        long[] deepCopy = b.bitBoardsRepresentation.bitBoards.clone();
+
+        for(Move move : g.generateMoves()) {
+            b.makeMove(move);
+            b.unmakeMove();
+            for(int i=0; i<deepCopy.length; i++) {
+                assertEquals(deepCopy[i], b.bitBoardsRepresentation.bitBoards[i]);
+            }
+        }
     }
 
 }

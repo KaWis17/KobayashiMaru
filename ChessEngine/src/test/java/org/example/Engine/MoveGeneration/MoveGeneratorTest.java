@@ -13,9 +13,19 @@ public class MoveGeneratorTest extends TestCase {
         board.startFromDefaultPosition();
         MoveGenerator moveGenerator = new MoveGenerator(board);
 
-        ArrayList<Move> moves = moveGenerator.generateMoves();
-        System.out.println(moves);
+        board.makeMove(new Move("b1c3", board));
+        board.makeMove(new Move("b8c6", board));
+        board.unmakeMove();
+        System.out.println(board.getEnPassantTarget());
+        System.out.println(board);
 
+        int sum = 0;
+        for(Move move : moveGenerator.generateMoves()) {
+            board.makeMove(move);
+            sum += moveGenerator.generateMoves().size();
+            board.unmakeMove();
+        }
+
+        System.out.println(sum);
     }
-
 }

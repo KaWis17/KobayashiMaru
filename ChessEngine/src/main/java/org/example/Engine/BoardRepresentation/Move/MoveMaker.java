@@ -34,6 +34,7 @@ public class MoveMaker implements BoardConstants, MoveConstants {
         short pieceToUnMove = board.getPieceOnSquare(moveToUnmake.destination);
         short color = BoardConstants.getColor(pieceToUnMove);
         short piece = BoardConstants.getPieceType(pieceToUnMove);
+        short opponentColor = color == WHITE ? BLACK : WHITE;
 
         switch(moveToUnmake.type) {
             case QUIET_MOVE, DOUBLE_PAWN_PUSH -> {
@@ -72,11 +73,18 @@ public class MoveMaker implements BoardConstants, MoveConstants {
                     board.deletePieceFromSquare((short) 64, BLACK, ROOK);
                 }
             }
-            case CAPTURES, EP_CAPTURE -> {
+            case CAPTURES -> {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, piece);
                 board.addPieceOnSquare(moveToUnmake.departure, color, piece);
 
                 board.addPieceOnSquare(moveToUnmake.destination, BoardConstants.getColor(stateToRestore.capturedPiece), BoardConstants.getPieceType(stateToRestore.capturedPiece));
+            }
+            case EP_CAPTURE -> {
+                board.deletePieceFromSquare(moveToUnmake.destination, color, piece);
+                board.addPieceOnSquare(moveToUnmake.departure, color, piece);
+
+                short capturedPawnSquare = board.currentBoardState.enPassantTarget;
+                board.addPieceOnSquare(capturedPawnSquare, PAWN, opponentColor);
             }
             case KNIGHT_PROMOTION -> {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, KNIGHT);
@@ -169,7 +177,7 @@ public class MoveMaker implements BoardConstants, MoveConstants {
     }
 
     private static void updateEnPassantTarget(Move move, short color, short piece, State updatedState) {
-        if(piece == PAWN && Math.abs(move.destination - move.departure) == 16) {
+        if(move.type == DOUBLE_PAWN_PUSH) {
             if(color == WHITE) updatedState.enPassantTarget = (short) (move.destination - 8);
             else updatedState.enPassantTarget = (short) (move.destination + 8);
         }
@@ -210,13 +218,18 @@ public class MoveMaker implements BoardConstants, MoveConstants {
     private void updateBoardRepresentationsAfterMove(Move move, short color, short piece) {
         board.deletePieceFromSquare(move.departure, color, piece);
 
+        short opponentColor = color == WHITE ? BLACK : WHITE;
         switch (move.type) {
             case QUIET_MOVE, DOUBLE_PAWN_PUSH -> {
                 board.addPieceOnSquare(move.destination, color, piece);
             }
-            case CAPTURES, EP_CAPTURE -> {
-                board.deletePieceFromSquare(move.destination, BoardConstants.getColor(board.getPieceOnSquare(move.destination)), BoardConstants.getPieceType(board.getPieceOnSquare(move.destination)));
+            case CAPTURES -> {
+                board.deletePieceFromSquare(move.destination, opponentColor, BoardConstants.getPieceType(board.getPieceOnSquare(move.destination)));
                 board.addPieceOnSquare(move.destination, color, piece);
+            }
+            case EP_CAPTURE -> {
+                short capturedPiece = board.stateHistory.peek().enPassantTarget;
+                board.deletePieceFromSquare(capturedPiece, PAWN, opponentColor);
             }
             case KING_CASTLE -> {
                 if(color == WHITE) {
