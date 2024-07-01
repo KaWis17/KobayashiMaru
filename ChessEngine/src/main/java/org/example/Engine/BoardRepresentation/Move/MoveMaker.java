@@ -36,6 +36,9 @@ public class MoveMaker implements BoardConstants, MoveConstants {
         short piece = BoardConstants.getPieceType(pieceToUnMove);
         short opponentColor = color == WHITE ? BLACK : WHITE;
 
+        short capturedPiece = stateToRestore.capturedPiece;
+        short typeOfCapturedPiece = BoardConstants.getPieceType(capturedPiece);
+
         switch(moveToUnmake.type) {
             case QUIET_MOVE, DOUBLE_PAWN_PUSH -> {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, piece);
@@ -53,8 +56,8 @@ public class MoveMaker implements BoardConstants, MoveConstants {
                     board.deletePieceFromSquare((short) 58, BLACK, KING);
                     board.addPieceOnSquare((short) 60, BLACK, KING);
 
-                    board.addPieceOnSquare((short) 57, BLACK, ROOK);
                     board.deletePieceFromSquare((short) 59, BLACK, ROOK);
+                    board.addPieceOnSquare((short) 57, BLACK, ROOK);
                 }
             }
             case QUEEN_CASTLE -> {
@@ -69,22 +72,24 @@ public class MoveMaker implements BoardConstants, MoveConstants {
                     board.deletePieceFromSquare((short) 62, BLACK, KING);
                     board.addPieceOnSquare((short) 60, BLACK, KING);
 
-                    board.addPieceOnSquare((short) 61, BLACK, ROOK);
-                    board.deletePieceFromSquare((short) 64, BLACK, ROOK);
+                    board.deletePieceFromSquare((short) 61, BLACK, ROOK);
+                    board.addPieceOnSquare((short) 64, BLACK, ROOK);
                 }
             }
             case CAPTURES -> {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, piece);
                 board.addPieceOnSquare(moveToUnmake.departure, color, piece);
 
-                board.addPieceOnSquare(moveToUnmake.destination, BoardConstants.getColor(stateToRestore.capturedPiece), BoardConstants.getPieceType(stateToRestore.capturedPiece));
+                board.addPieceOnSquare(moveToUnmake.destination, opponentColor, typeOfCapturedPiece);
             }
             case EP_CAPTURE -> {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, piece);
                 board.addPieceOnSquare(moveToUnmake.departure, color, piece);
 
-                short capturedPawnSquare = board.currentBoardState.enPassantTarget;
-                board.addPieceOnSquare(capturedPawnSquare, PAWN, opponentColor);
+                if(color == WHITE)
+                    board.addPieceOnSquare((short) (moveToUnmake.destination-8), opponentColor, PAWN);
+                else
+                    board.addPieceOnSquare((short) (moveToUnmake.destination+8), opponentColor, PAWN);
             }
             case KNIGHT_PROMOTION -> {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, KNIGHT);
@@ -94,7 +99,7 @@ public class MoveMaker implements BoardConstants, MoveConstants {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, KNIGHT);
                 board.addPieceOnSquare(moveToUnmake.departure, color, PAWN);
 
-                board.addPieceOnSquare(moveToUnmake.destination, BoardConstants.getColor(stateToRestore.capturedPiece), BoardConstants.getPieceType(stateToRestore.capturedPiece));
+                board.addPieceOnSquare(moveToUnmake.destination, opponentColor, typeOfCapturedPiece);
             }
             case BISHOP_PROMOTION -> {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, BISHOP);
@@ -104,7 +109,7 @@ public class MoveMaker implements BoardConstants, MoveConstants {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, BISHOP);
                 board.addPieceOnSquare(moveToUnmake.departure, color, PAWN);
 
-                board.addPieceOnSquare(moveToUnmake.destination, BoardConstants.getColor(stateToRestore.capturedPiece), BoardConstants.getPieceType(stateToRestore.capturedPiece));
+                board.addPieceOnSquare(moveToUnmake.destination, opponentColor, typeOfCapturedPiece);
             }
             case ROOK_PROMOTION -> {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, ROOK);
@@ -114,7 +119,7 @@ public class MoveMaker implements BoardConstants, MoveConstants {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, ROOK);
                 board.addPieceOnSquare(moveToUnmake.departure, color, PAWN);
 
-                board.addPieceOnSquare(moveToUnmake.destination, BoardConstants.getColor(stateToRestore.capturedPiece), BoardConstants.getPieceType(stateToRestore.capturedPiece));
+                board.addPieceOnSquare(moveToUnmake.destination, opponentColor, typeOfCapturedPiece);
             }
             case QUEEN_PROMOTION -> {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, QUEEN);
@@ -124,7 +129,7 @@ public class MoveMaker implements BoardConstants, MoveConstants {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, QUEEN);
                 board.addPieceOnSquare(moveToUnmake.departure, color, PAWN);
 
-                board.addPieceOnSquare(moveToUnmake.destination, BoardConstants.getColor(stateToRestore.capturedPiece), BoardConstants.getPieceType(stateToRestore.capturedPiece));
+                board.addPieceOnSquare(moveToUnmake.destination, opponentColor, typeOfCapturedPiece);
             }
 
         }
@@ -137,8 +142,8 @@ public class MoveMaker implements BoardConstants, MoveConstants {
 
     private void addCurrentStateToMoveHistory(Move move) {
         State currentState = board.currentBoardState;
-        currentState.capturedPiece = board.getPieceOnSquare(move.destination);
         currentState.moveMade = move;
+        currentState.capturedPiece = board.getPieceOnSquare(move.destination);
 
         board.stateHistory.add(currentState);
     }
@@ -189,55 +194,74 @@ public class MoveMaker implements BoardConstants, MoveConstants {
         if(updatedState.canWhiteCastleKingside) {
             if(color == WHITE && piece == KING)
                 updatedState.canWhiteCastleKingside = false;
-            if(color == WHITE && piece == ROOK && move.departure == 8)
+            if(color == WHITE && piece == ROOK && move.departure == 1)
+                updatedState.canWhiteCastleKingside = false;
+            if(move.destination == 1)
                 updatedState.canWhiteCastleKingside = false;
         }
 
         if(updatedState.canWhiteCastleQueenside) {
             if(color == WHITE && piece == KING)
                 updatedState.canWhiteCastleQueenside = false;
-            if(color == WHITE && piece == ROOK && move.departure == 1)
+            if(color == WHITE && piece == ROOK && move.departure == 8)
+                updatedState.canWhiteCastleQueenside = false;
+            if(move.destination == 8)
                 updatedState.canWhiteCastleQueenside = false;
         }
 
         if(updatedState.canBlackCastleKingside) {
             if(color == BLACK && piece == KING)
                 updatedState.canBlackCastleKingside = false;
-            if(color == BLACK && piece == ROOK && move.departure == 64)
+            if(color == BLACK && piece == ROOK && move.departure == 57)
+                updatedState.canBlackCastleKingside = false;
+            if(move.destination == 57)
                 updatedState.canBlackCastleKingside = false;
         }
 
         if(updatedState.canBlackCastleQueenside) {
             if(color == BLACK && piece == KING)
                 updatedState.canBlackCastleQueenside = false;
-            if(color == BLACK && piece == ROOK && move.departure == 57)
+            if(color == BLACK && piece == ROOK && move.departure == 64)
+                updatedState.canBlackCastleQueenside = false;
+            if(move.destination == 64)
                 updatedState.canBlackCastleQueenside = false;
         }
     }
 
     private void updateBoardRepresentationsAfterMove(Move move, short color, short piece) {
-        board.deletePieceFromSquare(move.departure, color, piece);
-
         short opponentColor = color == WHITE ? BLACK : WHITE;
+        short pieceOnDestination = board.getPieceOnSquare(move.destination);
+        short typeOfPieceOnDestination = BoardConstants.getPieceType(pieceOnDestination);
+
         switch (move.type) {
             case QUIET_MOVE, DOUBLE_PAWN_PUSH -> {
+                board.deletePieceFromSquare(move.departure, color, piece);
                 board.addPieceOnSquare(move.destination, color, piece);
             }
+
             case CAPTURES -> {
-                board.deletePieceFromSquare(move.destination, opponentColor, BoardConstants.getPieceType(board.getPieceOnSquare(move.destination)));
+                board.deletePieceFromSquare(move.departure, color, piece);
+                board.deletePieceFromSquare(move.destination, opponentColor, typeOfPieceOnDestination);
+
                 board.addPieceOnSquare(move.destination, color, piece);
             }
+
             case EP_CAPTURE -> {
-                short capturedPiece = board.stateHistory.peek().enPassantTarget;
-                board.deletePieceFromSquare(capturedPiece, PAWN, opponentColor);
+                board.deletePieceFromSquare(move.departure, color, piece);
+                board.addPieceOnSquare(move.destination, color, piece);
+
+                short deletedPawnIndex = (color == WHITE) ? (short) (move.destination - 8) : (short) (move.destination + 8);
+                board.deletePieceFromSquare(deletedPawnIndex, opponentColor, PAWN);
             }
             case KING_CASTLE -> {
                 if(color == WHITE) {
+                    board.deletePieceFromSquare((short) 4, WHITE, KING);
                     board.deletePieceFromSquare((short) 1, WHITE, ROOK);
                     board.addPieceOnSquare((short) 2, WHITE, KING);
                     board.addPieceOnSquare((short) 3, WHITE, ROOK);
                 }
                 else {
+                    board.deletePieceFromSquare((short) 60, BLACK, KING);
                     board.deletePieceFromSquare((short) 57, BLACK, ROOK);
                     board.addPieceOnSquare((short) 58, BLACK, KING);
                     board.addPieceOnSquare((short) 59, BLACK, ROOK);
@@ -245,33 +269,36 @@ public class MoveMaker implements BoardConstants, MoveConstants {
             }
             case QUEEN_CASTLE -> {
                 if(color == WHITE) {
+                    board.deletePieceFromSquare((short) 4, WHITE, KING);
                     board.deletePieceFromSquare((short) 8, WHITE, ROOK);
                     board.addPieceOnSquare((short) 6, WHITE, KING);
                     board.addPieceOnSquare((short) 5, WHITE, ROOK);
                 }
                 else {
+                    board.deletePieceFromSquare((short) 60, BLACK, KING);
                     board.deletePieceFromSquare((short) 64, BLACK, ROOK);
                     board.addPieceOnSquare((short) 62, BLACK, KING);
                     board.addPieceOnSquare((short) 61, BLACK, ROOK);
                 }
             }
-            case KNIGHT_PROMOTION -> {
-                board.addPieceOnSquare(move.destination, color, KNIGHT);
-            }
-            case KNIGHT_PROMOTION_CAPTURE -> {
-                board.deletePieceFromSquare(move.destination, BoardConstants.getColor(board.getPieceOnSquare(move.destination)), BoardConstants.getPieceType(board.getPieceOnSquare(move.destination)));
+            case KNIGHT_PROMOTION, KNIGHT_PROMOTION_CAPTURE -> {
+                board.deletePieceFromSquare(move.departure, color, PAWN);
+                board.deletePieceFromSquare(move.destination, opponentColor, typeOfPieceOnDestination);
                 board.addPieceOnSquare(move.destination, color, KNIGHT);
             }
             case BISHOP_PROMOTION, BISHOP_PROMOTION_CAPTURE -> {
-                board.deletePieceFromSquare(move.destination, BoardConstants.getColor(board.getPieceOnSquare(move.destination)), BoardConstants.getPieceType(board.getPieceOnSquare(move.destination)));
+                board.deletePieceFromSquare(move.departure, color, PAWN);
+                board.deletePieceFromSquare(move.destination, opponentColor, typeOfPieceOnDestination);
                 board.addPieceOnSquare(move.destination, color, BISHOP);
             }
             case ROOK_PROMOTION, ROOK_PROMOTION_CAPTURE -> {
-                board.deletePieceFromSquare(move.destination, BoardConstants.getColor(board.getPieceOnSquare(move.destination)), BoardConstants.getPieceType(board.getPieceOnSquare(move.destination)));
+                board.deletePieceFromSquare(move.departure, color, PAWN);
+                board.deletePieceFromSquare(move.destination, opponentColor, typeOfPieceOnDestination);
                 board.addPieceOnSquare(move.destination, color, ROOK);
             }
             case QUEEN_PROMOTION, QUEEN_PROMOTION_CAPTURE -> {
-                board.deletePieceFromSquare(move.destination, BoardConstants.getColor(board.getPieceOnSquare(move.destination)), BoardConstants.getPieceType(board.getPieceOnSquare(move.destination)));
+                board.deletePieceFromSquare(move.departure, color, PAWN);
+                board.deletePieceFromSquare(move.destination, opponentColor, typeOfPieceOnDestination);
                 board.addPieceOnSquare(move.destination, color, QUEEN);
             }
         }

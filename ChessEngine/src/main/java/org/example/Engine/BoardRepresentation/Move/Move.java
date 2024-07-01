@@ -42,9 +42,12 @@ public class Move implements MoveConstants, BoardConstants {
         //check if capture
         if(pieceOnDestination != 0) {
             type = CAPTURES;
-            if(pieceToBeMoved == (WHITE|PAWN) || pieceToBeMoved == (BLACK|PAWN))
-                if(destination == board.getEnPassantTarget())
-                    type = EP_CAPTURE;
+        }
+
+        //check en passant
+        if(pieceToBeMoved == (WHITE|PAWN) || pieceToBeMoved == (BLACK|PAWN)) {
+            if (destination == board.getEnPassantTarget())
+                type = EP_CAPTURE;
         }
 
         //check if promotion
@@ -63,8 +66,9 @@ public class Move implements MoveConstants, BoardConstants {
                     type = KNIGHT_PROMOTION;
                     break;
             }
+
             //check for promotion with capture
-            if(type == CAPTURES)
+            if(pieceOnDestination != 0)
                 type += 4;
         }
     }

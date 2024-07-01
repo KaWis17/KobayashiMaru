@@ -2,34 +2,40 @@ package org.example.Engine.MoveGeneration.PieceGenerators;
 
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
+import org.example.Engine.MoveGeneration.AttackOfKingGenerator;
 
 import java.util.ArrayList;
 
 public class KingMoveGenerator extends Generator {
 
     long[] preComputedMasks = new long[64];
+    AttackOfKingGenerator checkGenerator;
 
-    public KingMoveGenerator(Board board) {
+    public KingMoveGenerator(Board board, AttackOfKingGenerator checkGenerator) {
         super(board);
-
+        this.checkGenerator = checkGenerator;
         initiatePrecomputedMasks();
     }
 
     @Override
     public ArrayList<Move> generateMoves(short myColor, long allMyColor, long allOpponentColor, long allEmpty) {
-        possibleMoves = new ArrayList<>(64);
+        possibleMoves = new ArrayList<>(12);
 
-        addAllPseudoLegalMoves(myColor, allMyColor, allOpponentColor, allEmpty);
-//        removesKingMovesThatPutKingInCheck(myColor);
+        addAllPseudoLegalMoves(myColor, allOpponentColor, allEmpty);
+        addCastlingMoves(myColor);
+        deletePseudoLegalCastling(myColor);
+        deletePseudoLegalMovesThatPutKingInCheck(myColor);
+
         return possibleMoves;
     }
 
-    private void addAllPseudoLegalMoves(short myColor, long allMyColor, long allOpponentColor, long allEmpty) {
-        long king = board.getSpecificPiecesBitBoard((short) (myColor|KING));
+    @Override
+    public long getKingAsFigureDangerMask(short myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
+        return 0;
+    }
 
-        //TODO: delete later
-        if(king == 0L)
-            return;
+    private void addAllPseudoLegalMoves(short myColor, long allOpponentColor, long allEmpty) {
+        long king = board.getSpecificPiecesBitBoard((short) (myColor|KING));
 
         byte index = (byte) (64 - Long.numberOfLeadingZeros(king));
 
@@ -40,18 +46,23 @@ public class KingMoveGenerator extends Generator {
 
         addMovesFromMaskWithStartIndex(quietMask, QUIET_MOVE, index);
         addMovesFromMaskWithStartIndex(captureMask, CAPTURES, index);
-
-        addCastlingMoves(myColor, allMyColor, allOpponentColor, allEmpty);
     }
 
-//    private void removesKingMovesThatPutKingInCheck(short myColor) {
-//        ArrayList<Move> legalMoves = new ArrayList<>(possibleMoves.size());
-//
-//
-//        possibleMoves = legalMoves;
-//    }
+    private void deletePseudoLegalMovesThatPutKingInCheck(short myColor) {
+        ArrayList<Move> legalMoves = new ArrayList<>(12);
 
-    private void addCastlingMoves(short myColor, long allMyColor, long allOpponentColor, long allEmpty) {
+        for(Move move : possibleMoves) {
+            board.makeMove(move);
+            if(!checkGenerator.isKingInCheck(myColor))
+                legalMoves.add(move);
+
+            board.unmakeMove();
+        }
+
+        possibleMoves = legalMoves;
+    }
+
+    private void addCastlingMoves(short myColor) {
         if(myColor == WHITE) {
             if(board.currentBoardState.canWhiteCastleKingside) {
                 if (board.getPieceOnSquare((short) 2) == 0 && board.getPieceOnSquare((short) 3) == 0)
@@ -62,6 +73,7 @@ public class KingMoveGenerator extends Generator {
                     possibleMoves.add(new Move((byte) 4, (byte) 6, QUEEN_CASTLE));
             }
         }
+
         else {
             if(board.currentBoardState.canBlackCastleKingside) {
                 if (board.getPieceOnSquare((short) 58) == 0 && board.getPieceOnSquare((short) 59) == 0)
@@ -98,5 +110,81 @@ public class KingMoveGenerator extends Generator {
 
             preComputedMasks[i] = mask;
         }
+    }
+
+    private void deletePseudoLegalCastling(short myColor) {
+        ArrayList<Move> legalMoves = new ArrayList<>(12);
+        for(Move move: possibleMoves) {
+            if(move.type != KING_CASTLE && move.type != QUEEN_CASTLE) {
+                legalMoves.add(move);
+            }
+            else {
+                if(myColor == WHITE) {
+                    if(move.type == KING_CASTLE) {
+                        int checks = 0;
+                        if(checkGenerator.isKingInCheck(myColor))
+                            checks++;
+
+                        board.makeMove(new Move((byte) 4, (byte) 3, QUIET_MOVE));
+                        if(checkGenerator.isKingInCheck(myColor)) {
+                            checks++;
+                        }
+                        board.unmakeMove();
+                        if(checks == 0)
+                            legalMoves.add(move);
+                    }
+                    else {
+                        int checks = 0;
+                        if(checkGenerator.isKingInCheck(myColor))
+                            checks++;
+
+                        board.makeMove(new Move((byte) 4, (byte) 5, QUIET_MOVE));
+                        if(checkGenerator.isKingInCheck(myColor))
+                            checks++;
+                        board.unmakeMove();
+                        board.makeMove(new Move((byte) 4, (byte) 6, QUIET_MOVE));
+                        if(checkGenerator.isKingInCheck(myColor))
+                            checks++;
+                        board.unmakeMove();
+                        if(checks == 0)
+                            legalMoves.add(move);
+
+                    }
+                }
+                else {
+                    if(move.type == KING_CASTLE) {
+                        int checks = 0;
+                        if(checkGenerator.isKingInCheck(myColor))
+                            checks++;
+
+                        board.makeMove(new Move((byte) 60, (byte) 59, QUIET_MOVE));
+                        if(checkGenerator.isKingInCheck(myColor)) {
+                            checks++;
+                        }
+                        board.unmakeMove();
+                        if(checks == 0)
+                            legalMoves.add(move);
+                    }
+                    else {
+                        int checks = 0;
+                        if(checkGenerator.isKingInCheck(myColor))
+                            checks++;
+
+                        board.makeMove(new Move((byte) 60, (byte) 61, QUIET_MOVE));
+                        if(checkGenerator.isKingInCheck(myColor))
+                            checks++;
+                        board.unmakeMove();
+                        board.makeMove(new Move((byte) 60, (byte) 62, QUIET_MOVE));
+                        if(checkGenerator.isKingInCheck(myColor))
+                            checks++;
+                        board.unmakeMove();
+                        if(checks == 0)
+                            legalMoves.add(move);
+
+                    }
+                }
+            }
+        }
+        possibleMoves = legalMoves;
     }
 }

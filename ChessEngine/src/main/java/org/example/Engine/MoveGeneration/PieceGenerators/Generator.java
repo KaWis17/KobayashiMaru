@@ -17,12 +17,12 @@ public abstract class Generator implements BoardConstants, BitBoardConstants, Mo
 
     ArrayList<Move> possibleMoves = new ArrayList<>(64);
     public abstract ArrayList<Move> generateMoves(short myColor, long allMyColor, long allOpponentColor, long allEmpty);
-
+    public abstract long getKingAsFigureDangerMask(short myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty);
     Generator(Board board) {
         this.board = board;
     }
 
-    public void printMask(long mask) {
+    public static void printMask(long mask) {
         String binaryString = String.format("%64s", Long.toBinaryString(mask)).replace(' ', '0');
         for (int i = 0; i < binaryString.length(); i += 8) {
             System.out.println(binaryString.substring(i, i + 8));

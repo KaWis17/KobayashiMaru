@@ -90,8 +90,4 @@ public class Board implements BoardConstants {
         }
         return sb.toString();
     }
-
-    public boolean isKingInCheck() {
-        return false;
-    }
 }

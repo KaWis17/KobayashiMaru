@@ -2,7 +2,6 @@ package org.example.Engine.MoveGeneration.PieceGenerators;
 
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
-import org.example.Engine.BoardRepresentation.Move.MoveConstants;
 
 import java.util.ArrayList;
 
@@ -33,6 +32,20 @@ public class PawnMoveGenerator extends Generator {
         enPassantRight(myColor);
 
         return possibleMoves;
+    }
+
+    @Override
+    public long getKingAsFigureDangerMask(short myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
+        this.allMyColor = allMyColor;
+        this.allOpponentColor = allOpponentColor;
+        this.allEmpty = allEmpty;
+
+        short opponentColor = myColor == WHITE ? BLACK : WHITE;
+
+        long kingAsPawnCaptureMoves = moveCaptureLeftSide(myColor, myKing);
+        kingAsPawnCaptureMoves |= moveCaptureRightSide(myColor, myKing);
+
+        return (kingAsPawnCaptureMoves & board.getSpecificPiecesBitBoard((short) (opponentColor | PAWN)));
     }
 
     private void moveForwardByOne(short myColor) {
@@ -72,18 +85,24 @@ public class PawnMoveGenerator extends Generator {
 
         if(myColor == WHITE) {
             mask &= Long.rotateLeft(sameColorPawns, 9);
-            mask &=~ rank8;
             mask &=~ fileH;
 
             addMovesForSide(mask, rank8, (byte) -9, true);
         }
         else {
             mask &= Long.rotateRight(sameColorPawns, 9);
-            mask &=~ rank1;
             mask &=~ fileA;
 
             addMovesForSide(mask, rank1, (byte) 9, true);
         }
+    }
+
+    private long moveCaptureLeftSide(short myColor, long myKing) {
+        if(myColor == WHITE)
+            return Long.rotateLeft(myKing, 9) &~ fileH;
+        else
+            return Long.rotateRight(myKing, 9) &~ fileA;
+
     }
 
     private void moveCaptureRightSide(short myColor) {
@@ -92,20 +111,27 @@ public class PawnMoveGenerator extends Generator {
 
         if(myColor == WHITE) {
             mask &= Long.rotateLeft(sameColorPawns, 7);
-            mask &=~ rank8;
             mask &=~ fileA;
 
             addMovesForSide(mask, rank8, (byte) -7, true);
         }
         else {
             mask &= Long.rotateRight(sameColorPawns, 7);
-            mask &=~ rank1;
             mask &=~ fileH;
 
             addMovesForSide(mask, rank1, (byte) 7, true);
         }
 
     }
+
+    private long moveCaptureRightSide(short myColor, long myKing) {
+        if(myColor == WHITE)
+            return Long.rotateLeft(myKing, 7) &~ fileA;
+        else
+            return Long.rotateRight(myKing, 7) &~ fileH;
+
+    }
+
 
     private void enPassantLeft(short myColor) {
         short target = board.getEnPassantTarget();

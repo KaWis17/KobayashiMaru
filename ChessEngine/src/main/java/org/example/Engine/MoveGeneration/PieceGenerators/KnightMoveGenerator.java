@@ -9,7 +9,7 @@ public class KnightMoveGenerator extends Generator {
 
     long sameColorKnights;
 
-    long[] preComputedMasks = new long[64];
+    public long[] preComputedMasks = new long[64];
 
     public KnightMoveGenerator(Board board) {
         super(board);
@@ -40,8 +40,8 @@ public class KnightMoveGenerator extends Generator {
             byte index = (byte) (64 - Long.numberOfLeadingZeros(next));
 
             long maskToAdd = preComputedMasks[index-1];
-
             long quietMask = maskToAdd & allEmpty;
+
             long captureMask = maskToAdd & allOpponentColor;
 
             addMovesFromMaskWithStartIndex(quietMask, QUIET_MOVE, index);
@@ -81,4 +81,17 @@ public class KnightMoveGenerator extends Generator {
             preComputedMasks[i] = mask;
         }
     }
+
+    public long getKingAsFigureDangerMask(short myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
+        short opponentColor = myColor == WHITE ? BLACK : WHITE;
+        this.allMyColor = allMyColor;
+        this.allOpponentColor = allOpponentColor;
+        this.allEmpty = allEmpty;
+
+        int index = 64 - Long.numberOfLeadingZeros(myKing);
+        long kingAsKnightMoves = preComputedMasks[index-1];
+
+        return (kingAsKnightMoves & board.getSpecificPiecesBitBoard((short) (opponentColor | KNIGHT)));
+    }
+
 }

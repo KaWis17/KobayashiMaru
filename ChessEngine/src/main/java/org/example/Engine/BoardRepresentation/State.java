@@ -34,4 +34,9 @@ public class State {
         this.moveMade = state.moveMade;
         this.gameState = state.gameState;
     }
+
+    @Override
+    public String toString(){
+        return moveMade.toString();
+    }
 }
