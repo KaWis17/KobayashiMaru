@@ -1,7 +1,6 @@
 package org.example.Engine.BoardRepresentation;
 
 import junit.framework.TestCase;
-import org.example.Engine.BoardRepresentation.BoardFormats.CohesionCheck;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.MoveGenerator;
 

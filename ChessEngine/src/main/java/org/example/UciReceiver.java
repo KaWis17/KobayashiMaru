@@ -12,7 +12,6 @@ public class UciReceiver {
 
     public void dispatch(String command) {
 
-        command = command.toLowerCase();
         String[] splittedCommand = command.split(" ");
 
         switch(splittedCommand[0]) {
@@ -26,7 +25,7 @@ public class UciReceiver {
             case "go" -> processGoCommand(command);
             case "stop" -> processStopCommand(command);
             case "ponderhit" -> processPonderHitCommand(command);
-            case "display" -> processDisplayCommand();
+            case "display", "d" -> processDisplayCommand();
             default -> throw new UciReceiver.UnknownCommandException();
         }
     }

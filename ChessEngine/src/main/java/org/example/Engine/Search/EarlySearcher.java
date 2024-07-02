@@ -22,28 +22,8 @@ public class EarlySearcher implements Search {
     }
 
     @Override
-    public Move search() {
-        /*
-        String currentFen = FenImplementer.BoardToFEN(board);
-        currentFen = currentFen.substring(0, currentFen.lastIndexOf(" "));
-        currentFen = currentFen.substring(0, currentFen.lastIndexOf(" "));
-        currentFen = currentFen.substring(0, currentFen.lastIndexOf(" "));
-        currentFen = currentFen + " -";
+    public void search() {
 
-        ArrayList<String> moves = map.get(currentFen);
-
-        if(moves == null){
-            if (Args.DEBUG_ON)
-                UciSender.sendDebugMessage("No moves found in the opening book for the current position");
-            return null;
-        }
-
-        String selectedString = moves.get(random.nextInt(moves.size()));
-
-        return new Move(selectedString, board);
-
-         */
-        return new Move("e2e4", board);
     }
 
     private void fillHashMap(String path) {

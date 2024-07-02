@@ -3,6 +3,7 @@ package org.example.Engine;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.Search.Searcher;
+import org.example.Engine.StateEvaluation.Evaluator;
 import org.example.UciSender;
 
 import java.util.concurrent.Executors;
@@ -13,7 +14,8 @@ public class Engine {
     public final String AUTHOR = "Krzysztof Antoni Wiśniewski";
 
     private final Board board = new Board();
-    private final Searcher searcher = new Searcher(this, board);
+    private final Evaluator evaluator = new Evaluator(board);
+    private final Searcher searcher = new Searcher(this, board, evaluator);
 
     private Thread searcherThread;
     ScheduledExecutorService executorService;
@@ -71,18 +73,24 @@ public class Engine {
         if(Args.DEBUG_ON)
             UciSender.sendDebugMessage("stoppingSearch");
 
-        searcherThread.interrupt();
+        searcher.stopSearch = true;
+
+        try {
+            searcherThread.join();
+        } catch (InterruptedException e) {
+            UciSender.sendDebugMessage("searcherThread interrupted");
+        }
 
         UciSender.sendBestMove(searcher.bestMove.toString());
-        board.makeMove(searcher.bestMove);
     }
 
     public void displayBoard() {
         System.out.println(board);
+        System.out.println("Evaluation: " + evaluator.evaluate());
     }
 
     private long getTimeProposal() {
-        long proposal = 1000;
+        long proposal = 250;
 
         if(Args.DEBUG_ON)
             UciSender.sendDebugMessage("timeProposal: " + proposal);

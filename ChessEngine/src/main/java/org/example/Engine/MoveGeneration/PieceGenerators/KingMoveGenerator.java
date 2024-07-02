@@ -31,7 +31,15 @@ public class KingMoveGenerator extends Generator {
 
     @Override
     public long getKingAsFigureDangerMask(short myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
-        return 0;
+        short opponentColor = myColor == WHITE ? BLACK : WHITE;
+        this.allMyColor = allMyColor;
+        this.allOpponentColor = allOpponentColor;
+        this.allEmpty = allEmpty;
+
+        int index = 64 - Long.numberOfLeadingZeros(myKing);
+        long kingAsKingMoves = preComputedMasks[index-1];
+
+        return (kingAsKingMoves & board.getSpecificPiecesBitBoard((short) (opponentColor | KING)));
     }
 
     private void addAllPseudoLegalMoves(short myColor, long allOpponentColor, long allEmpty) {

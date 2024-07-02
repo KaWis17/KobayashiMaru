@@ -2,6 +2,7 @@ package org.example.Engine.BoardRepresentation;
 
 import org.example.Engine.BoardRepresentation.BoardFormats.ArrayRepresentation;
 import org.example.Engine.BoardRepresentation.BoardFormats.BitBoardsRepresentation;
+import org.example.Engine.BoardRepresentation.BoardFormats.PieceCountRepresentation;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.BoardRepresentation.Move.MoveMaker;
 
@@ -13,6 +14,8 @@ public class Board implements BoardConstants {
 
     public BitBoardsRepresentation bitBoardsRepresentation = new BitBoardsRepresentation();
     public ArrayRepresentation arrayRepresentation = new ArrayRepresentation();
+    public PieceCountRepresentation pieceCountRepresentation = new PieceCountRepresentation();
+
     MoveMaker moveMaker = new MoveMaker(this);
 
     public Stack<State> stateHistory = new Stack<>();
@@ -36,16 +39,19 @@ public class Board implements BoardConstants {
     public void addPieceOnSquare(short square, short color, short piece) {
         bitBoardsRepresentation.addPieceOnSquare(square, color, piece);
         arrayRepresentation.addPieceOnSquare(square, color, piece);
+        pieceCountRepresentation.addPieceOnSquare(square, color, piece);
     }
 
     public void deletePieceFromSquare(short square, short color, short piece) {
         bitBoardsRepresentation.deletePieceOnSquare(square, color, piece);
         arrayRepresentation.deletePieceOnSquare(square, color, piece);
+        pieceCountRepresentation.deletePieceOnSquare(square, color, piece);
     }
 
     void clearBoard() {
         bitBoardsRepresentation.clearBoard();
         arrayRepresentation.clearBoard();
+        pieceCountRepresentation.clearBoard();
     }
 
     public short getPieceOnSquare(short square) {

@@ -1,11 +1,31 @@
 package org.example.Engine.StateEvaluation;
 
 import org.example.Engine.BoardRepresentation.Board;
+import org.example.Engine.StateEvaluation.Evaluators.Material;
+import org.example.Engine.StateEvaluation.Evaluators.PieceSquareTable;
+
+import java.util.ArrayList;
 
 public class Evaluator {
 
-    public static int evaluate(Board board) {
-        return 0;
+    static ArrayList<Evaluation> evaluators = new ArrayList<>();
+    Board board;
+
+    public Evaluator(Board board) {
+        this.board = board;
+        evaluators.add(new Material(board));
+        evaluators.add(new PieceSquareTable(board));
+    }
+
+    public int evaluate() {
+
+        int evalForWhite = 0;
+
+        for(Evaluation evaluator: evaluators) {
+            evalForWhite += evaluator.evaluate();
+        }
+
+        return (board.currentBoardState.whiteToMove) ? evalForWhite : -evalForWhite;
     }
 
 }

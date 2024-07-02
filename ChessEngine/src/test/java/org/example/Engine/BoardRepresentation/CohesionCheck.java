@@ -1,9 +1,7 @@
-package org.example.Engine.BoardRepresentation.BoardFormats;
+package org.example.Engine.BoardRepresentation;
 
-import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardConstants;
-
-import java.util.Arrays;
+import org.example.Engine.BoardRepresentation.BoardFormats.ArrayRepresentation;
+import org.example.Engine.BoardRepresentation.BoardFormats.BitBoardsRepresentation;
 
 public class CohesionCheck implements BoardConstants {
 

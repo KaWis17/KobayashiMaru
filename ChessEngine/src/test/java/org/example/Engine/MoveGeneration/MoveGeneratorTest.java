@@ -13,7 +13,7 @@ public class MoveGeneratorTest extends TestCase implements BoardConstants {
 
     public void testPerft() {
         Board board = new Board();
-        board.startFromCustomPosition("Q1r1k2r/1ppp1ppp/1b3nbN/1P6/BBnPP3/q4N2/Pp4PP/R2Q1RK1 w k - 0 3");
+        board.startFromCustomPosition("3BK3/1P6/3pk1Br/2Pp2p1/7B/6P1/2Q1Pr2/6R1 b - - 0 1");
         MoveGenerator moveGenerator = new MoveGenerator(board);
 
         //board.makeMove(new Move("e4d6", board));

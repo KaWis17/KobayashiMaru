@@ -4,6 +4,7 @@ import org.example.Engine.BoardRepresentation.Move.Move;
 
 public class State {
 
+    public boolean isFinished;
     public boolean whiteToMove;
     public short capturedPiece;
     public boolean canWhiteCastleKingside;
@@ -22,6 +23,9 @@ public class State {
 
     // Copy constructor
     public State(State state) {
+
+        this.isFinished = false;
+
         this.whiteToMove = state.whiteToMove;
         this.capturedPiece = state.capturedPiece;
         this.canWhiteCastleKingside = state.canWhiteCastleKingside;

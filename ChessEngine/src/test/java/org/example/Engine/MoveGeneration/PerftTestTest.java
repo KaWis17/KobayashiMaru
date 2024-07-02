@@ -3,6 +3,10 @@ package org.example.Engine.MoveGeneration;
 import junit.framework.TestCase;
 import org.example.Engine.BoardRepresentation.BoardConstants;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class PerftTestTest extends TestCase {
 
     public void testPerftWithPositions() {
@@ -89,9 +93,32 @@ public class PerftTestTest extends TestCase {
         testPositionsWithFen(fen, 4, 	3_894_594L);
 
     }
-    // position fen r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1 moves d2d4 a8c8 a7a8q a5c4
+    // position fen 4K3/1P1P4/3pk1Br/2Pp2p1/7B/6P1/2Q1Pr2/6R1 w - - 0 1 moves d7d8b
     public void testForMe() {
-        PerftTest.perft("Q1r1k2r/1ppp1ppp/1b3nbN/1P6/BBnPP3/q4N2/Pp4PP/R2Q1RK1 w k - 0 3", 1, true);
+        PerftTest.perft("3BK3/1P6/3pk1Br/2Pp2p1/7B/6P1/2Q1Pr2/6R1 b - - 0 1", 4, true);
+    }
+
+    public void testFromFile() {
+        BufferedReader reader;
+
+        try {
+            reader = new BufferedReader(new FileReader("/Users/kawis/Developer/KobayashiMaru/ChessEngine/src/test/java/org/example/Engine/MoveGeneration/PieceGenerators/testingFens"));
+            String line = reader.readLine();
+
+            while (line != null) {
+                String[] parts = line.split(" ! ");
+                String fen = parts[0];
+                int depth = Integer.parseInt(parts[1]);
+                long expected = Long.parseLong(parts[2]);
+
+                testPositionsWithFen(fen, depth, expected);
+                line = reader.readLine();
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

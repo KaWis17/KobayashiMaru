@@ -24,7 +24,7 @@ public class ArrayRepresentation implements BoardFormat {
     }
 
     public byte getPieceOnSquare(short square) {
-        square = (short) (64- square);
+        square = (short) (64 - square);
         return board[square];
     }
 }

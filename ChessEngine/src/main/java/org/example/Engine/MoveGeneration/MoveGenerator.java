@@ -3,7 +3,6 @@ package org.example.Engine.MoveGeneration;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardConstants;
 import org.example.Engine.BoardRepresentation.Move.Move;
-import org.example.Engine.BoardRepresentation.State;
 import org.example.Engine.MoveGeneration.PieceGenerators.*;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class MoveGenerator implements BoardConstants {
     Generator kingMoveGenerator;
     Generator slidingMoveGenerator;
 
-    AttackOfKingGenerator checkGenerator;
+    public AttackOfKingGenerator checkGenerator;
 
     public MoveGenerator(Board board)
     {
@@ -43,7 +42,6 @@ public class MoveGenerator implements BoardConstants {
         moves.addAll(knightMoveGenerator.generateMoves(color, myPieces, opponentPieces, emptySquares));
         moves.addAll(slidingMoveGenerator.generateMoves(color, myPieces, opponentPieces, emptySquares));
 
-        //return moves;
         return deleteMovesThatPutKingInCheck(moves, color);
     }
 
@@ -51,17 +49,6 @@ public class MoveGenerator implements BoardConstants {
        ArrayList<Move> legalMoves = new ArrayList<>(40);
 
         for(Move move : moves) {
-//            System.out.println(move + "   " + move.type);
-//            System.out.println(board.currentBoardState.whiteToMove);
-//            if(!board.stateHistory.isEmpty())
-//                System.out.println(board.stateHistory.peek().moveMade);
-//            if(board.stateHistory.size() > 1) {
-//                State state = board.stateHistory.pop();
-//                System.out.println(board.stateHistory.peek().moveMade);
-//                System.out.println(board.stateHistory.add(state));
-//            }
-
-            //Generator.printMask(board.getSpecificPiecesBitBoard((short) (BLACK|BoardConstants.PAWN)));
             board.makeMove(move);
             if(!checkGenerator.isKingInCheck(color))
                 legalMoves.add(move);
@@ -70,6 +57,4 @@ public class MoveGenerator implements BoardConstants {
 
         return legalMoves;
     }
-
-
 }
