@@ -33,10 +33,12 @@ public class Move implements MoveConstants, BoardConstants {
 
         //check if castle
         if(pieceToBeMoved == (WHITE|KING) || pieceToBeMoved == (BLACK|KING)) {
-            if(Math.abs(departure - destination) == 2)
-                type = KING_CASTLE;
-            if(Math.abs(departure - destination) == 3)
-                type = QUEEN_CASTLE;
+            if(Math.abs(departure - destination) == 2) {
+                if(destination > departure)
+                    type = QUEEN_CASTLE;
+                else
+                    type = KING_CASTLE;
+            }
         }
 
         //check if capture
