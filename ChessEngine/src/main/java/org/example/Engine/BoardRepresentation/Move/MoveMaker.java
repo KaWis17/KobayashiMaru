@@ -2,7 +2,7 @@ package org.example.Engine.BoardRepresentation.Move;
 
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardConstants;
-import org.example.Engine.BoardRepresentation.State;
+import org.example.Engine.BoardRepresentation.State.State;
 
 public class MoveMaker implements BoardConstants, MoveConstants {
 

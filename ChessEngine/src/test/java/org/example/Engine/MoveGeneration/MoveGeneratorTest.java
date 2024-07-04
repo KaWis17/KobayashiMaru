@@ -3,7 +3,7 @@ package org.example.Engine.MoveGeneration;
 import junit.framework.TestCase;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardConstants;
-import org.example.Engine.BoardRepresentation.FenImplementer;
+import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
 
 import java.util.ArrayList;

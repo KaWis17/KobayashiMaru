@@ -1,10 +1,6 @@
 package org.example.Engine.Search;
 
-import org.example.Engine.Args;
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.FenImplementer;
-import org.example.Engine.BoardRepresentation.Move.Move;
-import org.example.UciSender;
 
 import java.util.ArrayList;
 import java.util.HashMap;

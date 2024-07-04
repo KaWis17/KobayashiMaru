@@ -1,15 +1,11 @@
 package org.example.Engine.Search;
 
-import org.example.Engine.Args;
+import org.example.Engine.Args.Config;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
-import org.example.Engine.Engine;
-import org.example.Engine.StateEvaluation.Evaluation;
+import org.example.Engine.MoveGeneration.MoveGenerator;
 import org.example.Engine.StateEvaluation.Evaluator;
 import org.example.UciSender;
-
-import static org.example.Engine.BoardRepresentation.BoardConstants.GAME_STATE.EARLY_GAME;
-import static org.example.Engine.BoardRepresentation.BoardConstants.GAME_STATE.MID_GAME;
 
 public class Searcher implements Runnable {
 
@@ -18,21 +14,19 @@ public class Searcher implements Runnable {
     EndSearcher endSearcher;
 
     Board board;
-    Engine engine;
     Evaluator evaluator;
 
-    public volatile Move bestMove;
     public int searchId;
+    public volatile Move bestMove;
     public volatile boolean stopSearch;
 
-    public Searcher(Engine engine, Board board, Evaluator evaluator) {
+    public Searcher(Board board, Evaluator evaluator, MoveGenerator moveGenerator) {
         this.board = board;
-        this.engine = engine;
         this.evaluator = evaluator;
         searchId = 0;
 
         earlySearcher = new EarlySearcher(board);
-        middleSearcher = new MiddleSearcher(board, this, evaluator);
+        middleSearcher = new MiddleSearcher(board, this, evaluator, moveGenerator);
         endSearcher = new EndSearcher(board);
     }
 
@@ -41,22 +35,27 @@ public class Searcher implements Runnable {
         stopSearch = false;
         searchId++;
 
-        if(Args.DEBUG_ON)
-            UciSender.sendDebugMessage("searching, searchId = " + searchId);
+        long time = System.currentTimeMillis();
+        if(Config.DEBUG_ON)
+            UciSender.sendDebugMessage("Searching, searchId = " + searchId);
 
         search();
 
-        if(Args.DEBUG_ON)
-            UciSender.sendDebugMessage("search finished, searchId = " + searchId);
-
+        if(Config.DEBUG_ON){
+            UciSender.sendDebugMessage("Finished search, searchId = " + searchId);
+            UciSender.sendDebugMessage("Time taken: " + (System.currentTimeMillis() - time) + "ms");
+        }
 
         if(!stopSearch)
-            engine.stopSearchingForBestMoveManually();
+            stopSearchAndSendResponse();
+    }
+
+    public void stopSearchAndSendResponse(){
+        stopSearch = true;
+        UciSender.sendBestMove(bestMove.toString());
     }
 
     public void search() {
-
         middleSearcher.search();
-
     }
 }

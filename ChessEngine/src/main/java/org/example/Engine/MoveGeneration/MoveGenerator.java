@@ -2,6 +2,7 @@ package org.example.Engine.MoveGeneration;
 
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardConstants;
+import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.PieceGenerators.*;
 
@@ -17,8 +18,7 @@ public class MoveGenerator implements BoardConstants {
 
     public AttackOfKingGenerator checkGenerator;
 
-    public MoveGenerator(Board board)
-    {
+    public MoveGenerator(Board board) {
         this.board = board;
         this.checkGenerator = new AttackOfKingGenerator(board, this);
 
@@ -56,5 +56,13 @@ public class MoveGenerator implements BoardConstants {
         }
 
         return legalMoves;
+    }
+
+    public void perft(int depth) {
+        long startTime = System.currentTimeMillis();
+        long nodes = PerftTest.perft(FenImplementer.BoardToFEN(board), depth);
+        long endTime = System.currentTimeMillis();
+        System.out.println("Nodes: " + nodes);
+        System.out.println("Time: " + (endTime - startTime) + "ms");
     }
 }

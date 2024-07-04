@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Engine.Args.Config;
 import org.example.Engine.Engine;
 
 public class UciReceiver {
@@ -18,45 +19,44 @@ public class UciReceiver {
             case "uci" -> processUciCommand();
             case "debug" -> processDebugCommand(command);
             case "isready" -> processIsReadyCommand();
-            case "setoption" -> processSetOptionCommand(command);
-            case "register" -> processRegisterCommand(command);
+            case "setoption" -> processSetOptionCommand();
+            case "register" -> processRegisterCommand();
             case "ucinewgame" -> processNewGameCommand();
             case "position" -> processPositionCommand(command);
             case "go" -> processGoCommand(command);
-            case "stop" -> processStopCommand(command);
-            case "ponderhit" -> processPonderHitCommand(command);
+            case "stop" -> processStopCommand();
+            case "ponderhit" -> processPonderHitCommand();
             case "display", "d" -> processDisplayCommand();
-            default -> throw new UciReceiver.UnknownCommandException();
+            case "perft" -> processPerftCommand(command);
         }
     }
 
     private void processUciCommand() {
         UciSender.sendEngineInformation(engine);
+        UciSender.sendOptionInformation(engine);
         UciSender.sendOkInformation();
     }
 
     private void processDebugCommand(String command) {
         String[] commandSplit = command.split(" ");
-        /*
+
         if(commandSplit[1].equals("on"))
-            engine.debugOn = true;
+            Config.DEBUG_ON = true;
         else if(commandSplit[1].equals("off"))
-            engine.debugOn = false;
-        else
-            throw new UnknownCommandException();
-            
-         */
+            Config.DEBUG_ON = false;
     }
 
     private void processIsReadyCommand(){
         UciSender.sendReadyOk();
     }
 
-    private void processSetOptionCommand(String command) {
+    // TODO: Implement this method
+    private void processSetOptionCommand() {
        UciSender.sendUnsupportedCommand();
     }
 
-    private void processRegisterCommand(String command) {
+    // TODO: Implement this method
+    private void processRegisterCommand() {
         UciSender.sendUnsupportedCommand();
     }
 
@@ -65,12 +65,43 @@ public class UciReceiver {
     }
 
     private void processPositionCommand(String command) {
-
         handleStartingPosition(command);
-
         if(command.contains("moves"))
             handleMovesAfterPosition(command);
+    }
 
+    private void processGoCommand(String command) {
+        // TODO: Implement this method
+        if(command.contains("ponder"))
+            UciSender.sendUnsupportedCommand();
+
+        else if(command.contains("movetime"))
+            processGoWithTimeOrder(command);
+
+        else if(command.contains("wtime") && command.contains("btime") &&
+                command.contains("winc") && command.contains("binc"))
+            processGoWithTimeEstimate(command);
+        
+        else if(command.contains("infinite"))
+            processGoInfinite();
+    }
+
+    private void processStopCommand() {
+        engine.stopSearchManually();
+    }
+
+    // TODO: Implement this method
+    private void processPonderHitCommand() {
+        UciSender.sendUnsupportedCommand();
+    }
+
+    private void processDisplayCommand() {
+        engine.displayBoard();
+    }
+
+    private void processPerftCommand(String command) {
+        int depth = Integer.parseInt(command.split(" ")[1]);
+        engine.perft(depth);
     }
 
     private void handleStartingPosition(String command) {
@@ -78,8 +109,6 @@ public class UciReceiver {
             engine.initiateDefaultPosition();
         else if(command.contains("fen"))
             engine.initiateCustomPosition(command.split(" ",3)[2]);
-        else
-            throw new UnknownPositionCommand();
     }
 
     private void handleMovesAfterPosition(String command) {
@@ -90,46 +119,21 @@ public class UciReceiver {
             engine.makeMove(move);
     }
 
-    private void processGoCommand(String command) {
-        if(command.contains("movetime"))
-            processGoMoveTimeCommand(command);
-        else
-            processGoWithoutTimeCommand(command);
+    private void processGoWithTimeOrder(String command) {
+        int time = Integer.parseInt(command.split("movetime ")[1].split(" ")[0]);
+        engine.findBestMoveWithTimeOnThread(time);
     }
 
-    private void processGoMoveTimeCommand(String command) {
-        int indexOfMovetime = command.indexOf("movetime");
-        String[] splittedCommand = command.substring(indexOfMovetime+9).split(" ");
-        int time = Integer.parseInt(splittedCommand[0]);
+    private void processGoWithTimeEstimate(String command) {
+        int wtime = Integer.parseInt(command.split("wtime ")[1].split(" ")[0]);
+        int btime = Integer.parseInt(command.split("btime ")[1].split(" ")[0]);
+        int winc = Integer.parseInt(command.split("winc ")[1].split(" ")[0]);
+        int binc = Integer.parseInt(command.split("binc ")[1].split(" ")[0]);
 
-        engine.findBestMoveWithSpecificTime(time);
+        engine.findBestMoveWithTimeProposal(wtime, btime, winc, binc);
     }
 
-    private void processGoWithoutTimeCommand(String command) {
-        engine.findBestMoveWithTimeProposal();
-    }
-
-    private void processStopCommand(String command) {
-        engine.stopSearchingForBestMoveManually();
-    }
-
-    private void processPonderHitCommand(String command) {
-        UciSender.sendUnsupportedCommand();
-    }
-
-    private void processDisplayCommand() {
-        engine.displayBoard();
-    }
-
-    private static class UnknownCommandException extends RuntimeException {
-        UnknownCommandException() {
-            super("Unknown command has been entered to UCI!");
-        }
-    }
-
-    private static class UnknownPositionCommand extends RuntimeException {
-        UnknownPositionCommand() {
-            super("Unknown position command!");
-        }
+    private void processGoInfinite(){
+        engine.findBestMoveWithoutTimeLimit();
     }
 }

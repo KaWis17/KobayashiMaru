@@ -32,7 +32,7 @@ public class PerftTestTest extends TestCase {
     }
 
     private void testPositionsWithFen(String fen, int depth, long expected) {
-            assertEquals(expected, PerftTest.perft(fen, depth, false));
+            assertEquals(expected, PerftTest.perft(fen, depth));
     }
 
     private void perftFromStartPosition(String fen) {
@@ -95,7 +95,7 @@ public class PerftTestTest extends TestCase {
     }
     // position fen 4K3/1P1P4/3pk1Br/2Pp2p1/7B/6P1/2Q1Pr2/6R1 w - - 0 1 moves d7d8b
     public void testForMe() {
-        PerftTest.perft("3BK3/1P6/3pk1Br/2Pp2p1/7B/6P1/2Q1Pr2/6R1 b - - 0 1", 4, true);
+        PerftTest.perft("3BK3/1P6/3pk1Br/2Pp2p1/7B/6P1/2Q1Pr2/6R1 b - - 0 1", 4);
     }
 
     public void testFromFile() {

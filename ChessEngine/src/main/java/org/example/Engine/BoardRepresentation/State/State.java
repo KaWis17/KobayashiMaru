@@ -1,9 +1,9 @@
-package org.example.Engine.BoardRepresentation;
+package org.example.Engine.BoardRepresentation.State;
 
+import org.example.Engine.BoardRepresentation.BoardConstants;
 import org.example.Engine.BoardRepresentation.Move.Move;
 
 public class State {
-
     public boolean isFinished;
     public boolean whiteToMove;
     public short capturedPiece;

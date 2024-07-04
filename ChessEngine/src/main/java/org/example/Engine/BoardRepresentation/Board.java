@@ -3,8 +3,10 @@ package org.example.Engine.BoardRepresentation;
 import org.example.Engine.BoardRepresentation.BoardFormats.ArrayRepresentation;
 import org.example.Engine.BoardRepresentation.BoardFormats.BitBoardsRepresentation;
 import org.example.Engine.BoardRepresentation.BoardFormats.PieceCountRepresentation;
+import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.BoardRepresentation.Move.MoveMaker;
+import org.example.Engine.BoardRepresentation.State.State;
 
 import java.util.Stack;
 
@@ -48,7 +50,7 @@ public class Board implements BoardConstants {
         pieceCountRepresentation.deletePieceOnSquare(square, color, piece);
     }
 
-    void clearBoard() {
+    public void clearBoard() {
         bitBoardsRepresentation.clearBoard();
         arrayRepresentation.clearBoard();
         pieceCountRepresentation.clearBoard();
@@ -95,5 +97,13 @@ public class Board implements BoardConstants {
             if((i-1) % 8 == 0) sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public int getCurrentMoveNumber(){
+        return currentBoardState.fullMoveNumber;
+    }
+
+    public boolean isWhiteToPlay(){
+        return currentBoardState.whiteToMove;
     }
 }

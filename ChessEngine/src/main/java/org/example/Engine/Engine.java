@@ -1,7 +1,10 @@
 package org.example.Engine;
 
+import org.example.Engine.Args.Config;
+import org.example.Engine.Args.Constants;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
+import org.example.Engine.MoveGeneration.MoveGenerator;
 import org.example.Engine.Search.Searcher;
 import org.example.Engine.StateEvaluation.Evaluator;
 import org.example.UciSender;
@@ -9,92 +12,89 @@ import org.example.UciSender;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-public class Engine {
-    public final String NAME = "KobayashiMaru";
-    public final String AUTHOR = "Krzysztof Antoni Wiśniewski";
+public class Engine implements Constants {
 
     private final Board board = new Board();
+    private final MoveGenerator moveGenerator = new MoveGenerator(board);
     private final Evaluator evaluator = new Evaluator(board);
-    private final Searcher searcher = new Searcher(this, board, evaluator);
+    private final Searcher searcher = new Searcher(board, evaluator, moveGenerator);
 
-    private Thread searcherThread;
-    ScheduledExecutorService executorService;
+    private ScheduledExecutorService executorService;
 
+    // LOADING POSITIONS
     public void initiateDefaultPosition() {
-        if(Args.DEBUG_ON)
-            UciSender.sendDebugMessage("initiatingDefaultPosition");
+        if(Config.DEBUG_ON)
+            UciSender.sendDebugMessage("Initiating default position");
 
         board.startFromDefaultPosition();
     }
 
     public void initiateCustomPosition(String fen) {
-        if(Args.DEBUG_ON)
-            UciSender.sendDebugMessage("initiatingPosition");
+        if(Config.DEBUG_ON)
+            UciSender.sendDebugMessage("Initiating custom position");
 
         board.startFromCustomPosition(fen);
     }
 
     public void makeMove(String move) {
-        if(Args.DEBUG_ON)
-            UciSender.sendDebugMessage("makingMove: " + move);
-
         board.makeMove(new Move(move, board));
     }
 
-    public void findBestMoveWithTimeProposal() {
-        if(Args.DEBUG_ON)
-            UciSender.sendDebugMessage("makingBestMoveWithTimeProposal");
+    // SEARCHING
+    public void findBestMoveWithTimeProposal(int wtime, int btime, int winc, int binc) {
+        int timeDecidedForMove = decideTimeProposal(wtime, btime, winc, binc);
 
-        long time = getTimeProposal();
-        findBestMoveWithSpecificTime(time);
+        if(Config.DEBUG_ON)
+            UciSender.sendDebugMessage("Making best move with time proposal: " + timeDecidedForMove);
+        findBestMoveWithTimeOnThread(timeDecidedForMove);
     }
 
-    public void findBestMoveWithSpecificTime(long time) {
-        if(Args.DEBUG_ON)
-            UciSender.sendDebugMessage("startingSearchOnNewThread, time = " + time);
+    public void findBestMoveWithoutTimeLimit() {
+        if(Config.DEBUG_ON)
+            UciSender.sendDebugMessage("Making best move without time limit");
+        findBestMoveWithTimeOnThread(Integer.MAX_VALUE);
+    }
 
-        searcherThread = new Thread(searcher);
-        searcherThread.start();
+    public void findBestMoveWithTimeOnThread(int time) {
+        if(Config.DEBUG_ON)
+            UciSender.sendDebugMessage("Starting search on separate thread");
 
+        new Thread(searcher).start();
+        scheduleExecutorService(time-30);
+    }
+
+    private void scheduleExecutorService(int time) {
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.schedule(this::stopSearchingForBestMove, time, java.util.concurrent.TimeUnit.MILLISECONDS);
     }
 
-    public void stopSearchingForBestMoveManually() {
-        if(Args.DEBUG_ON)
-            UciSender.sendDebugMessage("stoppingSearchManually");
-
+    public void stopSearchManually() {
         executorService.shutdownNow();
-
         stopSearchingForBestMove();
     }
 
     private void stopSearchingForBestMove() {
-        if(Args.DEBUG_ON)
-            UciSender.sendDebugMessage("stoppingSearch");
-
-        searcher.stopSearch = true;
-
-        try {
-            searcherThread.join();
-        } catch (InterruptedException e) {
-            UciSender.sendDebugMessage("searcherThread interrupted");
-        }
-
-        UciSender.sendBestMove(searcher.bestMove.toString());
+        searcher.stopSearchAndSendResponse();
     }
 
+    // HELPERS
     public void displayBoard() {
         System.out.println(board);
-        System.out.println("Evaluation: " + evaluator.evaluate());
+        int evaluation = (board.isWhiteToPlay()) ? evaluator.evaluate() : -evaluator.evaluate();
+        System.out.println("Evaluation (for white): " + evaluation);
     }
 
-    private long getTimeProposal() {
-        long proposal = 250;
+    public void perft(int depth) {
+        moveGenerator.perft(depth);
+    }
 
-        if(Args.DEBUG_ON)
-            UciSender.sendDebugMessage("timeProposal: " + proposal);
+    private int decideTimeProposal(int wtime, int btime, int winc, int binc) {
+        int estimatedMovesLeft = Math.min(40 - board.getCurrentMoveNumber(), 10);
+        int estimatedTimeLeft =
+                (board.isWhiteToPlay()) ?
+                (wtime + winc * estimatedMovesLeft) :
+                (btime + binc * estimatedMovesLeft);
 
-        return proposal;
+        return estimatedTimeLeft/estimatedMovesLeft;
     }
 }

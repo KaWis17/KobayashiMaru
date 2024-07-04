@@ -1,15 +1,18 @@
-package org.example.Engine.BoardRepresentation;
+package org.example.Engine.BoardRepresentation.FEN;
 
-import org.example.Engine.Args;
+import org.example.Engine.Args.Config;
+import org.example.Engine.BoardRepresentation.Board;
+import org.example.Engine.BoardRepresentation.BoardConstants;
+import org.example.Engine.BoardRepresentation.State.State;
 
-public class FenImplementer implements BoardConstants{
+public class FenImplementer implements BoardConstants {
 
     public static void FENToBoard(Board board, String fen) {
         String[] fenSplit = fen.split(" ", 2);
 
         board.currentBoardState = new State();
 
-        if(Args.USE_OPENING_BOOK)
+        if(Config.USE_BOOK)
             board.currentBoardState.gameState = GAME_STATE.EARLY_GAME;
         else
             board.currentBoardState.gameState = GAME_STATE.MID_GAME;
@@ -34,7 +37,7 @@ public class FenImplementer implements BoardConstants{
         boardState.canBlackCastleKingside = (leftoverSplit[1].contains("k"));
         boardState.canBlackCastleQueenside = (leftoverSplit[1].contains("q"));
 
-        boardState.enPassantTarget = SquareCalculator.calculate(leftoverSplit[2]);
+        boardState.enPassantTarget = BoardConstants.calculate(leftoverSplit[2]);
 
         boardState.halfMoveClock = Short.parseShort(leftoverSplit[3]);
         boardState.fullMoveNumber = Short.parseShort(leftoverSplit[4]);
@@ -186,7 +189,7 @@ public class FenImplementer implements BoardConstants{
         if(boardState.canBlackCastleQueenside) fen.append("q");
 
         if(boardState.enPassantTarget == 0) fen.append(" - ");
-        else fen.append(" ").append(SquareCalculator.calculate(boardState.enPassantTarget)).append(" ");
+        else fen.append(" ").append(BoardConstants.calculate(boardState.enPassantTarget)).append(" ");
 
         fen.append(boardState.halfMoveClock).append(" ");
         fen.append(boardState.fullMoveNumber);

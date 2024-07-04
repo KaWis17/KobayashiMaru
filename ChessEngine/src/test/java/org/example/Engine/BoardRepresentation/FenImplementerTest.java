@@ -1,6 +1,7 @@
 package org.example.Engine.BoardRepresentation;
 
 import junit.framework.TestCase;
+import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
 
 public class FenImplementerTest extends TestCase {

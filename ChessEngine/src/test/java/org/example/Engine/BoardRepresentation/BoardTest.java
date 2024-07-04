@@ -1,7 +1,9 @@
 package org.example.Engine.BoardRepresentation;
 
 import junit.framework.TestCase;
+import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
+import org.example.Engine.BoardRepresentation.State.State;
 import org.example.Engine.MoveGeneration.MoveGenerator;
 
 public class BoardTest extends TestCase {

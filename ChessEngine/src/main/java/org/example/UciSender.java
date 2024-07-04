@@ -14,6 +14,13 @@ public class UciSender {
         System.out.println("id author " + engine.AUTHOR);
     }
 
+    public static void sendOptionInformation(Engine engine) {
+        System.out.println("option name Debug type check default false");
+        System.out.println("option name Ponder type check default false");
+        System.out.println("option name OwnBook type check default true");
+        System.out.println("option name UCI_EngineAbout type string default " + engine.ABOUT);
+    }
+
     public static void sendOkInformation() {
         System.out.println("uciok");
     }
@@ -31,8 +38,7 @@ public class UciSender {
     }
 
     public static void sendDebugMessage(String message) {
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(dtf.format(now) + " INFO: " + message);
+        System.out.println(dtf.format(LocalDateTime.now()) + " INFO: " + message);
     }
 
 }

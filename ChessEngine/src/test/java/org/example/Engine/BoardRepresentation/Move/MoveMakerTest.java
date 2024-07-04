@@ -2,8 +2,8 @@ package org.example.Engine.BoardRepresentation.Move;
 
 import junit.framework.TestCase;
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.FenImplementer;
-import org.example.Engine.BoardRepresentation.State;
+import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
+import org.example.Engine.BoardRepresentation.State.State;
 
 
 public class MoveMakerTest extends TestCase {
@@ -12,7 +12,7 @@ public class MoveMakerTest extends TestCase {
     private Board board;
     State stateBeforeMove;
 
-    public void setUp() throws Exception {
+    public void setUp() {
         board = new Board();
         board.startFromDefaultPosition();
         stateBeforeMove = board.currentBoardState;

@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.Scanner;
 
+// Application entrypoint
 public class App {
     public static void main( String[] args ) {
         UciReceiver uci = new UciReceiver();
