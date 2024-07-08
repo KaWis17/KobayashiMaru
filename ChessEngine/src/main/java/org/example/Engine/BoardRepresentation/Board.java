@@ -13,14 +13,13 @@ import java.util.Stack;
 public class Board implements BoardHelper {
 
     public State currentBoardState;
+    public Stack<State> stateHistory = new Stack<>();
 
     public BitBoardsRepresentation bitBoardsRepresentation = new BitBoardsRepresentation();
     public ArrayRepresentation arrayRepresentation = new ArrayRepresentation();
     public CountRepresentation countRepresentation = new CountRepresentation();
 
     MoveMaker moveMaker = new MoveMaker(this);
-
-    public Stack<State> stateHistory = new Stack<>();
 
     public void startFromDefaultPosition() {
         startFromCustomPosition(BoardHelper.STARTING_FEN);
@@ -35,7 +34,7 @@ public class Board implements BoardHelper {
     }
 
     public void makeMove(String moveToMake) {
-        moveMaker.makeMove(new Move(moveToMake, this));
+        moveMaker.makeMove(moveToMake);
     }
 
     public void unmakeMove() {
@@ -72,6 +71,14 @@ public class Board implements BoardHelper {
         return bitBoardsRepresentation.bitBoards[piece];
     }
 
+    public int getCurrentMoveNumber() {
+        return currentBoardState.fullMoveNumber;
+    }
+
+    public boolean isWhiteToPlay() {
+        return currentBoardState.whiteToMove;
+    }
+
     @Override
     public String toString() {
         return display();
@@ -101,13 +108,5 @@ public class Board implements BoardHelper {
             if((i-1) % 8 == 0) sb.append("\n");
         }
         return sb.toString();
-    }
-
-    public int getCurrentMoveNumber(){
-        return currentBoardState.fullMoveNumber;
-    }
-
-    public boolean isWhiteToPlay(){
-        return currentBoardState.whiteToMove;
     }
 }

@@ -11,6 +11,11 @@ public class MoveMaker implements BoardHelper, MoveConstants {
         this.board = board;
     }
 
+    public void makeMove(String moveToMake) {
+        Move move = new Move(moveToMake, board);
+        makeMove(move);
+    }
+
     public void makeMove(Move moveToMake) {
         short pieceToMove = board.getPieceOnSquare(moveToMake.departure);
         short color = BoardHelper.getPieceColor(pieceToMove);

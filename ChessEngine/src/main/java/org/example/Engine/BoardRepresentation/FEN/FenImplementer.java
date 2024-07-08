@@ -119,7 +119,7 @@ public class FenImplementer implements BoardHelper {
 
         State boardState = board.currentBoardState;
 
-        if(boardState.whiteToMove) fen.append("w ");
+        if(board.isWhiteToPlay()) fen.append("w ");
         else fen.append("b ");
 
         fen.append((boardState.canWhiteCastleKingside || boardState.canWhiteCastleQueenside || boardState.canBlackCastleKingside || boardState.canBlackCastleQueenside) ? "" : "-" );

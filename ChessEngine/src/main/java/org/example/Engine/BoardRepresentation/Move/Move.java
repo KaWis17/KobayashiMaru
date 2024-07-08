@@ -22,56 +22,71 @@ public class Move implements MoveConstants, BoardHelper {
         short pieceToBeMoved = board.getPieceOnSquare(departure);
         short pieceOnDestination = board.getPieceOnSquare(destination);
 
-        this.type = QUIET_MOVE;
+        this.type = decideType(move, pieceToBeMoved, pieceOnDestination, board.getEnPassantTarget());
+    }
 
-        //check if double pawn push
-        if(pieceToBeMoved == (WHITE|PAWN) || pieceToBeMoved == (BLACK|PAWN)) {
-            if(Math.abs(departure - destination) == 16)
-                type = DOUBLE_PAWN_PUSH;
+    private byte decideType(String move, short pieceToBeMoved, short pieceOnDestination, short enPassantTarget) {
+        if(move.length() == 4) {
+            return decideNotPromotionType(pieceToBeMoved, pieceOnDestination, enPassantTarget);
+        }
+        else {
+            return decidePromotionType(move, pieceOnDestination);
+        }
+    }
+
+    private byte decideNotPromotionType(short pieceToBeMoved, short pieceOnDestination, short enPassantTarget) {
+        if(isDoublePawnPush(pieceToBeMoved, departure, destination))
+            return DOUBLE_PAWN_PUSH;
+
+        if(isCastle(pieceToBeMoved, departure, destination)) {
+            if(isQueenCastle(departure, destination))
+                return QUEEN_CASTLE;
+
+            return KING_CASTLE;
         }
 
-        //check if castle
-        if(pieceToBeMoved == (WHITE|KING) || pieceToBeMoved == (BLACK|KING)) {
-            if(Math.abs(departure - destination) == 2) {
-                if(destination > departure)
-                    type = QUEEN_CASTLE;
-                else
-                    type = KING_CASTLE;
-            }
+        if(isCapture(pieceOnDestination)) {
+            if(isEnPassantCapture(pieceToBeMoved, enPassantTarget, destination))
+                return EP_CAPTURE;
+
+            return CAPTURES;
         }
 
-        //check if capture
-        if(pieceOnDestination != 0) {
-            type = CAPTURES;
+        return QUIET_MOVE;
+    }
+
+    private byte decidePromotionType(String move, short pieceOnDestination) {
+        switch(move.charAt(4)) {
+            case 'r' -> type = ROOK_PROMOTION;
+            case 'b' -> type = BISHOP_PROMOTION;
+            case 'n' -> type = KNIGHT_PROMOTION;
+            default -> type = QUEEN_PROMOTION;
         }
 
-        //check en passant
-        if(pieceToBeMoved == (WHITE|PAWN) || pieceToBeMoved == (BLACK|PAWN)) {
-            if (destination == board.getEnPassantTarget())
-                type = EP_CAPTURE;
-        }
+        return (pieceOnDestination == 0) ? type : (byte) (type + 4);
+    }
 
-        //check if promotion
-        if(move.length() == 5) {
-            switch(move.charAt(4)) {
-                case 'q':
-                    type = QUEEN_PROMOTION;
-                    break;
-                case 'r':
-                    type = ROOK_PROMOTION;
-                    break;
-                case 'b':
-                    type = BISHOP_PROMOTION;
-                    break;
-                case 'n':
-                    type = KNIGHT_PROMOTION;
-                    break;
-            }
+    private boolean isDoublePawnPush(short pieceToBeMoved, byte departure, byte destination) {
+        return  (pieceToBeMoved == (WHITE|PAWN) || pieceToBeMoved == (BLACK|PAWN))
+                && Math.abs(departure - destination) == 16;
+    }
 
-            //check for promotion with capture
-            if(pieceOnDestination != 0)
-                type += 4;
-        }
+    private boolean isCastle(short pieceToBeMoved, byte departure, byte destination) {
+        return  (pieceToBeMoved == (WHITE|KING) || pieceToBeMoved == (BLACK|KING))
+                && Math.abs(departure - destination) == 2;
+    }
+
+    private boolean isQueenCastle(byte departure, byte destination) {
+        return  destination > departure;
+    }
+
+    private boolean isCapture(short pieceOnDestination) {
+        return pieceOnDestination != 0;
+    }
+
+    private boolean isEnPassantCapture(short pieceToBeMoved, short enPassantTarget, byte destination) {
+        return  (pieceToBeMoved == (WHITE|PAWN) || pieceToBeMoved == (BLACK|PAWN))
+                && destination == enPassantTarget;
     }
 
     @Override
