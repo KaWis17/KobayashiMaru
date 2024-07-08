@@ -39,7 +39,7 @@ public class BoardTest extends TestCase {
             assertTrue(CohesionCheck.isCohesive(board));
         }
 
-        assertEquals(BoardConstants.STARTING_FEN, FenImplementer.BoardToFEN(board));
+        assertEquals(BoardHelper.STARTING_FEN, FenImplementer.BoardToFEN(board));
         assertTrue(CohesionCheck.isCohesive(board));
     }
 

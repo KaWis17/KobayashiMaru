@@ -1,7 +1,7 @@
 package org.example.Engine.MoveGeneration;
 
 import junit.framework.TestCase;
-import org.example.Engine.BoardRepresentation.BoardConstants;
+import org.example.Engine.BoardRepresentation.BoardHelper;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ public class PerftTestTest extends TestCase {
 
     public void testPerftWithPositions() {
         System.out.println("Test perft for starting position");
-        perftFromStartPosition(BoardConstants.STARTING_FEN);
+        perftFromStartPosition(BoardHelper.STARTING_FEN);
 
         System.out.println("Test perft for starting position 1");
         perftFromPosition1("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");

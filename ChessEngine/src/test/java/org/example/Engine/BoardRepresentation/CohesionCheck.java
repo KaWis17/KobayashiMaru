@@ -3,7 +3,7 @@ package org.example.Engine.BoardRepresentation;
 import org.example.Engine.BoardRepresentation.BoardFormats.ArrayRepresentation;
 import org.example.Engine.BoardRepresentation.BoardFormats.BitBoardsRepresentation;
 
-public class CohesionCheck implements BoardConstants {
+public class CohesionCheck implements BoardHelper {
 
     public static boolean isCohesive(Board board) {
         ArrayRepresentation arrayRepresentation = board.arrayRepresentation;
@@ -12,8 +12,7 @@ public class CohesionCheck implements BoardConstants {
         if(piecesAreInvalid(arrayRepresentation, bitBoardsRepresentation, WHITE)) return false;
         if(piecesAreInvalid(arrayRepresentation, bitBoardsRepresentation, BLACK)) return false;
         if(colorsAreInvalid(arrayRepresentation, bitBoardsRepresentation, WHITE)) return false;
-        if(colorsAreInvalid(arrayRepresentation, bitBoardsRepresentation, BLACK)) return false;
-        return true;
+        return !colorsAreInvalid(arrayRepresentation, bitBoardsRepresentation, BLACK);
     }
 
     private static boolean piecesAreInvalid(ArrayRepresentation arrayRepresentation, BitBoardsRepresentation bitBoardsRepresentation, short color) {
@@ -22,9 +21,7 @@ public class CohesionCheck implements BoardConstants {
         if(checkIfSingleBoardInvalid(bitBoardsRepresentation.bitBoards[color | KNIGHT], color | KNIGHT, arrayRepresentation.board)) return true;
         if(checkIfSingleBoardInvalid(bitBoardsRepresentation.bitBoards[color | BISHOP], color | BISHOP, arrayRepresentation.board)) return true;
         if(checkIfSingleBoardInvalid(bitBoardsRepresentation.bitBoards[color | QUEEN], color | QUEEN, arrayRepresentation.board)) return true;
-        if(checkIfSingleBoardInvalid(bitBoardsRepresentation.bitBoards[color | KING], color | KING, arrayRepresentation.board)) return true;
-
-        return false;
+        return checkIfSingleBoardInvalid(bitBoardsRepresentation.bitBoards[color | KING], color | KING, arrayRepresentation.board);
     }
 
     private static boolean colorsAreInvalid(ArrayRepresentation arrayRepresentation, BitBoardsRepresentation bitBoardsRepresentation, short color) {

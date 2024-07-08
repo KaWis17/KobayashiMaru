@@ -3,7 +3,6 @@ package org.example.Engine;
 import org.example.Engine.Args.Config;
 import org.example.Engine.Args.Constants;
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.MoveGenerator;
 import org.example.Engine.Search.Searcher;
 import org.example.Engine.StateEvaluation.Evaluator;
@@ -37,7 +36,7 @@ public class Engine implements Constants {
     }
 
     public void makeMove(String move) {
-        board.makeMove(new Move(move, board));
+        board.makeMove(move);
     }
 
     // SEARCHING

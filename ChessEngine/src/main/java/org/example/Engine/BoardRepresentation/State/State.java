@@ -1,6 +1,6 @@
 package org.example.Engine.BoardRepresentation.State;
 
-import org.example.Engine.BoardRepresentation.BoardConstants;
+import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.Move.Move;
 
 public class State {
@@ -16,7 +16,7 @@ public class State {
     public short fullMoveNumber;
 
     public Move moveMade;
-    public BoardConstants.GAME_STATE gameState;
+    public BoardHelper.GAME_STATE gameState;
 
     // Default constructor
     public State(){}

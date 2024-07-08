@@ -2,7 +2,7 @@ package org.example.Engine.BoardRepresentation.BoardFormats;
 
 import java.util.Arrays;
 
-public class PieceCountRepresentation implements BoardFormat{
+public class CountRepresentation implements Format {
 
     public short[] pieces = new short[16];
 
@@ -18,6 +18,6 @@ public class PieceCountRepresentation implements BoardFormat{
 
     @Override
     public void clearBoard() {
-        Arrays.fill(pieces, (short)0);
+        Arrays.fill(pieces, (short) 0);
     }
 }

@@ -1,10 +1,10 @@
 package org.example.Engine.StateEvaluation.Evaluators;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardConstants;
+import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.StateEvaluation.Evaluation;
 
-public class PieceSquareTable implements Evaluation, BoardConstants {
+public class PieceSquareTable implements Evaluation, BoardHelper {
 
     Board board;
 
@@ -150,8 +150,8 @@ public class PieceSquareTable implements Evaluation, BoardConstants {
     public int evaluate() {
         int value = 0;
 
-        for(int i = 1; i <= 64; i++) {
-            switch (board.getPieceOnSquare((short) i)) {
+        for(short i = 1; i <= 64; i++) {
+            switch (board.getPieceOnSquare(i)) {
                 case (WHITE | PAWN) -> value += whitePawns[i-1];
                 case (WHITE | KNIGHT) -> value += whiteKnights[i-1];
                 case (WHITE | BISHOP) -> value += whiteBishops[i-1];

@@ -2,10 +2,12 @@ package org.example.Engine.BoardRepresentation.FEN;
 
 import org.example.Engine.Args.Config;
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardConstants;
+import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.State.State;
 
-public class FenImplementer implements BoardConstants {
+import java.util.Map;
+
+public class FenImplementer implements BoardHelper {
 
     public static void FENToBoard(Board board, String fen) {
         String[] fenSplit = fen.split(" ", 2);
@@ -37,7 +39,7 @@ public class FenImplementer implements BoardConstants {
         boardState.canBlackCastleKingside = (leftoverSplit[1].contains("k"));
         boardState.canBlackCastleQueenside = (leftoverSplit[1].contains("q"));
 
-        boardState.enPassantTarget = BoardConstants.calculate(leftoverSplit[2]);
+        boardState.enPassantTarget = BoardHelper.squareStringToNumber(leftoverSplit[2]);
 
         boardState.halfMoveClock = Short.parseShort(leftoverSplit[3]);
         boardState.fullMoveNumber = Short.parseShort(leftoverSplit[4]);
@@ -74,97 +76,35 @@ public class FenImplementer implements BoardConstants {
         }
     }
 
+    private static final Map<Integer, Character> PIECE_TO_FEN = Map.ofEntries(
+            Map.entry(WHITE | PAWN, 'P'),
+            Map.entry(BLACK | PAWN, 'p'),
+            Map.entry(WHITE | BISHOP, 'B'),
+            Map.entry(BLACK | BISHOP, 'b'),
+            Map.entry(WHITE | KNIGHT, 'N'),
+            Map.entry(BLACK | KNIGHT, 'n'),
+            Map.entry(WHITE | ROOK, 'R'),
+            Map.entry(BLACK | ROOK, 'r'),
+            Map.entry(WHITE | QUEEN, 'Q'),
+            Map.entry(BLACK | QUEEN, 'q'),
+            Map.entry(WHITE | KING, 'K'),
+            Map.entry(BLACK | KING, 'k')
+    );
+
     private static String getBoardFen(Board board) {
         StringBuilder fen = new StringBuilder();
         for(short i=64; i>=1; i-=8) {
             int counter = 0;
             for(short j=i; j>i-8; j--) {
-                switch(board.arrayRepresentation.getPieceOnSquare(j)) {
-                    case WHITE | PAWN -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("P");
+                int piece = board.arrayRepresentation.getPieceOnSquare(j);
+                if (piece == 0) {
+                    counter++;
+                } else {
+                    if(counter != 0){
+                        fen.append(counter);
+                        counter = 0;
                     }
-                    case BLACK | PAWN -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("p");
-                    }
-                    case WHITE | BISHOP -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("B");
-                    }
-                    case BLACK | BISHOP -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("b");
-                    }
-                    case WHITE | KNIGHT -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("N");
-                    }
-                    case BLACK | KNIGHT -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("n");
-                    }
-                    case WHITE | ROOK -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("R");
-                    }
-                    case BLACK | ROOK -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("r");
-                    }
-                    case WHITE | QUEEN -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("Q");
-                    }
-                    case BLACK | QUEEN -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("q");
-                    }
-                    case WHITE | KING -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("K");
-                    }
-                    case BLACK | KING -> {
-                        if(counter != 0){
-                            fen.append(counter);
-                            counter = 0;
-                        }
-                        fen.append("k");
-                    }
-                    case 0 -> counter++;
+                    fen.append(PIECE_TO_FEN.get(piece));
                 }
             }
             if(counter!=0) fen.append(counter);
@@ -189,7 +129,7 @@ public class FenImplementer implements BoardConstants {
         if(boardState.canBlackCastleQueenside) fen.append("q");
 
         if(boardState.enPassantTarget == 0) fen.append(" - ");
-        else fen.append(" ").append(BoardConstants.calculate(boardState.enPassantTarget)).append(" ");
+        else fen.append(" ").append(BoardHelper.squareNumberToString(boardState.enPassantTarget)).append(" ");
 
         fen.append(boardState.halfMoveClock).append(" ");
         fen.append(boardState.fullMoveNumber);

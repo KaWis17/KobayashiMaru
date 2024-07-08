@@ -2,7 +2,7 @@ package org.example.Engine.BoardRepresentation.BoardFormats;
 
 import junit.framework.TestCase;
 
-import static org.example.Engine.BoardRepresentation.BoardConstants.*;
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
 
 public class BitBoardsRepresentationTest extends TestCase {
 

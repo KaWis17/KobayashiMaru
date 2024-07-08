@@ -1,10 +1,10 @@
 package org.example.Engine.BoardRepresentation.Move;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardConstants;
+import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.State.State;
 
-public class MoveMaker implements BoardConstants, MoveConstants {
+public class MoveMaker implements BoardHelper, MoveConstants {
 
     Board board;
     public MoveMaker(Board board) {
@@ -13,8 +13,8 @@ public class MoveMaker implements BoardConstants, MoveConstants {
 
     public void makeMove(Move moveToMake) {
         short pieceToMove = board.getPieceOnSquare(moveToMake.departure);
-        short color = BoardConstants.getColor(pieceToMove);
-        short piece = BoardConstants.getPieceType(pieceToMove);
+        short color = BoardHelper.getPieceColor(pieceToMove);
+        short piece = BoardHelper.getPieceType(pieceToMove);
 
         addCurrentStateToMoveHistory(moveToMake);
         createNewCurrentState(moveToMake, color, piece);
@@ -32,12 +32,12 @@ public class MoveMaker implements BoardConstants, MoveConstants {
         Move moveToUnmake = stateToRestore.moveMade;
 
         short pieceToUnMove = board.getPieceOnSquare(moveToUnmake.destination);
-        short color = BoardConstants.getColor(pieceToUnMove);
-        short piece = BoardConstants.getPieceType(pieceToUnMove);
+        short color = BoardHelper.getPieceColor(pieceToUnMove);
+        short piece = BoardHelper.getPieceType(pieceToUnMove);
         short opponentColor = color == WHITE ? BLACK : WHITE;
 
         short capturedPiece = stateToRestore.capturedPiece;
-        short typeOfCapturedPiece = BoardConstants.getPieceType(capturedPiece);
+        short typeOfCapturedPiece = BoardHelper.getPieceType(capturedPiece);
 
         switch(moveToUnmake.type) {
             case QUIET_MOVE, DOUBLE_PAWN_PUSH -> {
@@ -154,7 +154,7 @@ public class MoveMaker implements BoardConstants, MoveConstants {
 
         updateWhiteToMove(updatedState);
         updateCastlingRights(move, color, piece, updatedState);
-        updateEnPassantTarget(move, color, piece, updatedState);
+        updateEnPassantTarget(move, color, updatedState);
         updateHalfMoveClock(move, piece, updatedState);
         updateFullMoveNumber(updatedState);
 
@@ -181,7 +181,7 @@ public class MoveMaker implements BoardConstants, MoveConstants {
             updatedState.halfMoveClock = (short) (board.currentBoardState.halfMoveClock + 1);
     }
 
-    private static void updateEnPassantTarget(Move move, short color, short piece, State updatedState) {
+    private static void updateEnPassantTarget(Move move, short color, State updatedState) {
         if(move.type == DOUBLE_PAWN_PUSH) {
             if(color == WHITE) updatedState.enPassantTarget = (short) (move.destination - 8);
             else updatedState.enPassantTarget = (short) (move.destination + 8);
@@ -231,7 +231,7 @@ public class MoveMaker implements BoardConstants, MoveConstants {
     private void updateBoardRepresentationsAfterMove(Move move, short color, short piece) {
         short opponentColor = color == WHITE ? BLACK : WHITE;
         short pieceOnDestination = board.getPieceOnSquare(move.destination);
-        short typeOfPieceOnDestination = BoardConstants.getPieceType(pieceOnDestination);
+        short typeOfPieceOnDestination = BoardHelper.getPieceType(pieceOnDestination);
 
         switch (move.type) {
             case QUIET_MOVE, DOUBLE_PAWN_PUSH -> {

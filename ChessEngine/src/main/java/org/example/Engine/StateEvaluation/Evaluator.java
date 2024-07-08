@@ -18,14 +18,12 @@ public class Evaluator {
     }
 
     public int evaluate() {
-
         int evalForWhite = 0;
 
         for(Evaluation evaluator: evaluators) {
             evalForWhite += evaluator.evaluate();
         }
 
-        return (board.currentBoardState.whiteToMove) ? evalForWhite : -evalForWhite;
+        return (board.isWhiteToPlay()) ? evalForWhite : -evalForWhite;
     }
-
 }

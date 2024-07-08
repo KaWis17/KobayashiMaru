@@ -2,14 +2,14 @@ package org.example.Engine.MoveGeneration;
 
 import junit.framework.TestCase;
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardConstants;
+import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
 
 import java.util.ArrayList;
 
 
-public class MoveGeneratorTest extends TestCase implements BoardConstants {
+public class MoveGeneratorTest extends TestCase implements BoardHelper {
 
     public void testPerft() {
         Board board = new Board();

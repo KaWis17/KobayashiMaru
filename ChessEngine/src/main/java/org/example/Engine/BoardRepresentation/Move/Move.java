@@ -1,9 +1,9 @@
 package org.example.Engine.BoardRepresentation.Move;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardConstants;
+import org.example.Engine.BoardRepresentation.BoardHelper;
 
-public class Move implements MoveConstants, BoardConstants {
+public class Move implements MoveConstants, BoardHelper {
 
     public byte departure;
     public byte destination;
@@ -16,8 +16,8 @@ public class Move implements MoveConstants, BoardConstants {
     }
 
     public Move(String move, Board board) {
-        this.departure = BoardConstants.calculate(move.substring(0, 2));
-        this.destination = BoardConstants.calculate(move.substring(2, 4));
+        this.departure = (byte) BoardHelper.squareStringToNumber(move.substring(0, 2));
+        this.destination = (byte) BoardHelper.squareStringToNumber(move.substring(2, 4));
 
         short pieceToBeMoved = board.getPieceOnSquare(departure);
         short pieceOnDestination = board.getPieceOnSquare(destination);
@@ -76,8 +76,8 @@ public class Move implements MoveConstants, BoardConstants {
 
     @Override
     public String toString() {
-        String move = BoardConstants.calculate(departure);
-        move += BoardConstants.calculate(destination);
+        String move = BoardHelper.squareNumberToString(departure);
+        move += BoardHelper.squareNumberToString(destination);
 
         if(type == QUEEN_PROMOTION || type == QUEEN_PROMOTION_CAPTURE)
             move += "q";

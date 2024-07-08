@@ -1,10 +1,9 @@
 package org.example.Engine.MoveGeneration;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardConstants;
-import org.example.Engine.MoveGeneration.PieceGenerators.Generator;
+import org.example.Engine.BoardRepresentation.BoardHelper;
 
-public class AttackOfKingGenerator implements BoardConstants {
+public class AttackOfKingGenerator implements BoardHelper {
 
     Board board;
     MoveGenerator mg;

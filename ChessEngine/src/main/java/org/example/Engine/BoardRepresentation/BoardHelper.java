@@ -1,6 +1,6 @@
 package org.example.Engine.BoardRepresentation;
 
-public interface BoardConstants {
+public interface BoardHelper {
     enum GAME_STATE {EARLY_GAME, MID_GAME, END_GAME, WIN, DRAW, LOSS}
 
     String STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -19,11 +19,11 @@ public interface BoardConstants {
         return (short) (piece & 7);
     }
 
-    static short getColor(short piece) {
+    static short getPieceColor(short piece) {
         return (short) (piece & 8);
     }
 
-    static String calculate(short square) {
+    static String squareNumberToString(short square) {
         StringBuilder sb = new StringBuilder();
         switch(square%8) {
             case 0 -> sb.append("a");
@@ -40,39 +40,34 @@ public interface BoardConstants {
         return sb.toString();
     }
 
-    public static byte calculate(String square) {
+    static short squareStringToNumber(String square) {
         if(square.equals("-") || square.equals("0"))
             return 0;
 
-        byte value = (byte) (8*rowValue(square));
+        short value = (byte) (8*rowValue(square));
         value += columnValue(square);
 
         return value;
     }
 
+
+
     private static byte rowValue(String square) {
-        if(square.contains("8")) return 7;
-        if(square.contains("7")) return 6;
-        if(square.contains("6")) return 5;
-        if(square.contains("5")) return 4;
-        if(square.contains("4")) return 3;
-        if(square.contains("3")) return 2;
-        if(square.contains("2")) return 1;
-        if(square.contains("1")) return 0;
-        return 0;
+        return (byte) (Character.getNumericValue(square.charAt(1)) - 1);
     }
 
-
     private static byte columnValue(String square) {
-        if(square.contains("a")) return 8;
-        if(square.contains("b")) return 7;
-        if(square.contains("c")) return 6;
-        if(square.contains("d")) return 5;
-        if(square.contains("e")) return 4;
-        if(square.contains("f")) return 3;
-        if(square.contains("g")) return 2;
-        if(square.contains("h")) return 1;
-        return 0;
+        return switch (square.charAt(0)) {
+            case 'a' -> 8;
+            case 'b' -> 7;
+            case 'c' -> 6;
+            case 'd' -> 5;
+            case 'e' -> 4;
+            case 'f' -> 3;
+            case 'g' -> 2;
+            case 'h' -> 1;
+            default -> 0;
+        };
     }
 }
 
