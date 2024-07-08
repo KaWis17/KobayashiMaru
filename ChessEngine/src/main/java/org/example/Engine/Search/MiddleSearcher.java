@@ -1,6 +1,5 @@
 package org.example.Engine.Search;
 
-import org.example.Engine.Args.Config;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.MoveGenerator;
@@ -16,7 +15,6 @@ public class MiddleSearcher implements Search {
     MoveGenerator moveGenerator;
     Searcher searcher;
     Evaluator evaluator;
-    boolean maximizingForWhite;
 
     public MiddleSearcher(Board board, Searcher searcher, Evaluator evaluator, MoveGenerator moveGenerator) {
         this.board = board;
@@ -28,8 +26,6 @@ public class MiddleSearcher implements Search {
     @Override
     public void search() {
 
-        maximizingForWhite = board.currentBoardState.whiteToMove;
-
         for(int i=1; i<256; i++) {
             Move bestMoveInDepth = alphaBetaNegEntryPoint(i, searcher);
 
@@ -39,8 +35,7 @@ public class MiddleSearcher implements Search {
             if(searcher.stopSearch)
                 return;
 
-            if(Config.DEBUG_ON)
-                UciSender.sendDebugMessage("\tSearch on depth " + i + " finished, best move: " + bestMoveInDepth);
+            UciSender.sendInfoMessage("depth " + i + " score cp " + evaluator.evaluate() + " pv " + searcher.bestMove);
         }
 
 

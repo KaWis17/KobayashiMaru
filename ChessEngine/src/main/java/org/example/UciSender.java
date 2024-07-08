@@ -41,4 +41,8 @@ public class UciSender {
         System.out.println(dtf.format(LocalDateTime.now()) + " INFO: " + message);
     }
 
+    public static void sendInfoMessage(String message) {
+        System.out.println("info " + message);
+    }
+
 }
