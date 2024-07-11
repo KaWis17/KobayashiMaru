@@ -1,6 +1,5 @@
-package org.example.Engine.BoardRepresentation.State;
+package org.example.Engine.BoardRepresentation;
 
-import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.Move.Move;
 
 public class State {
@@ -42,10 +41,5 @@ public class State {
 
         this.moveThatTookToThisPosition = state.moveThatTookToThisPosition;
         this.gameState = state.gameState;
-    }
-
-    @Override
-    public String toString(){
-        return moveThatTookToThisPosition.toString();
     }
 }

@@ -2,8 +2,8 @@ package org.example.Engine.BoardRepresentation.Move;
 
 import junit.framework.TestCase;
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
-import org.example.Engine.BoardRepresentation.State.State;
+import org.example.Engine.BoardRepresentation.BoardHelper;
+import org.example.Engine.BoardRepresentation.State;
 
 
 public class MoveMakerTest extends TestCase {
@@ -51,7 +51,7 @@ public class MoveMakerTest extends TestCase {
         makeMoveWithPrint("e8c8", maker, board2);
         makeMoveWithPrint("e4e5", maker, board2);
 
-        System.out.println(FenImplementer.BoardToFEN(board2));
+        System.out.println(BoardHelper.BoardToFEN(board2));
 //        assertEquals(FenImplementer.BoardToFEN(board1), FenImplementer.BoardToFEN(board2));
     }
 

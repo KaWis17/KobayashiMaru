@@ -3,7 +3,6 @@ package org.example.Engine.MoveGeneration;
 import junit.framework.TestCase;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardHelper;
-import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
 
 import java.util.ArrayList;
@@ -52,23 +51,23 @@ public class MoveGeneratorTest extends TestCase implements BoardHelper {
 
 
         for (Move move : moves) {
-            String startFen = FenImplementer.BoardToFEN(board);
+            String startFen = BoardHelper.BoardToFEN(board);
             board.makeMove(move);
 
 
             for (Move move1 : new MoveGenerator(board).generateAllLegalMoves()) {
-                String startFen1 = FenImplementer.BoardToFEN(board);
+                String startFen1 = BoardHelper.BoardToFEN(board);
                 board.makeMove(move1);
 
                 board.unmakeMove();
-                if(!startFen1.equals(FenImplementer.BoardToFEN(board))) {
+                if(!startFen1.equals(BoardHelper.BoardToFEN(board))) {
                     System.out.println("FENs don't match on: " + move);
                 }
             }
 
 
             board.unmakeMove();
-            if(!startFen.equals(FenImplementer.BoardToFEN(board))) {
+            if(!startFen.equals(BoardHelper.BoardToFEN(board))) {
                 System.out.println("FENs don't match on: " + move);
             }
         }

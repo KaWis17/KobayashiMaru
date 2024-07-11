@@ -1,9 +1,7 @@
 package org.example.Engine.BoardRepresentation;
 
 import junit.framework.TestCase;
-import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
-import org.example.Engine.BoardRepresentation.State.State;
 import org.example.Engine.MoveGeneration.MoveGenerator;
 
 public class BoardTest extends TestCase {
@@ -29,17 +27,17 @@ public class BoardTest extends TestCase {
         for(int i=0; i<moves.length; i++) {
             Move m = new Move(moves[i], board);
             board.makeMove(m);
-            assertEquals(fens[i], FenImplementer.BoardToFEN(board));
+            assertEquals(fens[i], BoardHelper.BoardToFEN(board));
             assertTrue(CohesionCheck.isCohesive(board));
         }
 
         for (int i = moves.length-1; i >= 0; i--) {
-            assertEquals(fens[i], FenImplementer.BoardToFEN(board));
+            assertEquals(fens[i], BoardHelper.BoardToFEN(board));
             board.unmakeMove();
             assertTrue(CohesionCheck.isCohesive(board));
         }
 
-        assertEquals(BoardHelper.STARTING_FEN, FenImplementer.BoardToFEN(board));
+        assertEquals(BoardHelper.STARTING_FEN, BoardHelper.BoardToFEN(board));
         assertTrue(CohesionCheck.isCohesive(board));
     }
 

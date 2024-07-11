@@ -3,11 +3,9 @@ package org.example.Engine.BoardRepresentation;
 import org.example.Engine.BoardRepresentation.BoardFormats.ArrayRepresentation;
 import org.example.Engine.BoardRepresentation.BoardFormats.BitBoardsRepresentation;
 import org.example.Engine.BoardRepresentation.BoardFormats.CountRepresentation;
-import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.BoardRepresentation.Move.MoveMaker;
 import org.example.Engine.BoardRepresentation.Move.MoveUnMaker;
-import org.example.Engine.BoardRepresentation.State.State;
 
 import java.util.Stack;
 
@@ -28,7 +26,7 @@ public class Board implements BoardHelper {
     }
 
     public void startFromCustomPosition(String fen) {
-        FenImplementer.FENToBoard(this, fen);
+        BoardHelper.FENToBoard(this, fen);
     }
 
     public void makeMove(Move moveToMake) {
@@ -88,7 +86,7 @@ public class Board implements BoardHelper {
 
     private String display() {
         StringBuilder sb = new StringBuilder();
-        sb.append("BOARD: ").append(FenImplementer.BoardToFEN(this)).append("\n");
+        sb.append("BOARD: ").append(BoardHelper.BoardToFEN(this)).append("\n");
 
         for(short i=64; i>=1; --i) {
             switch(arrayRepresentation.getPieceOnSquare(i)) {
