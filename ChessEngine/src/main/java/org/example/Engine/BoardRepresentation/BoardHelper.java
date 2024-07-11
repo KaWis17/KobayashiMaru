@@ -7,25 +7,25 @@ public interface BoardHelper {
 
     String STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-    short WHITE = 0;
-    short BLACK = 8;
+    byte WHITE = 0;
+    byte BLACK = 8;
 
-    short PAWN = 1;
-    short BISHOP = 2;
-    short KNIGHT = 3;
-    short ROOK = 4;
-    short QUEEN = 5;
-    short KING = 6;
+    byte PAWN = 1;
+    byte BISHOP = 2;
+    byte KNIGHT = 3;
+    byte ROOK = 4;
+    byte QUEEN = 5;
+    byte KING = 6;
 
-    static short getPieceType(short piece) {
-        return (short) (piece & 7);
+    static byte getPieceType(byte piece) {
+        return (byte) (piece & 7);
     }
 
-    static short getPieceColor(short piece) {
-        return (short) (piece & 8);
+    static byte getPieceColor(byte piece) {
+        return (byte) (piece & 8);
     }
 
-    static String squareNumberToString(short square) {
+    static String squareNumberToString(byte square) {
         StringBuilder sb = new StringBuilder();
         switch(square%8) {
             case 0 -> sb.append("a");
@@ -42,11 +42,11 @@ public interface BoardHelper {
         return sb.toString();
     }
 
-    static short squareStringToNumber(String square) {
+    static byte squareStringToNumber(String square) {
         if(square.equals("-") || square.equals("0"))
             return 0;
 
-        short value = (byte) (8*rowValue(square));
+        byte value = (byte) (8*rowValue(square));
         value += columnValue(square);
 
         return value;
@@ -103,8 +103,8 @@ public interface BoardHelper {
 
         boardState.enPassantTarget = BoardHelper.squareStringToNumber(leftoverSplit[2]);
 
-        boardState.halfMoveClock = Short.parseShort(leftoverSplit[3]);
-        boardState.fullMoveNumber = Short.parseShort(leftoverSplit[4]);
+        boardState.halfMoveClock = Byte.parseByte(leftoverSplit[3]);
+        boardState.fullMoveNumber = Byte.parseByte(leftoverSplit[4]);
 
         boardState.moveThatTookToThisPosition = null;
     }
@@ -113,12 +113,12 @@ public interface BoardHelper {
     private static void fillFormats(Board board, String boardFen) {
         board.clearBoard();
 
-        short squareNumber = 64;
+        byte squareNumber = 64;
 
         for(char c: boardFen.toCharArray()) {
 
             if(Character.isDigit(c))
-                squareNumber -= (short) (Character.getNumericValue(c));
+                squareNumber -= (byte) (Character.getNumericValue(c));
 
             else if(c != '/') {
                 switch (c) {
@@ -157,9 +157,9 @@ public interface BoardHelper {
 
     private static String getBoardFen(Board board) {
         StringBuilder fen = new StringBuilder();
-        for(short i=64; i>=1; i-=8) {
+        for(byte i=64; i>=1; i-=8) {
             int counter = 0;
-            for(short j=i; j>i-8; j--) {
+            for(byte j=i; j>i-8; j--) {
                 int piece = board.arrayRepresentation.getPieceOnSquare(j);
                 if (piece == 0) {
                     counter++;

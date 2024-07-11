@@ -9,8 +9,8 @@ public class ArrayRepresentationTest extends TestCase {
     public void testAddPieceOnSquare() {
         ArrayRepresentation array = new ArrayRepresentation();
 
-        array.addPieceOnSquare((short) 28, BLACK, PAWN);
-        array.deletePieceOnSquare((short) 12, BLACK, PAWN);
+        array.addPieceOnSquare((byte) 28, BLACK, PAWN);
+        array.deletePieceOnSquare((byte) 12, BLACK, PAWN);
 
         displayBoard(array.board);
     }

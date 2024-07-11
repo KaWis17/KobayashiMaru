@@ -4,11 +4,11 @@ import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.BoardRepresentation.Move.MoveConstants;
-import org.example.Engine.MoveGeneration.BitBoardConstants;
+import org.example.Engine.MoveGeneration.BitBoardHelper;
 
 import java.util.ArrayList;
 
-public abstract class Generator implements BoardHelper, BitBoardConstants, MoveConstants {
+public abstract class Generator implements BoardHelper, BitBoardHelper, MoveConstants {
 
     Board board;
     long allOpponentColor;
@@ -16,8 +16,8 @@ public abstract class Generator implements BoardHelper, BitBoardConstants, MoveC
     long allEmpty;
 
     ArrayList<Move> possibleMoves = new ArrayList<>(64);
-    public abstract ArrayList<Move> generateMoves(short myColor, long allMyColor, long allOpponentColor, long allEmpty);
-    public abstract long getKingAsFigureDangerMask(short myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty);
+    public abstract ArrayList<Move> generateMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty);
+    public abstract long getKingAsFigureDangerMask(byte myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty);
     Generator(Board board) {
         this.board = board;
     }

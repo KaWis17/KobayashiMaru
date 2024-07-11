@@ -21,6 +21,8 @@ public class Board implements BoardHelper {
     MoveMaker moveMaker = new MoveMaker(this);
     MoveUnMaker moveUnMaker = new MoveUnMaker(this);
 
+    CheckChecker checkChecker = new CheckChecker(this);
+
     public void startFromDefaultPosition() {
         startFromCustomPosition(BoardHelper.STARTING_FEN);
     }
@@ -41,13 +43,13 @@ public class Board implements BoardHelper {
         moveUnMaker.unmakeMove();
     }
 
-    public void addPieceOnSquare(short square, short color, short piece) {
+    public void addPieceOnSquare(byte square, byte color, byte piece) {
         bitBoardsRepresentation.addPieceOnSquare(square, color, piece);
         arrayRepresentation.addPieceOnSquare(square, color, piece);
         countRepresentation.addPieceOnSquare(square, color, piece);
     }
 
-    public void deletePieceFromSquare(short square, short color, short piece) {
+    public void deletePieceFromSquare(byte square, byte color, byte piece) {
         bitBoardsRepresentation.deletePieceOnSquare(square, color, piece);
         arrayRepresentation.deletePieceOnSquare(square, color, piece);
         countRepresentation.deletePieceOnSquare(square, color, piece);
@@ -59,15 +61,15 @@ public class Board implements BoardHelper {
         countRepresentation.clearBoard();
     }
 
-    public short getPieceOnSquare(short square) {
+    public byte getPieceOnSquare(byte square) {
         return arrayRepresentation.getPieceOnSquare(square);
     }
 
-    public short getEnPassantTarget() {
+    public byte getEnPassantTarget() {
         return currentBoardState.enPassantTarget;
     }
 
-    public long getSpecificPiecesBitBoard(short piece) {
+    public long getSpecificBitBoard(byte piece) {
         return bitBoardsRepresentation.bitBoards[piece];
     }
 
@@ -79,6 +81,22 @@ public class Board implements BoardHelper {
         return currentBoardState.whiteToMove;
     }
 
+    public boolean isCurrentColorInCheck() {
+        return checkChecker.isColorInCheck(currentBoardState.whiteToMove ? WHITE : BLACK);
+    }
+
+    public boolean isOpponentColorInCheck() {
+        return checkChecker.isColorInCheck(currentBoardState.whiteToMove ? BLACK : WHITE);
+    }
+
+    public boolean isWhiteInCheck() {
+        return checkChecker.isWhiteInCheck();
+    }
+
+    public boolean isBlackInCheck() {
+        return checkChecker.isBlackInCheck();
+    }
+
     @Override
     public String toString() {
         return display();
@@ -88,7 +106,7 @@ public class Board implements BoardHelper {
         StringBuilder sb = new StringBuilder();
         sb.append("BOARD: ").append(BoardHelper.BoardToFEN(this)).append("\n");
 
-        for(short i=64; i>=1; --i) {
+        for(byte i=64; i>=1; --i) {
             switch(arrayRepresentation.getPieceOnSquare(i)) {
                 case WHITE | PAWN -> sb.append("P ");
                 case BLACK | PAWN -> sb.append("p ");

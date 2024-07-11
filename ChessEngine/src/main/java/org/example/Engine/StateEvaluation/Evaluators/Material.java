@@ -17,7 +17,7 @@ public class Material implements Evaluation, BoardHelper {
         return evaluateColor(WHITE) - evaluateColor(BLACK);
     }
 
-    private int evaluateColor(short color) {
+    private int evaluateColor(byte color) {
         int value = 0;
 
         value += 100 * board.countRepresentation.pieces[color | PAWN];

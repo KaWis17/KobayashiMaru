@@ -7,14 +7,14 @@ public class ArrayRepresentation implements Format {
     public byte[] board = new byte[64];
 
     @Override
-    public void addPieceOnSquare(short square, short color, short piece) {
-        square = (short) (64 - square);
+    public void addPieceOnSquare(byte square, byte color, byte piece) {
+        square = (byte) (64 - square);
         board[square] = (byte) (color | piece);
     }
 
     @Override
-    public void deletePieceOnSquare(short square, short color, short piece) {
-        square = (short) (64 - square);
+    public void deletePieceOnSquare(byte square, byte color, byte piece) {
+        square = (byte) (64 - square);
         board[square] = 0;
     }
 
@@ -23,8 +23,8 @@ public class ArrayRepresentation implements Format {
         Arrays.fill(board, (byte) 0);
     }
 
-    public byte getPieceOnSquare(short square) {
-        square = (short) (64 - square);
+    public byte getPieceOnSquare(byte square) {
+        square = (byte) (64 - square);
         return board[square];
     }
 }

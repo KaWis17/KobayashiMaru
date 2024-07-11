@@ -12,7 +12,7 @@ public class SlidingMoveGenerator extends Generator {
     }
 
     @Override
-    public ArrayList<Move> generateMoves(short myColor, long allMyColor, long allOpponentColor, long allEmpty) {
+    public ArrayList<Move> generateMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty) {
 
         possibleMoves = new ArrayList<>(64);
 
@@ -20,13 +20,13 @@ public class SlidingMoveGenerator extends Generator {
         this.allOpponentColor = allOpponentColor;
         this.allEmpty = allEmpty;
 
-        long rooks = board.getSpecificPiecesBitBoard((short) (myColor | ROOK));
+        long rooks = board.getSpecificBitBoard((byte) (myColor | ROOK));
         generateMovesForVerticalAndHorizontal(rooks);
 
-        long bishops = board.getSpecificPiecesBitBoard((short) (myColor | BISHOP));
+        long bishops = board.getSpecificBitBoard((byte) (myColor | BISHOP));
         generateMovesForDiagonals(bishops);
 
-        long queens = board.getSpecificPiecesBitBoard((short) (myColor | QUEEN));
+        long queens = board.getSpecificBitBoard((byte) (myColor | QUEEN));
         generateMovesForVerticalAndHorizontal(queens);
         generateMovesForDiagonals(queens);
 
@@ -34,23 +34,23 @@ public class SlidingMoveGenerator extends Generator {
     }
 
     @Override
-    public long getKingAsFigureDangerMask(short myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
+    public long getKingAsFigureDangerMask(byte myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
 
         this.allMyColor = allMyColor;
         this.allOpponentColor = allOpponentColor;
         this.allEmpty = allEmpty;
 
-        short opponentColor = myColor == WHITE ? BLACK : WHITE;
+        byte opponentColor = myColor == WHITE ? BLACK : WHITE;
 
         long verticalAndHorizontalDangerMask = generateMovesForVerticalAndHorizontal(myColor, myKing);
-        long verticalAndHorizontalDangerQueenMask = verticalAndHorizontalDangerMask & board.getSpecificPiecesBitBoard((short) (opponentColor | QUEEN));
-        long verticalAndHorizontalDangerRookMask = verticalAndHorizontalDangerMask & board.getSpecificPiecesBitBoard((short) (opponentColor | ROOK));
+        long verticalAndHorizontalDangerQueenMask = verticalAndHorizontalDangerMask & board.getSpecificBitBoard((byte) (opponentColor | QUEEN));
+        long verticalAndHorizontalDangerRookMask = verticalAndHorizontalDangerMask & board.getSpecificBitBoard((byte) (opponentColor | ROOK));
 
         verticalAndHorizontalDangerMask = verticalAndHorizontalDangerQueenMask | verticalAndHorizontalDangerRookMask;
 
-        long diagonalDangerMask = generateMovesForDiagonals(myColor, myKing);
-        long diagonalDangerQueenMask = diagonalDangerMask & board.getSpecificPiecesBitBoard((short) (opponentColor | QUEEN));
-        long diagonalDangerBishopMask = diagonalDangerMask & board.getSpecificPiecesBitBoard((short) (opponentColor | BISHOP));
+        long diagonalDangerMask = getMoveMaskForKing(myKing);
+        long diagonalDangerQueenMask = diagonalDangerMask & board.getSpecificBitBoard((byte) (opponentColor | QUEEN));
+        long diagonalDangerBishopMask = diagonalDangerMask & board.getSpecificBitBoard((byte) (opponentColor | BISHOP));
 
         diagonalDangerMask = diagonalDangerQueenMask | diagonalDangerBishopMask;
 
@@ -76,7 +76,7 @@ public class SlidingMoveGenerator extends Generator {
         }
     }
 
-    private long generateMovesForVerticalAndHorizontal(short myColor, long myKing) {
+    private long generateMovesForVerticalAndHorizontal(byte myColor, long myKing) {
         byte index = (byte) (64 - Long.numberOfLeadingZeros(myKing));
         byte arrayIndex = (byte) (index-1);
 
@@ -104,7 +104,7 @@ public class SlidingMoveGenerator extends Generator {
         }
     }
 
-    private long generateMovesForDiagonals(short myColor, long myKing) {
+    private long getMoveMaskForKing(long myKing) {
         byte index = (byte) (64 - Long.numberOfLeadingZeros(myKing));
         byte arrayIndex = (byte) (index-1);
 

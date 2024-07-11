@@ -150,7 +150,7 @@ public class PieceSquareTable implements Evaluation, BoardHelper {
     public int evaluate() {
         int value = 0;
 
-        for(short i = 1; i <= 64; i++) {
+        for(byte i = 1; i <= 64; i++) {
             switch (board.getPieceOnSquare(i)) {
                 case (WHITE | PAWN) -> value += whitePawns[i-1];
                 case (WHITE | KNIGHT) -> value += whiteKnights[i-1];

@@ -14,12 +14,12 @@ public class SquareCalculatorTest extends TestCase {
     }
 
     public void testCalculate2() {
-        assertEquals(BoardHelper.squareNumberToString((short) 64), "a8");
-        assertEquals(BoardHelper.squareNumberToString((short) 8), "a1");
-        assertEquals(BoardHelper.squareNumberToString((short) 1), "h1");
-        assertEquals(BoardHelper.squareNumberToString((short) 57), "h8");
-        assertEquals(BoardHelper.squareNumberToString((short) 30), "c4");
-        assertEquals(BoardHelper.squareNumberToString((short) 43), "f6");
+        assertEquals(BoardHelper.squareNumberToString((byte) 64), "a8");
+        assertEquals(BoardHelper.squareNumberToString((byte) 8), "a1");
+        assertEquals(BoardHelper.squareNumberToString((byte) 1), "h1");
+        assertEquals(BoardHelper.squareNumberToString((byte) 57), "h8");
+        assertEquals(BoardHelper.squareNumberToString((byte) 30), "c4");
+        assertEquals(BoardHelper.squareNumberToString((byte) 43), "f6");
     }
 
 }

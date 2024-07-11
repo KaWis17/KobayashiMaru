@@ -18,10 +18,10 @@ public class KnightMoveGenerator extends Generator {
     }
 
     @Override
-    public ArrayList<Move> generateMoves(short myColor, long allMyColor, long allOpponentColor, long allEmpty) {
+    public ArrayList<Move> generateMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty) {
         possibleMoves = new ArrayList<>(64);
 
-        sameColorKnights = board.getSpecificPiecesBitBoard((short) (myColor | KNIGHT));
+        sameColorKnights = board.getSpecificBitBoard((byte) (myColor | KNIGHT));
         this.allMyColor = allMyColor;
         this.allOpponentColor = allOpponentColor;
         this.allEmpty = allEmpty;
@@ -82,8 +82,8 @@ public class KnightMoveGenerator extends Generator {
         }
     }
 
-    public long getKingAsFigureDangerMask(short myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
-        short opponentColor = myColor == WHITE ? BLACK : WHITE;
+    public long getKingAsFigureDangerMask(byte myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
+        byte opponentColor = myColor == WHITE ? BLACK : WHITE;
         this.allMyColor = allMyColor;
         this.allOpponentColor = allOpponentColor;
         this.allEmpty = allEmpty;
@@ -91,7 +91,7 @@ public class KnightMoveGenerator extends Generator {
         int index = 64 - Long.numberOfLeadingZeros(myKing);
         long kingAsKnightMoves = preComputedMasks[index-1];
 
-        return (kingAsKnightMoves & board.getSpecificPiecesBitBoard((short) (opponentColor | KNIGHT)));
+        return (kingAsKnightMoves & board.getSpecificBitBoard((byte) (opponentColor | KNIGHT)));
     }
 
 }

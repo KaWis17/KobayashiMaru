@@ -14,10 +14,10 @@ public class PawnMoveGenerator extends Generator {
     }
 
     @Override
-    public ArrayList<Move> generateMoves(short myColor, long allMyColor, long allOpponentColor, long allEmpty) {
+    public ArrayList<Move> generateMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty) {
         possibleMoves = new ArrayList<>(64);
 
-        sameColorPawns = board.getSpecificPiecesBitBoard((short) (myColor|PAWN));
+        sameColorPawns = board.getSpecificBitBoard((byte) (myColor|PAWN));
         this.allMyColor = allMyColor;
         this.allOpponentColor = allOpponentColor;
         this.allEmpty = allEmpty;
@@ -35,20 +35,20 @@ public class PawnMoveGenerator extends Generator {
     }
 
     @Override
-    public long getKingAsFigureDangerMask(short myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
+    public long getKingAsFigureDangerMask(byte myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
         this.allMyColor = allMyColor;
         this.allOpponentColor = allOpponentColor;
         this.allEmpty = allEmpty;
 
-        short opponentColor = myColor == WHITE ? BLACK : WHITE;
+        byte opponentColor = myColor == WHITE ? BLACK : WHITE;
 
         long kingAsPawnCaptureMoves = moveCaptureLeftSide(myColor, myKing);
         kingAsPawnCaptureMoves |= moveCaptureRightSide(myColor, myKing);
 
-        return (kingAsPawnCaptureMoves & board.getSpecificPiecesBitBoard((short) (opponentColor | PAWN)));
+        return (kingAsPawnCaptureMoves & board.getSpecificBitBoard((byte) (opponentColor | PAWN)));
     }
 
-    private void moveForwardByOne(short myColor) {
+    private void moveForwardByOne(byte myColor) {
         long mask = allEmpty;
 
         if(myColor == WHITE) {
@@ -61,7 +61,7 @@ public class PawnMoveGenerator extends Generator {
         }
     }
 
-    private void moveForwardByTwo(short myColor) {
+    private void moveForwardByTwo(byte myColor) {
 
         long mask = allEmpty;
 
@@ -79,7 +79,7 @@ public class PawnMoveGenerator extends Generator {
         }
     }
 
-    private void moveCaptureLeftSide(short myColor) {
+    private void moveCaptureLeftSide(byte myColor) {
 
         long mask = allOpponentColor;
 
@@ -97,7 +97,7 @@ public class PawnMoveGenerator extends Generator {
         }
     }
 
-    private long moveCaptureLeftSide(short myColor, long myKing) {
+    private long moveCaptureLeftSide(byte myColor, long myKing) {
         if(myColor == WHITE)
             return Long.rotateLeft(myKing, 9) &~ fileH;
         else
@@ -105,7 +105,7 @@ public class PawnMoveGenerator extends Generator {
 
     }
 
-    private void moveCaptureRightSide(short myColor) {
+    private void moveCaptureRightSide(byte myColor) {
 
         long mask = allOpponentColor;
 
@@ -124,7 +124,7 @@ public class PawnMoveGenerator extends Generator {
 
     }
 
-    private long moveCaptureRightSide(short myColor, long myKing) {
+    private long moveCaptureRightSide(byte myColor, long myKing) {
         if(myColor == WHITE)
             return Long.rotateLeft(myKing, 7) &~ fileA;
         else
@@ -133,8 +133,8 @@ public class PawnMoveGenerator extends Generator {
     }
 
 
-    private void enPassantLeft(short myColor) {
-        short target = board.getEnPassantTarget();
+    private void enPassantLeft(byte myColor) {
+        byte target = board.getEnPassantTarget();
         if (target == 0) return;
 
         long mask = (1L << (target-1));
@@ -155,8 +155,8 @@ public class PawnMoveGenerator extends Generator {
         }
     }
 
-    private void enPassantRight(short myColor) {
-        short target = board.getEnPassantTarget();
+    private void enPassantRight(byte myColor) {
+        byte target = board.getEnPassantTarget();
         if (target == 0) return;
 
         long mask = (1L << (target-1));

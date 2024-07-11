@@ -5,17 +5,17 @@ import org.example.Engine.BoardRepresentation.Move.Move;
 public class State {
     public boolean whiteToMove;
 
-    public short capturedPiece;
+    public byte capturedPiece;
 
     public boolean canWhiteCastleKingside;
     public boolean canWhiteCastleQueenside;
     public boolean canBlackCastleKingside;
     public boolean canBlackCastleQueenside;
 
-    public short enPassantTarget;
+    public byte enPassantTarget;
 
-    public short halfMoveClock;
-    public short fullMoveNumber;
+    public byte halfMoveClock;
+    public byte fullMoveNumber;
 
     public Move moveThatTookToThisPosition;
     public BoardHelper.GAME_STATE gameState;

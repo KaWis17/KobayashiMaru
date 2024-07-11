@@ -19,13 +19,13 @@ public class Move implements MoveConstants, BoardHelper {
         this.departure = (byte) BoardHelper.squareStringToNumber(move.substring(0, 2));
         this.destination = (byte) BoardHelper.squareStringToNumber(move.substring(2, 4));
 
-        short pieceToBeMoved = board.getPieceOnSquare(departure);
-        short pieceOnDestination = board.getPieceOnSquare(destination);
+        byte pieceToBeMoved = board.getPieceOnSquare(departure);
+        byte pieceOnDestination = board.getPieceOnSquare(destination);
 
         this.type = decideType(move, pieceToBeMoved, pieceOnDestination, board.getEnPassantTarget());
     }
 
-    private byte decideType(String move, short pieceToBeMoved, short pieceOnDestination, short enPassantTarget) {
+    private byte decideType(String move, byte pieceToBeMoved, byte pieceOnDestination, byte enPassantTarget) {
         if(move.length() == 4) {
             return decideNotPromotionType(pieceToBeMoved, pieceOnDestination, enPassantTarget);
         }
@@ -34,7 +34,7 @@ public class Move implements MoveConstants, BoardHelper {
         }
     }
 
-    private byte decideNotPromotionType(short pieceToBeMoved, short pieceOnDestination, short enPassantTarget) {
+    private byte decideNotPromotionType(byte pieceToBeMoved, byte pieceOnDestination, byte enPassantTarget) {
         if(isDoublePawnPush(pieceToBeMoved, departure, destination))
             return DOUBLE_PAWN_PUSH;
 
@@ -55,7 +55,7 @@ public class Move implements MoveConstants, BoardHelper {
         return QUIET_MOVE;
     }
 
-    private byte decidePromotionType(String move, short pieceOnDestination) {
+    private byte decidePromotionType(String move, byte pieceOnDestination) {
         byte proposedType;
 
         switch(move.charAt(4)) {
@@ -68,12 +68,12 @@ public class Move implements MoveConstants, BoardHelper {
         return (pieceOnDestination == 0) ? proposedType : (byte) (proposedType + 4);
     }
 
-    private boolean isDoublePawnPush(short pieceToBeMoved, byte departure, byte destination) {
+    private boolean isDoublePawnPush(byte pieceToBeMoved, byte departure, byte destination) {
         return  (pieceToBeMoved == (WHITE|PAWN) || pieceToBeMoved == (BLACK|PAWN))
                 && Math.abs(departure - destination) == 16;
     }
 
-    private boolean isCastle(short pieceToBeMoved, byte departure, byte destination) {
+    private boolean isCastle(byte pieceToBeMoved, byte departure, byte destination) {
         return  (pieceToBeMoved == (WHITE|KING) || pieceToBeMoved == (BLACK|KING))
                 && Math.abs(departure - destination) == 2;
     }
@@ -82,11 +82,11 @@ public class Move implements MoveConstants, BoardHelper {
         return  destination > departure;
     }
 
-    private boolean isCapture(short pieceOnDestination) {
+    private boolean isCapture(byte pieceOnDestination) {
         return pieceOnDestination != 0;
     }
 
-    private boolean isEnPassantCapture(short pieceToBeMoved, short enPassantTarget, byte destination) {
+    private boolean isEnPassantCapture(byte pieceToBeMoved, byte enPassantTarget, byte destination) {
         return  (pieceToBeMoved == (WHITE|PAWN) || pieceToBeMoved == (BLACK|PAWN))
                 && destination == enPassantTarget;
     }

@@ -1,6 +1,6 @@
 package org.example.Engine.MoveGeneration;
 
-public interface BitBoardConstants {
+public interface BitBoardHelper {
 
     long[] ranks = {
             Long.parseLong("0000000000000000000000000000000000000000000000000000000011111111", 2),

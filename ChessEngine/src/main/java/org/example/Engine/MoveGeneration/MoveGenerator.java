@@ -15,31 +15,27 @@ public class MoveGenerator implements BoardHelper {
     Generator kingMoveGenerator;
     Generator slidingMoveGenerator;
 
-    public AttackOfKingGenerator checkGenerator;
-
     public MoveGenerator(Board board) {
         this.board = board;
-        this.checkGenerator = new AttackOfKingGenerator(board, this);
-
         pawnMoveGenerator = new PawnMoveGenerator(board);
         knightMoveGenerator = new KnightMoveGenerator(board);
-        kingMoveGenerator = new KingMoveGenerator(board, checkGenerator);
+        kingMoveGenerator = new KingMoveGenerator(board);
         slidingMoveGenerator = new SlidingMoveGenerator(board);
     }
 
     public ArrayList<Move> generateAllLegalMoves() {
         ArrayList<Move> moves = generateAllPseudoLegalMoves();
 
-        return deleteMovesThatPutKingInCheck(moves, board.isWhiteToPlay() ? WHITE : BLACK);
+        return deleteMovesThatPutKingInCheck(moves);
     }
 
     public ArrayList<Move> generateAllPseudoLegalMoves() {
         ArrayList<Move> moves = new ArrayList<>(40);
 
         boolean whiteToMove = board.isWhiteToPlay();
-        short color = whiteToMove ? WHITE : BLACK;
-        long myPieces = whiteToMove ? board.getSpecificPiecesBitBoard(WHITE) : board.getSpecificPiecesBitBoard(BLACK);
-        long opponentPieces = whiteToMove ? board.getSpecificPiecesBitBoard(BLACK) : board.getSpecificPiecesBitBoard(WHITE);
+        byte color = whiteToMove ? WHITE : BLACK;
+        long myPieces = whiteToMove ? board.getSpecificBitBoard(WHITE) : board.getSpecificBitBoard(BLACK);
+        long opponentPieces = whiteToMove ? board.getSpecificBitBoard(BLACK) : board.getSpecificBitBoard(WHITE);
         long emptySquares = ~(myPieces | opponentPieces);
 
         moves.addAll(kingMoveGenerator.generateMoves(color, myPieces, opponentPieces, emptySquares));
@@ -50,12 +46,12 @@ public class MoveGenerator implements BoardHelper {
         return moves;
     }
 
-    private ArrayList<Move> deleteMovesThatPutKingInCheck(ArrayList<Move> moves, short color) {
+    private ArrayList<Move> deleteMovesThatPutKingInCheck(ArrayList<Move> moves) {
        ArrayList<Move> legalMoves = new ArrayList<>(40);
 
         for(Move move : moves) {
             board.makeMove(move);
-            if(!checkGenerator.isKingInCheck(color))
+            if(!board.isOpponentColorInCheck())
                 legalMoves.add(move);
             board.unmakeMove();
         }

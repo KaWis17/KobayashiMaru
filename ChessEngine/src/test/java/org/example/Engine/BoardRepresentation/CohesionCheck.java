@@ -15,7 +15,7 @@ public class CohesionCheck implements BoardHelper {
         return !colorsAreInvalid(arrayRepresentation, bitBoardsRepresentation, BLACK);
     }
 
-    private static boolean piecesAreInvalid(ArrayRepresentation arrayRepresentation, BitBoardsRepresentation bitBoardsRepresentation, short color) {
+    private static boolean piecesAreInvalid(ArrayRepresentation arrayRepresentation, BitBoardsRepresentation bitBoardsRepresentation, byte color) {
         if(checkIfSingleBoardInvalid(bitBoardsRepresentation.bitBoards[color | PAWN], color | PAWN, arrayRepresentation.board)) return true;
         if(checkIfSingleBoardInvalid(bitBoardsRepresentation.bitBoards[color | ROOK], color | ROOK, arrayRepresentation.board)) return true;
         if(checkIfSingleBoardInvalid(bitBoardsRepresentation.bitBoards[color | KNIGHT], color | KNIGHT, arrayRepresentation.board)) return true;
@@ -24,7 +24,7 @@ public class CohesionCheck implements BoardHelper {
         return checkIfSingleBoardInvalid(bitBoardsRepresentation.bitBoards[color | KING], color | KING, arrayRepresentation.board);
     }
 
-    private static boolean colorsAreInvalid(ArrayRepresentation arrayRepresentation, BitBoardsRepresentation bitBoardsRepresentation, short color) {
+    private static boolean colorsAreInvalid(ArrayRepresentation arrayRepresentation, BitBoardsRepresentation bitBoardsRepresentation, byte color) {
         String boardString = String.format("%64s", Long.toBinaryString(bitBoardsRepresentation.bitBoards[color])).replace(' ', '0');
 
         for(int i = 0; i < 64; i++) {

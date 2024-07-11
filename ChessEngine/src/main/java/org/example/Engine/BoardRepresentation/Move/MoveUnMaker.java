@@ -23,13 +23,13 @@ public class MoveUnMaker implements MoveConstants, BoardHelper{
     private void revertBoardRepresentation(State currentState) {
         Move moveToUnmake = currentState.moveThatTookToThisPosition;
 
-        short pieceToUnMove = board.getPieceOnSquare(moveToUnmake.destination);
-        short color = BoardHelper.getPieceColor(pieceToUnMove);
-        short piece = BoardHelper.getPieceType(pieceToUnMove);
-        short opponentColor = color == WHITE ? BLACK : WHITE;
+        byte pieceToUnMove = board.getPieceOnSquare(moveToUnmake.destination);
+        byte color = BoardHelper.getPieceColor(pieceToUnMove);
+        byte piece = BoardHelper.getPieceType(pieceToUnMove);
+        byte opponentColor = color == WHITE ? BLACK : WHITE;
 
-        short capturedPiece = currentState.capturedPiece;
-        short typeOfCapturedPiece = BoardHelper.getPieceType(capturedPiece);
+        byte capturedPiece = currentState.capturedPiece;
+        byte typeOfCapturedPiece = BoardHelper.getPieceType(capturedPiece);
 
         switch(moveToUnmake.type) {
             case QUIET_MOVE, DOUBLE_PAWN_PUSH -> {
@@ -38,34 +38,34 @@ public class MoveUnMaker implements MoveConstants, BoardHelper{
             }
             case KING_CASTLE -> {
                 if(color == WHITE) {
-                    board.deletePieceFromSquare((short) 2, WHITE, KING);
-                    board.addPieceOnSquare((short) 4, WHITE, KING);
+                    board.deletePieceFromSquare((byte) 2, WHITE, KING);
+                    board.addPieceOnSquare((byte) 4, WHITE, KING);
 
-                    board.deletePieceFromSquare((short) 3, WHITE, ROOK);
-                    board.addPieceOnSquare((short) 1, WHITE, ROOK);
+                    board.deletePieceFromSquare((byte) 3, WHITE, ROOK);
+                    board.addPieceOnSquare((byte) 1, WHITE, ROOK);
                 }
                 else {
-                    board.deletePieceFromSquare((short) 58, BLACK, KING);
-                    board.addPieceOnSquare((short) 60, BLACK, KING);
+                    board.deletePieceFromSquare((byte) 58, BLACK, KING);
+                    board.addPieceOnSquare((byte) 60, BLACK, KING);
 
-                    board.deletePieceFromSquare((short) 59, BLACK, ROOK);
-                    board.addPieceOnSquare((short) 57, BLACK, ROOK);
+                    board.deletePieceFromSquare((byte) 59, BLACK, ROOK);
+                    board.addPieceOnSquare((byte) 57, BLACK, ROOK);
                 }
             }
             case QUEEN_CASTLE -> {
                 if(color == WHITE) {
-                    board.deletePieceFromSquare((short) 6, WHITE, KING);
-                    board.addPieceOnSquare((short) 4, WHITE, KING);
+                    board.deletePieceFromSquare((byte) 6, WHITE, KING);
+                    board.addPieceOnSquare((byte) 4, WHITE, KING);
 
-                    board.deletePieceFromSquare((short) 5, WHITE, ROOK);
-                    board.addPieceOnSquare((short) 8, WHITE, ROOK);
+                    board.deletePieceFromSquare((byte) 5, WHITE, ROOK);
+                    board.addPieceOnSquare((byte) 8, WHITE, ROOK);
                 }
                 else {
-                    board.deletePieceFromSquare((short) 62, BLACK, KING);
-                    board.addPieceOnSquare((short) 60, BLACK, KING);
+                    board.deletePieceFromSquare((byte) 62, BLACK, KING);
+                    board.addPieceOnSquare((byte) 60, BLACK, KING);
 
-                    board.deletePieceFromSquare((short) 61, BLACK, ROOK);
-                    board.addPieceOnSquare((short) 64, BLACK, ROOK);
+                    board.deletePieceFromSquare((byte) 61, BLACK, ROOK);
+                    board.addPieceOnSquare((byte) 64, BLACK, ROOK);
                 }
             }
             case CAPTURES -> {
@@ -79,9 +79,9 @@ public class MoveUnMaker implements MoveConstants, BoardHelper{
                 board.addPieceOnSquare(moveToUnmake.departure, color, piece);
 
                 if(color == WHITE)
-                    board.addPieceOnSquare((short) (moveToUnmake.destination-8), opponentColor, PAWN);
+                    board.addPieceOnSquare((byte) (moveToUnmake.destination-8), opponentColor, PAWN);
                 else
-                    board.addPieceOnSquare((short) (moveToUnmake.destination+8), opponentColor, PAWN);
+                    board.addPieceOnSquare((byte) (moveToUnmake.destination+8), opponentColor, PAWN);
             }
             case KNIGHT_PROMOTION -> {
                 board.deletePieceFromSquare(moveToUnmake.destination, color, KNIGHT);
