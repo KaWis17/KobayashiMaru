@@ -4,6 +4,7 @@ import org.example.Engine.Args.Config;
 import org.example.Engine.Args.Constants;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.MoveGeneration.MoveGenerator;
+import org.example.Engine.MoveGeneration.PerftTest;
 import org.example.Engine.Search.Searcher;
 import org.example.Engine.StateEvaluation.Evaluator;
 import org.example.UciSender;
@@ -84,7 +85,7 @@ public class Engine implements Constants {
     }
 
     public void perft(int depth) {
-        moveGenerator.perft(depth);
+        PerftTest.perft(board, depth);
     }
 
     private int decideTimeProposal(int wtime, int btime, int winc, int binc) {

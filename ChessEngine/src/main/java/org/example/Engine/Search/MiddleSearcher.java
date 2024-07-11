@@ -48,7 +48,7 @@ public class MiddleSearcher implements Search {
 
         bestMoveValue = Integer.MIN_VALUE;
 
-        for(Move move : moveGenerator.generateMoves()) {
+        for(Move move : moveGenerator.generateAllLegalMoves()) {
 
             if(searcher.stopSearch)
                 return null;
@@ -67,7 +67,7 @@ public class MiddleSearcher implements Search {
     }
 
     private int alphaBetaNeg(int depth, int alpha, int beta) {
-        ArrayList<Move> moves = moveGenerator.generateMoves();
+        ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
 
         if(depth == 0 || moves.isEmpty())
             return evaluator.evaluate();

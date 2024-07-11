@@ -18,7 +18,7 @@ public class MoveGeneratorTest extends TestCase implements BoardHelper {
 
         //board.makeMove(new Move("e4d6", board));
         System.out.println(board);
-        ArrayList<Move> moves = moveGenerator.generateMoves();
+        ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
         for(Move move: moves) {
             System.out.println(move);
         }
@@ -48,7 +48,7 @@ public class MoveGeneratorTest extends TestCase implements BoardHelper {
         System.out.println("e8g8");
         board.makeMove(new Move("e8g8", board));
 
-        ArrayList<Move> moves = new MoveGenerator(board).generateMoves();
+        ArrayList<Move> moves = new MoveGenerator(board).generateAllLegalMoves();
 
 
         for (Move move : moves) {
@@ -56,7 +56,7 @@ public class MoveGeneratorTest extends TestCase implements BoardHelper {
             board.makeMove(move);
 
 
-            for (Move move1 : new MoveGenerator(board).generateMoves()) {
+            for (Move move1 : new MoveGenerator(board).generateAllLegalMoves()) {
                 String startFen1 = FenImplementer.BoardToFEN(board);
                 board.makeMove(move1);
 

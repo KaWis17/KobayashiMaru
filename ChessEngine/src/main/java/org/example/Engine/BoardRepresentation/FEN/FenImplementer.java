@@ -1,6 +1,5 @@
 package org.example.Engine.BoardRepresentation.FEN;
 
-import org.example.Engine.Args.Config;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.State.State;
@@ -14,10 +13,7 @@ public class FenImplementer implements BoardHelper {
 
         board.currentBoardState = new State();
 
-        if(Config.USE_BOOK)
-            board.currentBoardState.gameState = GAME_STATE.EARLY_GAME;
-        else
-            board.currentBoardState.gameState = GAME_STATE.MID_GAME;
+        board.currentBoardState.gameState = GAME_STATE.EARLY_GAME;
 
         fillValues(board, fenSplit[1]);
         fillFormats(board, fenSplit[0]);
@@ -43,6 +39,8 @@ public class FenImplementer implements BoardHelper {
 
         boardState.halfMoveClock = Short.parseShort(leftoverSplit[3]);
         boardState.fullMoveNumber = Short.parseShort(leftoverSplit[4]);
+
+        boardState.moveThatTookToThisPosition = null;
     }
 
 

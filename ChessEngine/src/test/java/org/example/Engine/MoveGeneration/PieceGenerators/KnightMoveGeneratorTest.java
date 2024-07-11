@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 public class KnightMoveGeneratorTest extends TestCase {
 
-    public void testGenerateMoves() {
+    public void testGenerateAllLegalMoves() {
         KnightMoveGenerator knightMoveGenerator = new KnightMoveGenerator(null);
     }
 }

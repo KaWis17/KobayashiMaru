@@ -6,6 +6,7 @@ import org.example.Engine.BoardRepresentation.BoardFormats.CountRepresentation;
 import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.BoardRepresentation.Move.MoveMaker;
+import org.example.Engine.BoardRepresentation.Move.MoveUnMaker;
 import org.example.Engine.BoardRepresentation.State.State;
 
 import java.util.Stack;
@@ -20,6 +21,7 @@ public class Board implements BoardHelper {
     public CountRepresentation countRepresentation = new CountRepresentation();
 
     MoveMaker moveMaker = new MoveMaker(this);
+    MoveUnMaker moveUnMaker = new MoveUnMaker(this);
 
     public void startFromDefaultPosition() {
         startFromCustomPosition(BoardHelper.STARTING_FEN);
@@ -38,7 +40,7 @@ public class Board implements BoardHelper {
     }
 
     public void unmakeMove() {
-        moveMaker.unmakeMove();
+        moveUnMaker.unmakeMove();
     }
 
     public void addPieceOnSquare(short square, short color, short piece) {

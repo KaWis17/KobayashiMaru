@@ -8,19 +8,23 @@ import java.util.ArrayList;
 public class PerftTest {
 
     public static long perft(String fen, int depth) {
+        Board board = new Board();
+        board.startFromCustomPosition(fen);
+
+        return perft(board, depth);
+    }
+
+    public static long perft(Board board, int depth) {
 
         if(depth == 0)
             return 1L;
 
-        Board board = new Board();
-        board.startFromCustomPosition(fen);
-
         MoveGenerator generator = new MoveGenerator(board);
 
         long sum = 0;
-        for(Move move: generator.generateMoves()) {
+        for(Move move: generator.generateAllLegalMoves()) {
             board.makeMove(move);
-            long children = perftHelper(generator, board, move, depth-1);
+            long children = perftHelper(generator, board, depth-1);
 
             System.out.println(move + ": " + children);
 
@@ -32,16 +36,16 @@ public class PerftTest {
         return sum;
     }
 
-    private static long perftHelper(MoveGenerator generator, Board board, Move move, int depth) {
+    private static long perftHelper(MoveGenerator generator, Board board, int depth) {
         if(depth == 0)
             return 1L;
 
         long sum = 0;
-        ArrayList<Move> moves = generator.generateMoves();
+        ArrayList<Move> moves = generator.generateAllLegalMoves();
 
         for(Move newMove: moves) {
             board.makeMove(newMove);
-            sum += perftHelper(generator, board, newMove, depth-1);
+            sum += perftHelper(generator, board, depth-1);
             board.unmakeMove();
         }
 

@@ -2,7 +2,6 @@ package org.example.Engine.MoveGeneration;
 
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardHelper;
-import org.example.Engine.BoardRepresentation.FEN.FenImplementer;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.PieceGenerators.*;
 
@@ -28,10 +27,16 @@ public class MoveGenerator implements BoardHelper {
         slidingMoveGenerator = new SlidingMoveGenerator(board);
     }
 
-    public ArrayList<Move> generateMoves() {
+    public ArrayList<Move> generateAllLegalMoves() {
+        ArrayList<Move> moves = generateAllPseudoLegalMoves();
+
+        return deleteMovesThatPutKingInCheck(moves, board.isWhiteToPlay() ? WHITE : BLACK);
+    }
+
+    public ArrayList<Move> generateAllPseudoLegalMoves() {
         ArrayList<Move> moves = new ArrayList<>(40);
 
-        boolean whiteToMove = board.currentBoardState.whiteToMove;
+        boolean whiteToMove = board.isWhiteToPlay();
         short color = whiteToMove ? WHITE : BLACK;
         long myPieces = whiteToMove ? board.getSpecificPiecesBitBoard(WHITE) : board.getSpecificPiecesBitBoard(BLACK);
         long opponentPieces = whiteToMove ? board.getSpecificPiecesBitBoard(BLACK) : board.getSpecificPiecesBitBoard(WHITE);
@@ -42,7 +47,7 @@ public class MoveGenerator implements BoardHelper {
         moves.addAll(knightMoveGenerator.generateMoves(color, myPieces, opponentPieces, emptySquares));
         moves.addAll(slidingMoveGenerator.generateMoves(color, myPieces, opponentPieces, emptySquares));
 
-        return deleteMovesThatPutKingInCheck(moves, color);
+        return moves;
     }
 
     private ArrayList<Move> deleteMovesThatPutKingInCheck(ArrayList<Move> moves, short color) {
@@ -56,13 +61,5 @@ public class MoveGenerator implements BoardHelper {
         }
 
         return legalMoves;
-    }
-
-    public void perft(int depth) {
-        long startTime = System.currentTimeMillis();
-        long nodes = PerftTest.perft(FenImplementer.BoardToFEN(board), depth);
-        long endTime = System.currentTimeMillis();
-        System.out.println("Nodes: " + nodes);
-        System.out.println("Time: " + (endTime - startTime) + "ms");
     }
 }

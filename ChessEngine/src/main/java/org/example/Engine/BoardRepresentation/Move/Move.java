@@ -56,14 +56,16 @@ public class Move implements MoveConstants, BoardHelper {
     }
 
     private byte decidePromotionType(String move, short pieceOnDestination) {
+        byte proposedType;
+
         switch(move.charAt(4)) {
-            case 'r' -> type = ROOK_PROMOTION;
-            case 'b' -> type = BISHOP_PROMOTION;
-            case 'n' -> type = KNIGHT_PROMOTION;
-            default -> type = QUEEN_PROMOTION;
+            case 'r' -> proposedType = ROOK_PROMOTION;
+            case 'b' -> proposedType = BISHOP_PROMOTION;
+            case 'n' -> proposedType = KNIGHT_PROMOTION;
+            default -> proposedType = QUEEN_PROMOTION;
         }
 
-        return (pieceOnDestination == 0) ? type : (byte) (type + 4);
+        return (pieceOnDestination == 0) ? proposedType : (byte) (proposedType + 4);
     }
 
     private boolean isDoublePawnPush(short pieceToBeMoved, byte departure, byte destination) {

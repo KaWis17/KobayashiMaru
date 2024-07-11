@@ -49,10 +49,9 @@ public class BoardTest extends TestCase {
         b.startFromDefaultPosition();
         MoveGenerator g = new MoveGenerator(b);
 
-        State stateBeforeMove = b.currentBoardState;
         long[] deepCopy = b.bitBoardsRepresentation.bitBoards.clone();
 
-        for(Move move : g.generateMoves()) {
+        for(Move move : g.generateAllLegalMoves()) {
             b.makeMove(move);
             b.unmakeMove();
             for(int i=0; i<deepCopy.length; i++) {
