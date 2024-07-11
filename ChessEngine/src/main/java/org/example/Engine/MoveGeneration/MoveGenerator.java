@@ -51,7 +51,7 @@ public class MoveGenerator implements BoardHelper {
 
         for(Move move : moves) {
             board.makeMove(move);
-            if(!board.isOpponentColorInCheck())
+            if(board.isOpponentColorNotInCheck())
                 legalMoves.add(move);
             board.unmakeMove();
         }

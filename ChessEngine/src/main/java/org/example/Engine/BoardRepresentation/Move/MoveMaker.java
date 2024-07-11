@@ -85,57 +85,38 @@ public class MoveMaker implements BoardHelper, MoveConstants {
     }
 
     private static void updateCastlingRights(Move move, byte color, byte piece, State updatedState) {
-        updateWhiteKingsideCastleRights(move, color, piece, updatedState);
-
-        updateWhiteQueensideCastleRights(move, color, piece, updatedState);
-
-        updateBlackKingsideCastleRights(move, color, piece, updatedState);
-
-        updateBlackQueensideCastleRights(move, color, piece, updatedState);
+        updatedState.canWhiteCastleKingside = updateWhiteKingsideCastleRights(move, color, piece, updatedState);
+        updatedState.canWhiteCastleQueenside = updateWhiteQueensideCastleRights(move, color, piece, updatedState);
+        updatedState.canBlackCastleKingside = updateBlackKingsideCastleRights(move, color, piece, updatedState);
+        updatedState.canBlackCastleQueenside = updateBlackQueensideCastleRights(move, color, piece, updatedState);
     }
 
-    private static void updateBlackQueensideCastleRights(Move move, byte color, byte piece, State updatedState) {
-        if(updatedState.canBlackCastleQueenside) {
-            if(color == BLACK && piece == KING)
-                updatedState.canBlackCastleQueenside = false;
-            if(color == BLACK && piece == ROOK && move.departure == 64)
-                updatedState.canBlackCastleQueenside = false;
-            if(move.destination == 64)
-                updatedState.canBlackCastleQueenside = false;
-        }
+    private static boolean updateWhiteKingsideCastleRights(Move move, byte color, byte piece, State previousState) {
+        if(!previousState.canWhiteCastleKingside) return false;
+        if(color == WHITE && piece == KING) return false;
+        if(color == WHITE && piece == ROOK && move.departure == 1) return false;
+        return move.destination != 1;
     }
 
-    private static void updateBlackKingsideCastleRights(Move move, byte color, byte piece, State updatedState) {
-        if(updatedState.canBlackCastleKingside) {
-            if(color == BLACK && piece == KING)
-                updatedState.canBlackCastleKingside = false;
-            if(color == BLACK && piece == ROOK && move.departure == 57)
-                updatedState.canBlackCastleKingside = false;
-            if(move.destination == 57)
-                updatedState.canBlackCastleKingside = false;
-        }
+    private static boolean updateWhiteQueensideCastleRights(Move move, byte color, byte piece, State previousState) {
+        if(!previousState.canWhiteCastleQueenside) return false;
+        if(color == WHITE && piece == KING) return false;
+        if(color == WHITE && piece == ROOK && move.departure == 8) return false;
+        return move.destination != 8;
     }
 
-    private static void updateWhiteQueensideCastleRights(Move move, byte color, byte piece, State updatedState) {
-        if(updatedState.canWhiteCastleQueenside) {
-            if(color == WHITE && piece == KING)
-                updatedState.canWhiteCastleQueenside = false;
-            if(color == WHITE && piece == ROOK && move.departure == 8)
-                updatedState.canWhiteCastleQueenside = false;
-            if(move.destination == 8)
-                updatedState.canWhiteCastleQueenside = false;
-        }
+    private static boolean updateBlackKingsideCastleRights(Move move, byte color, byte piece, State previousState) {
+        if(!previousState.canBlackCastleKingside) return false;
+        if(color == BLACK && piece == KING) return false;
+        if(color == BLACK && piece == ROOK && move.departure == 57) return false;
+        return move.destination != 57;
     }
 
-    private static void updateWhiteKingsideCastleRights(Move move, byte color, byte piece, State updatedState) {
-        if(updatedState.canWhiteCastleKingside) {
-            if(color == WHITE && piece == KING)
-                updatedState.canWhiteCastleKingside = false;
-            if(color == WHITE && piece == ROOK && move.departure == 1)
-                updatedState.canWhiteCastleKingside = false;
-            if(move.destination == 1)
-                updatedState.canWhiteCastleKingside = false;
-        }
+    private static boolean updateBlackQueensideCastleRights(Move move, byte color, byte piece, State updatedState) {
+        if(!updatedState.canBlackCastleQueenside) return false;
+        if(color == BLACK && piece == KING) return false;
+        if(color == BLACK && piece == ROOK && move.departure == 64) return false;
+        return move.destination != 64;
     }
 
     private void updateBoardRepresentationsAfterMove(Move move, byte color, byte piece) {

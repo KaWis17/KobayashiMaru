@@ -16,8 +16,8 @@ public class Move implements MoveConstants, BoardHelper {
     }
 
     public Move(String move, Board board) {
-        this.departure = (byte) BoardHelper.squareStringToNumber(move.substring(0, 2));
-        this.destination = (byte) BoardHelper.squareStringToNumber(move.substring(2, 4));
+        this.departure = BoardHelper.squareStringToNumber(move.substring(0, 2));
+        this.destination = BoardHelper.squareStringToNumber(move.substring(2, 4));
 
         byte pieceToBeMoved = board.getPieceOnSquare(departure);
         byte pieceOnDestination = board.getPieceOnSquare(destination);
@@ -26,12 +26,11 @@ public class Move implements MoveConstants, BoardHelper {
     }
 
     private byte decideType(String move, byte pieceToBeMoved, byte pieceOnDestination, byte enPassantTarget) {
-        if(move.length() == 4) {
+        if(move.length() == 4)
             return decideNotPromotionType(pieceToBeMoved, pieceOnDestination, enPassantTarget);
-        }
-        else {
-            return decidePromotionType(move, pieceOnDestination);
-        }
+
+        return decidePromotionType(move, pieceOnDestination);
+
     }
 
     private byte decideNotPromotionType(byte pieceToBeMoved, byte pieceOnDestination, byte enPassantTarget) {

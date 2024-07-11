@@ -9,9 +9,7 @@ import org.example.UciSender;
 
 public class Searcher implements Runnable {
 
-    EarlySearcher earlySearcher;
     MiddleSearcher middleSearcher;
-    EndSearcher endSearcher;
 
     Board board;
     Evaluator evaluator;
@@ -25,9 +23,7 @@ public class Searcher implements Runnable {
         this.evaluator = evaluator;
         searchId = 0;
 
-        earlySearcher = new EarlySearcher(board);
         middleSearcher = new MiddleSearcher(board, this, evaluator, moveGenerator);
-        endSearcher = new EndSearcher(board);
     }
 
     @Override

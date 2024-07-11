@@ -59,7 +59,7 @@ public class KingMoveGenerator extends Generator {
         for(Move move : possibleMoves) {
             board.makeMove(move);
 
-            if(!board.isOpponentColorInCheck())
+            if(board.isOpponentColorNotInCheck())
                 legalMoves.add(move);
 
             board.unmakeMove();

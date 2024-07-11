@@ -81,12 +81,8 @@ public class Board implements BoardHelper {
         return currentBoardState.whiteToMove;
     }
 
-    public boolean isCurrentColorInCheck() {
-        return checkChecker.isColorInCheck(currentBoardState.whiteToMove ? WHITE : BLACK);
-    }
-
-    public boolean isOpponentColorInCheck() {
-        return checkChecker.isColorInCheck(currentBoardState.whiteToMove ? BLACK : WHITE);
+    public boolean isOpponentColorNotInCheck() {
+        return !checkChecker.isColorInCheck(currentBoardState.whiteToMove ? BLACK : WHITE);
     }
 
     public boolean isWhiteInCheck() {

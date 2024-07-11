@@ -8,14 +8,14 @@ public class BitBoardsRepresentation implements Format {
 
     @Override
     public void addPieceOnSquare(byte square, byte color, byte piece) {
-        bitBoards[piece | color] |= (1L << square-1);
-        bitBoards[color] |= (1L << square-1);
+        bitBoards[piece | color] |= Long.rotateLeft(1L, square-1);
+        bitBoards[color] |= Long.rotateLeft(1L, square-1);
     }
 
     @Override
     public void deletePieceOnSquare(byte square, byte color, byte piece) {
-        bitBoards[piece | color] &= ~(1L << square-1);
-        bitBoards[color] &= ~(1L << square-1);
+        bitBoards[piece | color] &= ~Long.rotateLeft(1L, square-1);
+        bitBoards[color] &= ~Long.rotateLeft(1L, square-1);
     }
 
     @Override

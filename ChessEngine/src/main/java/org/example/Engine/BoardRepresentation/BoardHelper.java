@@ -72,8 +72,6 @@ public interface BoardHelper {
         };
     }
 
-
-    // ADDED
     static void FENToBoard(Board board, String fen) {
         String[] fenSplit = fen.split(" ", 2);
 
