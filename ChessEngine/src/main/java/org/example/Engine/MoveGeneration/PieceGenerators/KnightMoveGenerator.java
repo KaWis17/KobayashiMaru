@@ -26,13 +26,27 @@ public class KnightMoveGenerator extends Generator {
         this.allOpponentColor = allOpponentColor;
         this.allEmpty = allEmpty;
 
-        jump(sameColorKnights);
+        jump(sameColorKnights, false);
+
+        return possibleMoves;
+    }
+
+    @Override
+    public ArrayList<Move> generateCaptureMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty) {
+        possibleMoves = new ArrayList<>(64);
+
+        sameColorKnights = board.getSpecificBitBoard((byte) (myColor | KNIGHT));
+        this.allMyColor = allMyColor;
+        this.allOpponentColor = allOpponentColor;
+        this.allEmpty = allEmpty;
+
+        jump(sameColorKnights, true);
 
         return possibleMoves;
     }
 
     // generate 64 masks for every field
-    private void jump(long knights) {
+    private void jump(long knights, boolean onlyCaptures) {
 
         long next = knights & -knights;
 
@@ -44,7 +58,9 @@ public class KnightMoveGenerator extends Generator {
 
             long captureMask = maskToAdd & allOpponentColor;
 
-            addMovesFromMaskWithStartIndex(quietMask, QUIET_MOVE, index);
+            if(!onlyCaptures)
+                addMovesFromMaskWithStartIndex(quietMask, QUIET_MOVE, index);
+
             addMovesFromMaskWithStartIndex(captureMask, CAPTURES, index);
 
             knights &= ~(next);

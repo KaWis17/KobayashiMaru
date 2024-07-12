@@ -29,6 +29,12 @@ public class MoveGenerator implements BoardHelper {
         return deleteMovesThatPutKingInCheck(moves);
     }
 
+    public ArrayList<Move> generateAllLegalCaptureMoves() {
+        ArrayList<Move> moves = generateAllPseudoLegalCaptureMoves();
+
+        return deleteMovesThatPutKingInCheck(moves);
+    }
+
     public ArrayList<Move> generateAllPseudoLegalMoves() {
         ArrayList<Move> moves = new ArrayList<>(40);
 
@@ -46,12 +52,29 @@ public class MoveGenerator implements BoardHelper {
         return moves;
     }
 
+    public ArrayList<Move> generateAllPseudoLegalCaptureMoves() {
+        ArrayList<Move> moves = new ArrayList<>(20);
+
+        boolean whiteToMove = board.isWhiteToPlay();
+        byte color = whiteToMove ? WHITE : BLACK;
+        long myPieces = whiteToMove ? board.getSpecificBitBoard(WHITE) : board.getSpecificBitBoard(BLACK);
+        long opponentPieces = whiteToMove ? board.getSpecificBitBoard(BLACK) : board.getSpecificBitBoard(WHITE);
+        long emptySquares = ~(myPieces | opponentPieces);
+
+        moves.addAll(kingMoveGenerator.generateCaptureMoves(color, myPieces, opponentPieces, emptySquares));
+        moves.addAll(pawnMoveGenerator.generateCaptureMoves(color, myPieces, opponentPieces, emptySquares));
+        moves.addAll(knightMoveGenerator.generateCaptureMoves(color, myPieces, opponentPieces, emptySquares));
+        moves.addAll(slidingMoveGenerator.generateCaptureMoves(color, myPieces, opponentPieces, emptySquares));
+
+        return moves;
+    }
+
     private ArrayList<Move> deleteMovesThatPutKingInCheck(ArrayList<Move> moves) {
        ArrayList<Move> legalMoves = new ArrayList<>(40);
 
         for(Move move : moves) {
             board.makeMove(move);
-            if(board.isOpponentColorNotInCheck())
+            if(!board.isOpponentColorInCheck())
                 legalMoves.add(move);
             board.unmakeMove();
         }

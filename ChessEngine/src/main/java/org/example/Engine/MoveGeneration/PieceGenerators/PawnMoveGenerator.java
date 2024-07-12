@@ -35,6 +35,24 @@ public class PawnMoveGenerator extends Generator {
     }
 
     @Override
+    public ArrayList<Move> generateCaptureMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty) {
+        possibleMoves = new ArrayList<>(64);
+
+        sameColorPawns = board.getSpecificBitBoard((byte) (myColor|PAWN));
+        this.allMyColor = allMyColor;
+        this.allOpponentColor = allOpponentColor;
+        this.allEmpty = allEmpty;
+
+        moveCaptureLeftSide(myColor);
+        moveCaptureRightSide(myColor);
+
+        enPassantLeft(myColor);
+        enPassantRight(myColor);
+
+        return possibleMoves;
+    }
+
+    @Override
     public long getKingAsFigureDangerMask(byte myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty) {
         this.allMyColor = allMyColor;
         this.allOpponentColor = allOpponentColor;

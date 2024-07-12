@@ -1,8 +1,10 @@
-package org.example.Engine.Search;
+package org.example.Engine.Search.MiddleSearcher;
 
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.MoveGenerator;
+import org.example.Engine.Search.Search;
+import org.example.Engine.Search.Searcher;
 import org.example.Engine.StateEvaluation.Evaluator;
 import org.example.UciSender;
 

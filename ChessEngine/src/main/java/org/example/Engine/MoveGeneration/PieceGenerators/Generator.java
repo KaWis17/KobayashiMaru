@@ -17,7 +17,9 @@ public abstract class Generator implements BoardHelper, BitBoardHelper, MoveCons
 
     ArrayList<Move> possibleMoves = new ArrayList<>(64);
     public abstract ArrayList<Move> generateMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty);
+    public abstract ArrayList<Move> generateCaptureMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty);
     public abstract long getKingAsFigureDangerMask(byte myColor, long myKing, long allMyColor, long allOpponentColor, long allEmpty);
+
     Generator(Board board) {
         this.board = board;
     }

@@ -18,10 +18,22 @@ public class KingMoveGenerator extends Generator {
     public ArrayList<Move> generateMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty) {
         possibleMoves = new ArrayList<>(12);
 
-        addAllPseudoLegalMoves(myColor, allOpponentColor, allEmpty);
+        addNotCastlingMoves(myColor, allOpponentColor, allEmpty);
         addCastlingMoves(myColor);
-        deletePseudoLegalCastling(myColor);
-        deletePseudoLegalMovesThatPutKingInCheck();
+
+        return possibleMoves;
+    }
+
+    @Override
+    public ArrayList<Move> generateCaptureMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty) {
+        possibleMoves = new ArrayList<>(12);
+
+        long king = board.getSpecificBitBoard((byte) (myColor|KING));
+        byte index = (byte) (64 - Long.numberOfLeadingZeros(king));
+
+        long maskToAdd = preComputedMasks[index-1] & allOpponentColor;
+
+        addMovesFromMaskWithStartIndex(maskToAdd, CAPTURES, index);
 
         return possibleMoves;
     }
@@ -39,7 +51,7 @@ public class KingMoveGenerator extends Generator {
         return (kingAsKingMoves & board.getSpecificBitBoard((byte) (opponentColor | KING)));
     }
 
-    private void addAllPseudoLegalMoves(byte myColor, long allOpponentColor, long allEmpty) {
+    private void addNotCastlingMoves(byte myColor, long allOpponentColor, long allEmpty) {
         long king = board.getSpecificBitBoard((byte) (myColor|KING));
 
         byte index = (byte) (64 - Long.numberOfLeadingZeros(king));
@@ -53,43 +65,47 @@ public class KingMoveGenerator extends Generator {
         addMovesFromMaskWithStartIndex(captureMask, CAPTURES, index);
     }
 
-    private void deletePseudoLegalMovesThatPutKingInCheck() {
-        ArrayList<Move> legalMoves = new ArrayList<>(12);
+    private void addCastlingMoves(byte myColor) {
+        ArrayList<Move> castlingMoves;
 
-        for(Move move : possibleMoves) {
-            board.makeMove(move);
+        if(myColor == WHITE)
+            castlingMoves = getCastlingMovesForWhite();
+        else
+            castlingMoves = getCastlingMovesForBlack();
 
-            if(board.isOpponentColorNotInCheck())
-                legalMoves.add(move);
+        castlingMoves = deletePseudoLegalCastling(myColor, castlingMoves);
 
-            board.unmakeMove();
-        }
-
-        possibleMoves = legalMoves;
+        possibleMoves.addAll(castlingMoves);
     }
 
-    private void addCastlingMoves(byte myColor) {
-        if(myColor == WHITE) {
-            if(board.currentBoardState.canWhiteCastleKingside) {
-                if (board.getPieceOnSquare((byte) 2) == 0 && board.getPieceOnSquare((byte) 3) == 0)
-                    possibleMoves.add(new Move((byte) 4, (byte) 2, KING_CASTLE));
-            }
-            if(board.currentBoardState.canWhiteCastleQueenside) {
-                if (board.getPieceOnSquare((byte) 5) == 0 && board.getPieceOnSquare((byte) 6) == 0 && board.getPieceOnSquare((byte) 7) == 0)
-                    possibleMoves.add(new Move((byte) 4, (byte) 6, QUEEN_CASTLE));
-            }
+    private ArrayList<Move> getCastlingMovesForWhite() {
+        ArrayList<Move> castlingMoves = new ArrayList<>(2);
+
+        if(board.currentBoardState.canWhiteCastleKingside) {
+            if (board.getPieceOnSquare((byte) 2) == 0 && board.getPieceOnSquare((byte) 3) == 0)
+                castlingMoves.add(new Move((byte) 4, (byte) 2, KING_CASTLE));
+        }
+        if(board.currentBoardState.canWhiteCastleQueenside) {
+            if (board.getPieceOnSquare((byte) 5) == 0 && board.getPieceOnSquare((byte) 6) == 0 && board.getPieceOnSquare((byte) 7) == 0)
+                castlingMoves.add(new Move((byte) 4, (byte) 6, QUEEN_CASTLE));
         }
 
-        else {
-            if(board.currentBoardState.canBlackCastleKingside) {
-                if (board.getPieceOnSquare((byte) 58) == 0 && board.getPieceOnSquare((byte) 59) == 0)
-                    possibleMoves.add(new Move((byte) 60, (byte) 58, KING_CASTLE));
-            }
-            if(board.currentBoardState.canBlackCastleQueenside) {
-                if (board.getPieceOnSquare((byte) 61) == 0 && board.getPieceOnSquare((byte) 62) == 0 && board.getPieceOnSquare((byte) 63) == 0)
-                    possibleMoves.add(new Move((byte) 60, (byte) 62, QUEEN_CASTLE));
-            }
+        return castlingMoves;
+    }
+
+    private ArrayList<Move> getCastlingMovesForBlack() {
+        ArrayList<Move> castlingMoves = new ArrayList<>(2);
+
+        if(board.currentBoardState.canBlackCastleKingside) {
+            if (board.getPieceOnSquare((byte) 58) == 0 && board.getPieceOnSquare((byte) 59) == 0)
+                castlingMoves.add(new Move((byte) 60, (byte) 58, KING_CASTLE));
         }
+        if(board.currentBoardState.canBlackCastleQueenside) {
+            if (board.getPieceOnSquare((byte) 61) == 0 && board.getPieceOnSquare((byte) 62) == 0 && board.getPieceOnSquare((byte) 63) == 0)
+                castlingMoves.add(new Move((byte) 60, (byte) 62, QUEEN_CASTLE));
+        }
+
+        return castlingMoves;
     }
 
     private void initiatePrecomputedMasks() {
@@ -118,16 +134,10 @@ public class KingMoveGenerator extends Generator {
         }
     }
 
-    private void deletePseudoLegalCastling(byte myColor) {
-        ArrayList<Move> legalMoves = new ArrayList<>(12);
+    private ArrayList<Move> deletePseudoLegalCastling(byte myColor, ArrayList<Move> possibleMoves) {
+        ArrayList<Move> legalMoves = new ArrayList<>(2);
 
         for(Move move: possibleMoves) {
-
-            if(move.type != KING_CASTLE && move.type != QUEEN_CASTLE) {
-                legalMoves.add(move);
-            }
-
-            else {
                 if(myColor == WHITE) {
                     if(move.type == KING_CASTLE) {
                         int checks = 0;
@@ -192,8 +202,8 @@ public class KingMoveGenerator extends Generator {
 
                     }
                 }
-            }
+
         }
-        possibleMoves = legalMoves;
+        return legalMoves;
     }
 }

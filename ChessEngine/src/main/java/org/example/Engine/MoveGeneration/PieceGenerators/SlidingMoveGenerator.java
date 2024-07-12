@@ -21,14 +21,35 @@ public class SlidingMoveGenerator extends Generator {
         this.allEmpty = allEmpty;
 
         long rooks = board.getSpecificBitBoard((byte) (myColor | ROOK));
-        generateMovesForVerticalAndHorizontal(rooks);
+        generateMovesForVerticalAndHorizontal(rooks, false);
 
         long bishops = board.getSpecificBitBoard((byte) (myColor | BISHOP));
-        generateMovesForDiagonals(bishops);
+        generateMovesForDiagonals(bishops, false);
 
         long queens = board.getSpecificBitBoard((byte) (myColor | QUEEN));
-        generateMovesForVerticalAndHorizontal(queens);
-        generateMovesForDiagonals(queens);
+        generateMovesForVerticalAndHorizontal(queens, false);
+        generateMovesForDiagonals(queens, false);
+
+        return possibleMoves;
+    }
+
+    @Override
+    public ArrayList<Move> generateCaptureMoves(byte myColor, long allMyColor, long allOpponentColor, long allEmpty) {
+        possibleMoves = new ArrayList<>(64);
+
+        this.allMyColor = allMyColor;
+        this.allOpponentColor = allOpponentColor;
+        this.allEmpty = allEmpty;
+
+        long rooks = board.getSpecificBitBoard((byte) (myColor | ROOK));
+        generateMovesForVerticalAndHorizontal(rooks, true);
+
+        long bishops = board.getSpecificBitBoard((byte) (myColor | BISHOP));
+        generateMovesForDiagonals(bishops, true);
+
+        long queens = board.getSpecificBitBoard((byte) (myColor | QUEEN));
+        generateMovesForVerticalAndHorizontal(queens, true);
+        generateMovesForDiagonals(queens, true);
 
         return possibleMoves;
     }
@@ -42,13 +63,13 @@ public class SlidingMoveGenerator extends Generator {
 
         byte opponentColor = myColor == WHITE ? BLACK : WHITE;
 
-        long verticalAndHorizontalDangerMask = generateMovesForVerticalAndHorizontal(myColor, myKing);
+        long verticalAndHorizontalDangerMask = generateMovesForVerticalAndHorizontalForDangerMask(myKing);
         long verticalAndHorizontalDangerQueenMask = verticalAndHorizontalDangerMask & board.getSpecificBitBoard((byte) (opponentColor | QUEEN));
         long verticalAndHorizontalDangerRookMask = verticalAndHorizontalDangerMask & board.getSpecificBitBoard((byte) (opponentColor | ROOK));
 
         verticalAndHorizontalDangerMask = verticalAndHorizontalDangerQueenMask | verticalAndHorizontalDangerRookMask;
 
-        long diagonalDangerMask = getMoveMaskForKing(myKing);
+        long diagonalDangerMask = generateMovesForVerticalForDangerMask(myKing);
         long diagonalDangerQueenMask = diagonalDangerMask & board.getSpecificBitBoard((byte) (opponentColor | QUEEN));
         long diagonalDangerBishopMask = diagonalDangerMask & board.getSpecificBitBoard((byte) (opponentColor | BISHOP));
 
@@ -57,7 +78,7 @@ public class SlidingMoveGenerator extends Generator {
         return verticalAndHorizontalDangerMask | diagonalDangerMask;
     }
 
-    private void generateMovesForVerticalAndHorizontal(long figures) {
+    private void generateMovesForVerticalAndHorizontal(long figures, boolean onlyCaptures) {
 
         long next = figures & -figures;
         while (next != 0) {
@@ -69,14 +90,16 @@ public class SlidingMoveGenerator extends Generator {
             long mask = verticalMask | horizontalMask;
 
             addMovesFromMaskWithStartIndex(mask & allOpponentColor, CAPTURES, index);
-            addMovesFromMaskWithStartIndex(mask & allEmpty, QUIET_MOVE, index);
+
+            if(!onlyCaptures)
+                addMovesFromMaskWithStartIndex(mask & allEmpty, QUIET_MOVE, index);
 
             figures &=~ (next);
             next = figures & -figures;
         }
     }
 
-    private long generateMovesForVerticalAndHorizontal(byte myColor, long myKing) {
+    private long generateMovesForVerticalAndHorizontalForDangerMask(long myKing) {
         byte index = (byte) (64 - Long.numberOfLeadingZeros(myKing));
         byte arrayIndex = (byte) (index-1);
 
@@ -85,7 +108,7 @@ public class SlidingMoveGenerator extends Generator {
         return verticalMask | horizontalMask;
     }
 
-    public void generateMovesForDiagonals(long figures) {
+    public void generateMovesForDiagonals(long figures, boolean onlyCaptures) {
         long next = figures & -figures;
         while (next != 0) {
             byte index = (byte) (64 - Long.numberOfLeadingZeros(next));
@@ -97,14 +120,16 @@ public class SlidingMoveGenerator extends Generator {
             long mask = majorsMask | minorsMask;
 
             addMovesFromMaskWithStartIndex(mask & allOpponentColor, CAPTURES, index);
-            addMovesFromMaskWithStartIndex(mask & allEmpty, QUIET_MOVE, index);
+
+            if(!onlyCaptures)
+                addMovesFromMaskWithStartIndex(mask & allEmpty, QUIET_MOVE, index);
 
             figures &=~ (next);
             next = figures & -figures;
         }
     }
 
-    private long getMoveMaskForKing(long myKing) {
+    private long generateMovesForVerticalForDangerMask(long myKing) {
         byte index = (byte) (64 - Long.numberOfLeadingZeros(myKing));
         byte arrayIndex = (byte) (index-1);
 

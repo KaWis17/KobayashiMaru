@@ -4,6 +4,7 @@ import org.example.Engine.Args.Config;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.MoveGenerator;
+import org.example.Engine.Search.MiddleSearcher.MiddleSearcher;
 import org.example.Engine.StateEvaluation.Evaluator;
 import org.example.UciSender;
 
