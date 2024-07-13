@@ -846,7 +846,7 @@ Kierunek: & {\bfseries \@kierunek}\\
 %\specjalnosc{Inżynieria systemów informatycznych (INS)} % INFO: nazwa specjalności
 \promotor{dr Maciej Gębala, prof. uczelni} % INFO: dane promotora
 \kvpl{szachy, bot, teoria gier} % INFO: słowa kluczowe po polsku
-%\kven{one, two, three} % INFO: słowa kluczowe po angielsku
+\kven{chess, bot, game theory} % INFO: słowa kluczowe po angielsku
 \date{WROCŁAW, 2025} % INFO: miejscowość, rok złożenia pracy dyplomowej
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -882,7 +882,7 @@ Kierunek: & {\bfseries \@kierunek}\\
 % Kolejne części dokumentu: streszczenie, spisy, skróty, rozdziały, dodatki
 %\chapterstyle{noNumbered}
 % STRESZCZENIE (proszę zajrzeć do środka na zakomentowane komendy)
-\include{streszczenie}
+\include{streszczenie/streszczenie}
 \pagestyle{outer}
 \clearpage
 % SPIS TREŚCI (zostanie wygenerowany automatycznie)
@@ -913,12 +913,13 @@ Kierunek: & {\bfseries \@kierunek}\\
 \include{skroty}
 % ROZDZIAŁY (kolejne rozdziały dołączane są z kolejnych plików)
 \chapterstyle{default}
-\include{rozdzial01}
-\include{rozdzial02}
-\include{rozdzial03}
-\include{rozdzial04}
-\include{rozdzial05}
-\include{rozdzial06}
+
+\include{rozdzialy/wstep/_wstep}
+\include{rozdzialy/rozdzial01/rozdzial01}
+\include{rozdzialy/rozdzial02/rozdzial02}
+\include{rozdzialy/rozdzial03/rozdzial03}
+\include{rozdzialy/zakonczenie/zakonczenie}
+
 % LITERATURA (zostanie wygenerowana automatycznie)
 %UWAGA: bibliotekę referencji należy przygotować samemu. Dobrym do tego narzędziem jest JabRef.
 %       JabRef oferuje jednak większą liczbę typów rekordów niż obsługuje BibTeX.
@@ -936,8 +937,8 @@ Kierunek: & {\bfseries \@kierunek}\\
 %       (linia poniżej załaduje rekordy z pliku "dokumentacja.bib")
 \bibliography{dokumentacja}
 \appendix
-\include{dodatekA}
-\include{dodatekB}
+%\include{dodatekA}
+%\include{dodatekB}
 
 % Jeśli w pracy pojawiać się ma indeks, należy odkomentować poniższe linie
 %%\chapterstyle{noNumbered}
