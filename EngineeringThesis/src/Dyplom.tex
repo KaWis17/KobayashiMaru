@@ -60,11 +60,11 @@
 %% Ustawienia odpowiedzialne za sposób łamania dokumentu
 %% i ułożenie elementów pływających
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\hyphenpenalty=10000		% nie dziel wyrazów zbyt często
+\hyphenpenalty=10000		% nie dziel wyrazów zbyt często
 \clubpenalty=10000      % kara za sierotki
 \widowpenalty=10000     % nie pozostawiaj wdów
-%\brokenpenalty=10000		% nie dziel wyrazów między stronami - trzeba było wyłączyć, bo nie łamały się linie w lstlisting
-%\exhyphenpenalty=999999		% nie dziel słów z myślnikiem - trzeba było wyłączyć, bo nie łamały się linie w lstlisting
+\brokenpenalty=10000		% nie dziel wyrazów między stronami - trzeba było wyłączyć, bo nie łamały się linie w lstlisting
+\exhyphenpenalty=999999		% nie dziel słów z myślnikiem - trzeba było wyłączyć, bo nie łamały się linie w lstlisting
 \righthyphenmin=3			  % dziel minimum 3 litery
 
 %\tolerance=4500
@@ -915,7 +915,7 @@ Kierunek: & {\bfseries \@kierunek}\\
 \chapterstyle{default}
 
 \include{rozdzialy/wstep/_wstep}
-\include{rozdzialy/rozdzial01/rozdzial01}
+\include{rozdzialy/rozdzial01/_implementacja-silnika-szachowego}
 \include{rozdzialy/rozdzial02/rozdzial02}
 \include{rozdzialy/rozdzial03/rozdzial03}
 \include{rozdzialy/zakonczenie/zakonczenie}
