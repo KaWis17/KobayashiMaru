@@ -4,9 +4,11 @@
 %  Data: 28 grudnia 2022
 %  Wersja: 0.8
 %  Wymagania: kompilator pdflatex
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[a4paper,onecolumn,oneside,12pt,extrafontsizes]{memoir}
+
+\usepackage[giveninits=true]{biblatex}
+\addbibresource{dokumentacja.bib}
 %  W celu przygotowania wydruku do archiwum można:
 %  a) przygotować pdf, w którym dwie strony zostaną wstawione na jedną fizyczną stronę i taki dokument wydrukować dwustronnie (podejście zalecane)
 %
@@ -874,12 +876,6 @@ Kierunek: & {\bfseries \@kierunek}\\
 %\settypeoutlayoutunit{cm} % do debugowania
 %\typeoutstandardlayout    % wypisuje na stdout informacje o ustawieniach
 
-%TEMP FOR PREVIEW TO DELETE!!!
-\centerline{
-\lstset{basicstyle=\ttfamily}\lstinline{TEMP FOR PREVIEW, TO DELETE LATER}
-}
-\clearpage
-
 %\frontmatter
 \pdfbookmark[0]{Tytuł}{Tytul.1}
 \maketitle
@@ -916,7 +912,7 @@ Kierunek: & {\bfseries \@kierunek}\\
 \lstlistoflistings*
 \clearpage
 % SKRÓTY (to opcjonalna część pracy)
-\include{skroty}
+\include{skroty/skroty}
 % ROZDZIAŁY (kolejne rozdziały dołączane są z kolejnych plików)
 \chapterstyle{default}
 
@@ -941,9 +937,9 @@ Kierunek: & {\bfseries \@kierunek}\\
 \addtocontents{toc}{\addvspace{2pt}} % ustawiamy odstęp w spisie treści przed pozycją Literatura
 %       Nazwę pliku przygotowanej biblioteki wpisuje się bez rozszerzenia .bib
 %       (linia poniżej załaduje rekordy z pliku "dokumentacja.bib")
-\bibliography{dokumentacja}
+\printbibliography
 \appendix
-%\include{dodatekA}
+\include{dodatki/dodatekA/dodatekA}
 %\include{dodatekB}
 
 % Jeśli w pracy pojawiać się ma indeks, należy odkomentować poniższe linie

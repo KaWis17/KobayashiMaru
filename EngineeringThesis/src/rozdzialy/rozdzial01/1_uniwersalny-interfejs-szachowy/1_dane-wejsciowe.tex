@@ -1,4 +1,4 @@
-\subsection{Dane wejściowe}
+\usepackage{biblatex}\subsection{Dane wejściowe}
 \label{subsec:dane-wejsciowe}
 
 \subsubsection{Notacja Forsytha-Edwardsa}
@@ -11,13 +11,23 @@ Przykład notacji dla pozycji startowej:
 
 \vspace{5mm}
 \centerline{
-    \lstset{basicstyle=\ttfamily}\lstinline{rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}
+    \ref{fig: figure} a) \lstset{basicstyle=\ttfamily}\lstinline{rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}
 }
+\centerline{
+    \ref{fig: figure} b) \lstset{basicstyle=\ttfamily}\lstinline{rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1}
+}
+\vspace{5mm}
 
-\begin{figure}[ht] \centering
-    \includegraphics[width=0.3\linewidth]{rozdzialy/rozdzial01/1_uniwersalny-interfejs-szachowy/rysunki/pozycja_startowa}
-    \caption{Szachowa pozycja startowa}
-    \label{fig:figure}
+\begin{figure}[htb]
+    \centering
+    \begin{tabular}{@{}ll@{}}
+        a) & b) \\
+        \includegraphics[width=0.475\textwidth]{rozdzialy/rozdzial01/1_uniwersalny-interfejs-szachowy/rysunki/pozycja_startowa}
+        &
+        \includegraphics[width=0.475\textwidth]{rozdzialy/rozdzial01/1_uniwersalny-interfejs-szachowy/rysunki/pozycja_startowa_e2e4}
+    \end{tabular}
+   \caption{Przykładowce pozycje szachowe: a) startowa, b) po ruchu e2e4}
+    \label{fig: figure}
 \end{figure}
 
 Całość informacji, zawartych w jednej linii znaków kodowanych ASCII, ma 6 pól oddzielonych spacjami.
@@ -38,4 +48,5 @@ Pola te informują, o różnych aspektach danej pozycji:
 \end{enumerate}
 
 \subsubsection{Szachowa notacja algebraiczna}
-asd
+Przykład odniesienia do bibliografii\cite{knuth1990, greenwade1993}.
+Udało się?
