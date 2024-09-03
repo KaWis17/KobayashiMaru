@@ -1,11 +1,9 @@
-\usepackage{biblatex}\subsection{Dane wejściowe}
-\label{subsec:dane-wejsciowe}
-
-\subsubsection{Notacja Forsytha-Edwardsa}
+\subsection{Notacja Forsytha-Edwardsa \colorbox{yellow}{Implemented}}
+\label{subsec:notacja-fen}
 
 Aby umożliwić komunikację z programem, należy w pierwszej kolejności sprecyzować, w jakim formacie dostarczone zostaną dane wejściowe reprezentujące konkretną pozycję szachową.
 Standardem, wykorzystywanym nie tylko w większości silników, ale także w pojedynkach rozgrywanych online, jest Notacja Forsytha-Edwardsa (ang.~\emph{Forsyth–Edwards~Notation}, w~skrócie FEN).
-Jest to format stworzony specjalnie na potrzeby komputerów.
+
 FEN pozwala na jednoznaczne określenie pozycji na szachownicy.
 Przykład notacji dla pozycji startowej:
 
@@ -22,11 +20,11 @@ Przykład notacji dla pozycji startowej:
     \centering
     \begin{tabular}{@{}ll@{}}
         a) & b) \\
-        \includegraphics[width=0.475\textwidth]{rozdzialy/rozdzial01/1_uniwersalny-interfejs-szachowy/rysunki/pozycja_startowa}
+        \includegraphics[width=0.475\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_startowa}
         &
-        \includegraphics[width=0.475\textwidth]{rozdzialy/rozdzial01/1_uniwersalny-interfejs-szachowy/rysunki/pozycja_startowa_e2e4}
+        \includegraphics[width=0.475\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_startowa_e2e4}
     \end{tabular}
-   \caption{Przykładowce pozycje szachowe: a) startowa, b) po ruchu e2e4}
+    \caption{Przykładowce pozycje szachowe: a) startowa, b) po ruchu e2e4}
     \label{fig: figure}
 \end{figure}
 
@@ -46,7 +44,3 @@ Pola te informują, o różnych aspektach danej pozycji:
     Istotna w regule 50 posunięć.
     \item Liczba pełnych ruchów.
 \end{enumerate}
-
-\subsubsection{Szachowa notacja algebraiczna}
-Przykład odniesienia do bibliografii\cite{knuth1990, greenwade1993}.
-Udało się?

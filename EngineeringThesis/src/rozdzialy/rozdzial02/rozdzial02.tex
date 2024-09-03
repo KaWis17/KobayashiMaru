@@ -1,72 +1,130 @@
-
-\chapter{Ulepszenia dla silnika szachowego}
+\usepackage{color}\chapter{Ulepszenia dla silnika szachowego}
 \label{ch:implementacja-silnika-szachowego}
-
 
 
 \section{Ulepszenia dla wyszukiwania}
 \label{sec:ulepszenia-dla-wyszukiwania}
 
-\subsection{Biblioteka otwarć}
+\subsection{Biblioteka otwarć \colorbox{red}{TODO}}
 \label{subsec:biblioteka-otwarc}
 
-Biblioteka otwarć
+{
+    \color{red}
+    \large Biblioteka otwarć jest parsowana z pliku na hashmape (FEN, możliwe ruchy).
+    Losowo wybierany ruch spośród możliwych.
+    Pozwala na randomizację posunięć szczególnie na początku.
 
-\subsection{Alfa-Beta cięcie}
+}
+
+\subsection{Alfa-Beta cięcie \colorbox{yellow}{Implemented}}
 \label{subsec:alfa-beta-ciecie}
 
-Alfa-Beta cięcie
+{
+    \color{red}
+    \large Zaimplementowane, pozostało wytłumaczyć o co cmon.
+Powołać się na Papadimitru
+}
 
-\subsection{Ewaluacja cichych stanów}
+
+\subsection{Ewaluacja cichych stanów \colorbox{red}{TODO}}
 \label{subsec:ewaluacja-cichych-stanow}
 
-Ewaluacja cichych stanów
+{
+    \color{red}
+    \large Po zakończeniu zwykłego min-max należy doprowadzić do stanu \("\)cichego\("\) to znaczy takiego, gdzie nie ma żadnych dostępnych bić ani roszad.
+Inaczej może to zaburzyć poprawną interpretację pozycji przez heurystykę.
+}
 
-\subsection{Sortowanie ruchów}
+
+\subsection{Sortowanie ruchów \colorbox{red}{TODO}}
 \label{subsec:sortowanie-ruchow}
 
-Sortowanie ruchów
+{
+    \color{red}
+    \large Sortujemy ruchy zaczynając od roszad i bić w celu rozważenia ich na początku.
+    Umożliwi to szybsze działanie alfa-beta cięcia i przez to rozważanie mniejszego drzewa decyzyjnego.
+}
 
-\subsection{Tabela transpozycji}
+\subsection{Tabela transpozycji \colorbox{red}{TODO}}
 \label{subsec:tabela-transpozycji}
 
-Tabela transpozycji
+{
+    \color{red}
+    \large Pozycje już policzone sa haszowane Zobrist hashing oraz zapisywane.
+    Gdy ponownie (na danym poziomie!?!) natrafimy na ten sam hash, to zwracamy wartość, nie przeszukując niżej drzewa.
+    (Czy można tego użyć przy move ordering także?!?)
+}
 
-\subsection{Okno estymacji}
+
+\subsection{Okno estymacji \colorbox{red}{TODO}}
 \label{subsec:okno-estymacji}
 
-Okno estymacji
+{
+    \color{red}
+    \large Z tego co rozumiem, zakłada to, że znajdziemy minimum ruch o danej jakości i przez to odcinamy alfa-beta szybciej.
+Jest jednak ryzyko, że takiego nie znajdziemy i będziemy musieli szukać od zera w większym oknie
+}
 
-\subsection{Rozszerzanie wyszukiwania}
+
+\subsection{Rozszerzanie wyszukiwania \colorbox{red}{TODO}}
 \label{subsec:rozszerzanie-wyszukiwania}
 
-Rozszerzanie wyszukiwania
+{
+    \color{red}
+    \large Wydłużenie o maksymalnie dwa przeszukiwania na danej głębokości o ile jest to ruch szczególny.
+}
 
 
 \section{Ulepszenia dla oceny heurystycznej}
 \label{sec:ulepszenia-dla-oceny-heurystycznej}
 
-\subsection{Tablice figur}
+{
+    \color{red}
+    \large Gdzieś widziałem, że do elo 1500 o wiele istotniejsze są ulepszenia co do heurystyki niż wyszukiwania.
+Trzeba znaleźć linka do źródła
+}
+
+
+\subsection{Tablice figur \colorbox{yellow}{Implemented}}
 \label{subsec:tablice-figur}
 
-Tablice figur
+{
+    \color{red}
+    \large Tablice dla każdej ze stron i każdej z figur w celu przypisania punktacji.
+}
 
-\subsection{Ochrona króla}
+\subsection{Ochrona króla \colorbox{red}{TODO}}
 \label{subsec:ochrona-krola}
 
-Ochrona króla
+{
+    \color{red}
+    \large Sprawdzanie, czy król jest chroniony, na przykład przez piony
+}
 
-\subsection{Struktura pionów}
+\subsection{Struktura pionów \colorbox{red}{TODO}}
 \label{subsec:struktura-pionow}
 
-Struktura pionów
+{
+    \color{red}
+    \large Czy piony są w rządku, czy chronią siebie wzajemnie.
+Najłatwiej to chyba przez bit-boardy sprawdzać
+}
 
-\subsection{Moment gry}
+
+\subsection{Moment gry \colorbox{red}{TODO}}
 \label{subsec:moment-gry}
 
-Moment gry
+{
+    \color{red}
+    \large Początek - środek - koniec.
+    Różne wartości, szczególnie dla króla w zależności od momentu gry.
+}
 
-\subsection{Mobilność}
+
+\subsection{Mobilność \colorbox{red}{TODO}}
 \label{subsec:mobilnosc}
 
-Mobilność
+{
+    \color{red}
+    \large Możliwość ruchów konkretnych figur, szczególnie gońców i skoczków.
+}
