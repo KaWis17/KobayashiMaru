@@ -1,2 +1,18 @@
-\subsection{Szachowa Notacja Algebraiczna \colorbox{yellow}{Implemented}}
+\subsection{Szachowa Notacja Algebraiczna \colorbox{green}{Written}}
 \label{subsec:notacja-algebraiczna}
+
+Kluczowym aspektem, z perspektywy komunikacji z systemem, jest także określenie formatu zapisu ruchów.
+W aplikacji wykorzystano Szachową Notację Algebraiczną.
+
+Notacja ta, w swojej krótkiej formie, jest powszechnie stosowana w literaturze oraz podczas oficjalnych zawodów.
+Stanowi jedyną formę zapisu posunięć uznawaną przez Międzynarodową Federację Szachową.
+Jej zapis zawiera informacje o rodzaju ruszanej bierki oraz o jej polu docelowym.
+Zapis ten z punktu widzenia komputerów zawiera jednak wadę.
+W sytuacji, w której dwie bierki tego samego rodzaju mogą poruszyć się na jedno pole, występuje dwuznaczność zapisu.
+Choć w takiej sytuacji dodaje się do ruchu kolumnę bądź wiersz startowy różniący obie bierki, jest to rozwiązanie wymagające implementacji dodatkowej logiki oraz wiedzy o stanie całej planszy.
+
+Znacznie bardziej intuicyjne dla komputerów jest zastosowanie długiej wersji szachowej notacji algebraicznej.
+Zawarte są w niej informacje o polu startowym oraz polu docelowym ruchu, usuwając tym samym ryzyko dwuznaczności.
+
+Roszady oznaczano przez pola ruchu króla, natomiast do ruchów z promocją dopisano literę określającą rodzaj podmienionej figury.
+

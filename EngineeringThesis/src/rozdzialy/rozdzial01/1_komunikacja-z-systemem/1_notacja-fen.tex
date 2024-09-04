@@ -1,11 +1,48 @@
-\subsection{Notacja Forsytha-Edwardsa \colorbox{yellow}{Implemented}}
+\subsection{Notacja Forsytha-Edwardsa \colorbox{green}{Written}}
 \label{subsec:notacja-fen}
 
-Aby umożliwić komunikację z programem, należy w pierwszej kolejności sprecyzować, w jakim formacie dostarczone zostaną dane wejściowe reprezentujące konkretną pozycję szachową.
-Standardem, wykorzystywanym nie tylko w większości silników, ale także w pojedynkach rozgrywanych online, jest Notacja Forsytha-Edwardsa (ang.~\emph{Forsyth–Edwards~Notation}, w~skrócie FEN).
 
-FEN pozwala na jednoznaczne określenie pozycji na szachownicy.
-Przykład notacji dla pozycji startowej:
+W 1950 roku amerykański matematyk Claude Shanon na łamach \("\)Philosophical Magazine\("\) opublikował pracę naukową zatytułowaną \("\)Programowanie komputera do gry w szachy\("\). \cite*{Shannon1950XXIIPA}
+Stała się ona teoretyczną podstawą dla dalszego rozwoju silników szachowych.
+Zawarte w niej zostało między innymi oszacowanie, co do ilości możliwych pozycji szachowych, wynoszące~$10^{43}$.
+Oznacza to, że liczba legalnych ułożeń planszy przewyższa o rzędy wielkości liczbę gwiazd w widzialnym wszechświecie.
+
+
+Aby umożliwić użytkownikowi wprowadzenie danych oraz komunikację z programem, należało w pierwszej kolejności sprecyzować format, w jakim zostaną dostarczone informacje dotyczące aktualnej pozycji.
+Standardem, wykorzystywanym nie tylko w większości silników, ale także w pojedynkach rozgrywanych online, jest Notacja Forsytha-Edwardsa (ang.~\emph{Forsyth–Edwards~Notation}, w~skrócie FEN).
+Stworzona pierwotnie przez dziennikarza Davida Forsytha, a następnie dostosowana do potrzeb komputerów przez Stevena Edwardsa.
+
+Notacja FEN jest linią znaków ASCII, która pozwala na jednoznaczne określenie aktualnego stanu gry.
+Wielkimi literami kodowane są bierki białe, małymi natomiast bierki czarne.
+Każda z nich określona jest skrótem pochodzącym od ich angielskich nazw:
+\begin{multicols}{3}
+    \begin{itemize}
+        \item P/p — pion
+        \item N/n — skoczek
+        \item B/b — goniec
+        \item R/r — wieża
+        \item Q/q — hetman
+        \item K/k — król
+    \end{itemize}
+\end{multicols}
+
+Sześć następujących po sobie pól, oddzielonych spacjami, określa następujące aspekty gry:
+\begin{enumerate}
+    \item Reprezentacja 64 pól szachownicy z perspektywy białego gracza.
+    Każdy z wierszy planszy oddzielony jest \("\)/\("\), a jego zawartość opisywana zostaje od kolumny a, do kolumny h.
+    Liczbę nieprzerwanie pustych pól w danym wierszu określa cyfra z zakresu od 1 do 8.
+    \item Sprecyzowanie, do którego gracza należy następny ruch (w — biały, b — czarny).
+    \item Przedstawienie możliwości roszady obu stron (K/k — krótka roszada, Q/q — długa roszada).
+    \item Sprecyzowanie pola będącego celem bicia w przelocie, szerzej znanego jako ruch en~passant.
+    Brak możliwości bicia określany jest jako\("\)-\("\)
+    \item Liczba posunięć od ostatniego bicia bądź ruchu pionem.
+    Wartość ta jest istotna z punktu widzenia reguły 50 posunięć.
+    \item Liczba pełnych ruchów, która zostaje każdorazowo zwiększana po ruchu czarnych bierek.
+\end{enumerate}
+
+Pełna specyfikacja FEN dostępna jest w dokumentacji \("\)Portable Game Notation\("\). \cite*{PGNdoc}
+
+Poniżej przedstawiono przykładowe FEN, wraz z korespondującymi im ułożeniami szachownicy:
 
 \vspace{5mm}
 \centerline{
@@ -24,23 +61,7 @@ Przykład notacji dla pozycji startowej:
         &
         \includegraphics[width=0.475\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_startowa_e2e4}
     \end{tabular}
-    \caption{Przykładowce pozycje szachowe: a) startowa, b) po ruchu e2e4}
+    \caption{Przykładowe pozycje szachowe: a) startowa, b) po ruchu e2e4}
     \label{fig: figure}
 \end{figure}
 
-Całość informacji, zawartych w jednej linii znaków kodowanych ASCII, ma 6 pól oddzielonych spacjami.
-Pola te informują, o różnych aspektach danej pozycji:
-
-\begin{enumerate}
-    \item Reprezentacja 64 pól szachownicy.
-    Każdy z wierszy szachownicy oddzielony jest ,,/''.
-    Odpowiednio dla białych i czarnych figur.
-    \item Czyj jest ruch (w — białe, b — czarne)
-    \item Możliwości roszady (K/k — krótka roszada, Q/q — długa roszada)
-    \item Możliwości bicia w przelocie, znanego szerzej jako ruch en passant.
-    Sprecyzowane pole jest polem atakowanym.
-    W przypadku braku możliwości bicia w przelocie w polu widnieje ,,-''.
-    \item Liczba posunięć od ostatniego bicia bądź ruchu pionem.
-    Istotna w regule 50 posunięć.
-    \item Liczba pełnych ruchów.
-\end{enumerate}
