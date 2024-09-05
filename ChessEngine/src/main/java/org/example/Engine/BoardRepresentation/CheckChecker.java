@@ -1,9 +1,6 @@
 package org.example.Engine.BoardRepresentation;
 
-import org.example.Engine.MoveGeneration.PieceGenerators.Generator;
-import org.example.Engine.MoveGeneration.PieceGenerators.KnightMoveGenerator;
-import org.example.Engine.MoveGeneration.PieceGenerators.PawnMoveGenerator;
-import org.example.Engine.MoveGeneration.PieceGenerators.SlidingMoveGenerator;
+import org.example.Engine.MoveGeneration.PieceGenerators.*;
 
 public class CheckChecker implements BoardHelper{
 
@@ -15,7 +12,7 @@ public class CheckChecker implements BoardHelper{
 
     public CheckChecker(Board board) {
         this.board = board;
-        kingMoveGenerator = new KnightMoveGenerator(board);
+        kingMoveGenerator = new KingMoveGenerator(board);
         knightMoveGenerator = new KnightMoveGenerator(board);
         pawnMoveGenerator = new PawnMoveGenerator(board);
         slidingMoveGenerator = new SlidingMoveGenerator(board);
