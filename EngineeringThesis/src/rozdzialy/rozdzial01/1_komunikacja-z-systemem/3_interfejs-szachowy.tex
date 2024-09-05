@@ -1,39 +1,12 @@
-\subsection{Uniwersalny Interfejs Szachowy \colorbox{cyan}{In progress}}
+\subsection{Uniwersalny Interfejs Szachowy}
 \label{subsec:interfejs-szachowy}
 
-Uniwersalny Interfejs Szachowy (ang.~\emph{Universal Chess Interface}, w~skrócie UCI) jest ustandaryzowanym protokołem tekstowym, służącym do wymiany informacji pomiędzy różnymi programami szachowymi.
+Uniwersalny Interfejs Szachowy (ang.~\emph{Universal Chess Interface}, w~skrócie UCI) \cite*{UCIdoc} jest~ustandaryzowanym protokołem tekstowym, służącym do wymiany informacji pomiędzy różnymi programami szachowymi.
 Jego implementacja pozwoliła na komunikację silnika szachowego z wybranymi interfejsami graficznymi oraz środowiskami testowymi.
 
 UCI jest protokołem rozbudowanym, pozwalającym między innymi na rozgrywki innych wersji szachów niż europejskie, dla przykładu Chess960.
-W silniku zaimplementowano jedynie te z komend, które wystarczyły do rozegrania podstawowej partii mierzonej czasowo.
+W silniku zaimplementowano jedynie te z komend, które konieczne były do rozegrania podstawowej partii mierzonej czasowo.
 
-
-\begin{table}[htb] \small
-\centering
-\caption{UCI - komunikacja GUI do silnika}
-\label{tab:UCI_GUI_silnik}
-\begin{tabularx}{\linewidth}{|p{.25\linewidth}|X|}\hline
-    Komenda & Opis działania \\ \hline\hline
-
-    uci & Wytłumaczenie działania komendy \\ \hline
-    debug & Wytłumaczenie działania komendy \\ \hline
-    isready & Wytłumaczenie działania komendy \\ \hline
-\end{tabularx}
-\end{table}
-
-\begin{table}[htb] \small
-\centering
-\caption{UCI - komunikacja silnika do GUI}
-\label{tab:UCI_silnik_GUI}
-\begin{tabularx}{\linewidth}{|p{.25\linewidth}|X|}\hline
-Komenda & Opis działania \\ \hline\hline
-
-id & Wytłumaczenie działania komendy \\ \hline
-uciok & Wytłumaczenie działania komendy \\ \hline
-readyok & Wytłumaczenie działania komendy \\ \hline
-\end{tabularx}
-\end{table}
 
 Metodę połączenia z dowolnym programem obsługującym UCI przedstawiono w dodatku \ref{ch:instrukcja-wdrozenia}.
-
-Przykład wymiany informacji pomiędzy aplikacją a GUI zaprezentowano w dodatku \ref{ch:przyklad-uci}.
+Opisy komend oraz przykład wymiany informacji pomiędzy aplikacją a GUI zaprezentowano w~dodatku \ref{ch:przyklad-uci}.

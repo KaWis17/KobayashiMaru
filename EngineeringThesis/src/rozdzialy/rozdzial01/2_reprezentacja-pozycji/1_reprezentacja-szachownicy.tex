@@ -1,2 +1,70 @@
-\subsection{Reprezentacja szachownicy \colorbox{yellow}{Implemented}}
+\subsection{Reprezentacja szachownicy \colorbox{cyan}{In progress}}
 \label{subsec:reprezentacja-szachownicy}
+
+Istotnym aspektem, z punktu widzenia prędkości działania silnika, było zastosowanie odpowiedniego typu reprezentacji położenia bierek na 64-polowej planszy szachowej.
+Po~zapoznaniu się z proponowanymi w literaturze rozwiązaniami, w programie zdecydowano się zaimplementować dwie redundantne techniki.
+
+Obie charakteryzują się odmiennymi właściwościami, znajdując zastosowanie dla innych algorytmów wewnątrz programu.
+Różnią się one pod względem gęstości zawartych informacji, szybkości dostępu do danych oraz łatwości modyfikacji.
+Jedno z nich skupia się na każdym z~pól~szachownicy (ang.~\emph{Square Centric}), drugie natomiast bierze pod uwagę konkretne rodzaje bierek (ang.~\emph{Piece Centric}).
+
+\subsubsection{Tablica pól szachowych}
+
+Naturalnym podejściem do reprezentacji szachownicy wydaje się zastosowanie 64-elementowej tablicy, w której każde pole odpowiada konkretnemu miejscu na planszy.
+W tej implementacji poszczególne bierki zostały zakodowane liczbami od 1 do 6, natomiast cyfry 0 i 8 odpowiednio reprezentują biały oraz czarny kolor.
+W ten sposób, za pomocą pojedynczych bajtów, można jednoznacznie określić zarówno typ figury, jak i jej kolor na danym polu.
+
+Taka struktura danych jest szczególnie użyteczna, gdy chcemy szybko odpowiedzieć na~pytanie, czy na danym polu znajduje się figura, a jeśli tak, to jaka.
+Dzięki prostemu indeksowaniu tablicy dostęp do informacji o stanie pojedynczego pola jest bardzo efektywny.
+
+Problem pojawia się w momencie, gdy wymagane jest odnalezienie wszystkich pól~zawierających konkretny typ figury.
+W takim przypadku konieczna staje się iteracja całej tablicy, w celu zidentyfikowania odpowiednich pól.
+Operacja ta, szczególnie przy~wielokrotnym wywołaniu, może znacząco obniżyć wydajność algorytmu.
+
+\begin{lstlisting}[
+    language=Java,
+    style=JavaStyle,
+    caption=Implementacja reprezentacji szachownicy tablicą pól,
+    label=lst:pierwszy]
+
+    public byte[] board = new byte[64];
+
+    @Override
+    public void addPieceOnSquare(byte square, byte color, byte piece) {
+        square = (byte) (64 - square);
+        board[square] = (byte) (color | piece);
+    }
+
+    @Override
+    public void deletePieceOnSquare(byte square, byte color, byte piece) {
+        square = (byte) (64 - square);
+        board[square] = 0;
+    }
+
+\end{lstlisting}
+
+
+\subsubsection{Tablice bitowe bierek}
+
+\begin{lstlisting}[
+    language=Java,
+    style=JavaStyle,
+    caption=Implementacja reprezentacji szachownicy tablicami bitowymi bierek,
+    label=lst:drugi]
+
+    public long[] bitBoards = new long[15];
+
+    @Override
+    public void addPieceOnSquare(byte square, byte color, byte piece) {
+        bitBoards[piece | color] |= Long.rotateLeft(1L, square-1);
+        bitBoards[color] |= Long.rotateLeft(1L, square-1);
+    }
+
+    @Override
+    public void deletePieceOnSquare(byte square, byte color, byte piece) {
+        bitBoards[piece | color] &= ~Long.rotateLeft(1L, square-1);
+        bitBoards[color] &= ~Long.rotateLeft(1L, square-1);
+    }
+
+\end{lstlisting}
+
