@@ -19,7 +19,7 @@ public class UciReceiver {
             case "uci" -> processUciCommand();
             case "debug" -> processDebugCommand(command);
             case "isready" -> processIsReadyCommand();
-            case "setoption" -> processSetOptionCommand();
+            case "setoption" -> processSetOptionCommand(command);
             case "register" -> processRegisterCommand();
             case "ucinewgame" -> processNewGameCommand();
             case "position" -> processPositionCommand(command);
@@ -51,8 +51,13 @@ public class UciReceiver {
     }
 
     // TODO: Implement this method
-    private void processSetOptionCommand() {
-       UciSender.sendUnsupportedCommand();
+    private void processSetOptionCommand(String command) {
+        if(command.equals("setoption name OwnBook value true"))
+            Config.OPENING_LIBRARY_ON = true;
+        else if(command.equals("setoption name OwnBook value false"))
+            Config.OPENING_LIBRARY_ON = false;
+        else
+            UciSender.sendUnsupportedCommand();
     }
 
     // TODO: Implement this method

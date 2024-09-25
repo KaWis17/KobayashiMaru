@@ -87,6 +87,10 @@ public interface BoardHelper {
         return getBoardFen(board) + " " + getValuesFen(board);
     }
 
+    static String BoardToLibraryFEN(Board board) {
+        return getBoardFen(board) + " " + getShortValuesFen(board);
+    }
+
     private static void fillValues(Board board, String leftoverFen) {
         String[] leftoverSplit = leftoverFen.split(" ");
 
@@ -195,6 +199,25 @@ public interface BoardHelper {
 
         fen.append(boardState.halfMoveClock).append(" ");
         fen.append(boardState.fullMoveNumber);
+
+        return fen.toString();
+    }
+
+    private static String getShortValuesFen(Board board){
+        StringBuilder fen = new StringBuilder();
+
+        State boardState = board.currentBoardState;
+
+        if(board.isWhiteToPlay()) fen.append("w ");
+        else fen.append("b ");
+
+        fen.append((boardState.canWhiteCastleKingside || boardState.canWhiteCastleQueenside || boardState.canBlackCastleKingside || boardState.canBlackCastleQueenside) ? "" : "-" );
+        if(boardState.canWhiteCastleKingside) fen.append("K");
+        if(boardState.canWhiteCastleQueenside) fen.append("Q");
+        if(boardState.canBlackCastleKingside) fen.append("k");
+        if(boardState.canBlackCastleQueenside) fen.append("q");
+
+        fen.append(" -");
 
         return fen.toString();
     }

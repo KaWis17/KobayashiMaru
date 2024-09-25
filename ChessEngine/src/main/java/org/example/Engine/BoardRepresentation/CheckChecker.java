@@ -1,5 +1,6 @@
 package org.example.Engine.BoardRepresentation;
 
+import org.example.Engine.MoveGeneration.MoveGenerator;
 import org.example.Engine.MoveGeneration.PieceGenerators.*;
 
 public class CheckChecker implements BoardHelper{
@@ -10,8 +11,11 @@ public class CheckChecker implements BoardHelper{
     Generator pawnMoveGenerator;
     Generator slidingMoveGenerator;
 
+    MoveGenerator generator;
+
     public CheckChecker(Board board) {
         this.board = board;
+        generator = new MoveGenerator(board);
         kingMoveGenerator = new KingMoveGenerator(board);
         knightMoveGenerator = new KnightMoveGenerator(board);
         pawnMoveGenerator = new PawnMoveGenerator(board);
@@ -57,4 +61,13 @@ public class CheckChecker implements BoardHelper{
         long kingAsPawn = pawnMoveGenerator.getKingAsFigureDangerMask(color, myKing, allMyColor, allOpponentColor, allEmpty);
         return kingAsPawn != 0;
     }
+
+//    public boolean isCurrentPlayerInCheckMate() {
+//        byte currentColor = board.isWhiteToPlay() ? WHITE : BLACK;
+//        if(!isColorInCheck(currentColor))
+//            return false;
+//
+//        return generator.generateAllLegalMoves().isEmpty();
+//    }/
+
 }

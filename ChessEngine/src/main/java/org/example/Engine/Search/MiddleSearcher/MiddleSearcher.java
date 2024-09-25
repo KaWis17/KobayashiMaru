@@ -27,6 +27,7 @@ public class MiddleSearcher implements Search {
 
     @Override
     public void search() {
+        UciSender.sendDebugMessage("Entered middle searcher");
 
         for(int i=1; i<256; i++) {
             Move bestMoveInDepth = alphaBetaNegEntryPoint(i, searcher);
@@ -68,7 +69,7 @@ public class MiddleSearcher implements Search {
         return bestMove;
     }
 
-    private int alphaBetaNeg(int depth, int alpha, int beta) {
+    private Integer alphaBetaNeg(int depth, int alpha, int beta) {
         ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
 
         if(depth == 0 || moves.isEmpty())
@@ -78,7 +79,7 @@ public class MiddleSearcher implements Search {
         for(Move move : moves) {
 
             if(searcher.stopSearch)
-                return 0;
+                break;
 
             board.makeMove(move);
             score = Math.max(score, -alphaBetaNeg(depth-1, -beta, -alpha));

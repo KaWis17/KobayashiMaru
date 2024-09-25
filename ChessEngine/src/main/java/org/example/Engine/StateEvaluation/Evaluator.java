@@ -3,6 +3,7 @@ package org.example.Engine.StateEvaluation;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.StateEvaluation.Evaluators.Material;
 import org.example.Engine.StateEvaluation.Evaluators.PieceSquareTable;
+import org.example.Engine.StateEvaluation.Evaluators.WinLose;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public class Evaluator {
 
     public Evaluator(Board board) {
         this.board = board;
+//        evaluators.add(new WinLose(board));
         evaluators.add(new Material(board));
         evaluators.add(new PieceSquareTable(board));
     }

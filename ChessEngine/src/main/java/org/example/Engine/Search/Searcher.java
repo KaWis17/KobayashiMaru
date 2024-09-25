@@ -4,12 +4,14 @@ import org.example.Engine.Args.Config;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.MoveGenerator;
+import org.example.Engine.Search.EarlySearcher.EarlySearcher;
 import org.example.Engine.Search.MiddleSearcher.MiddleSearcher;
 import org.example.Engine.StateEvaluation.Evaluator;
 import org.example.UciSender;
 
 public class Searcher implements Runnable {
 
+    EarlySearcher earlySearcher;
     MiddleSearcher middleSearcher;
 
     Board board;
@@ -24,7 +26,9 @@ public class Searcher implements Runnable {
         this.evaluator = evaluator;
         searchId = 0;
 
+        earlySearcher = new EarlySearcher(board, this);
         middleSearcher = new MiddleSearcher(board, this, evaluator, moveGenerator);
+
     }
 
     @Override
@@ -44,7 +48,7 @@ public class Searcher implements Runnable {
         }
 
         if(!stopSearch)
-            stopSearchAndSendResponse();
+            stopSearch=true;
     }
 
     public void stopSearchAndSendResponse(){
@@ -53,6 +57,10 @@ public class Searcher implements Runnable {
     }
 
     public void search() {
-        middleSearcher.search();
+        UciSender.sendDebugMessage("HERE WITH: " + Config.OPENING_LIBRARY_ON);
+        if(Config.OPENING_LIBRARY_ON)
+            earlySearcher.search();
+        else
+            middleSearcher.search();
     }
 }
