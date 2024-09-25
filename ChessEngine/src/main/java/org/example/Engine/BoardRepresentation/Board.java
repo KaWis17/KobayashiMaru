@@ -101,6 +101,12 @@ public class Board implements BoardHelper {
         return checkChecker.isBlackInCheckMate();
     }
 
+    public boolean isDrawByRepetition() {
+        if(stateHistory.size() < 7) return false;
+        return currentBoardState.FEN.equals(stateHistory.get(stateHistory.size()-4).FEN) &&
+                currentBoardState.FEN.equals(stateHistory.get(stateHistory.size()-8).FEN);
+    }
+
     @Override
     public String toString() {
         return display();
@@ -109,10 +115,7 @@ public class Board implements BoardHelper {
     private String display() {
         StringBuilder sb = new StringBuilder();
         sb.append("BOARD: ").append(BoardHelper.BoardToFEN(this)).append("\n");;
-        sb.append("isWhiteInCheck: ").append(isWhiteInCheck()).append("\n");
-        sb.append("isWhiteInCheckMate: ").append(isWhiteInCheckMate()).append("\n");
-        sb.append("isBlackInCheck: ").append(isBlackInCheck()).append("\n");
-        sb.append("isBlackInCheckMate: ").append(isBlackInCheckMate()).append("\n");
+        sb.append("isRepetition: ").append(isDrawByRepetition()).append("\n");;
 
         for(byte i=64; i>=1; --i) {
             switch(arrayRepresentation.getPieceOnSquare(i)) {

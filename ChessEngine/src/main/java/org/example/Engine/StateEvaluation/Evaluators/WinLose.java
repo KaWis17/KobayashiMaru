@@ -23,6 +23,7 @@ public class WinLose implements Evaluation, BoardHelper {
         } else if(!board.isWhiteToPlay() && board.isBlackInCheckMate()) {
             return WIN;
         }
+
         return 0;
     }
 

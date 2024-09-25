@@ -51,6 +51,7 @@ public class MoveMaker implements BoardHelper, MoveConstants {
         updateFullMoveNumber(updatedState);
 
         updatedState.moveThatTookToThisPosition = move;
+        updatedState.FEN = BoardHelper.getBoardFen(board);
 
         board.currentBoardState = updatedState;
     }

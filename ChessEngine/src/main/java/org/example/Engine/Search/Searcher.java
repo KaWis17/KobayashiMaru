@@ -57,7 +57,6 @@ public class Searcher implements Runnable {
     }
 
     public void search() {
-        UciSender.sendDebugMessage("HERE WITH: " + Config.OPENING_LIBRARY_ON);
         if(Config.OPENING_LIBRARY_ON)
             earlySearcher.search();
         else

@@ -68,7 +68,6 @@ public class EarlySearcher implements Search {
 
         if(moves == null || moves.length == 0) {
             Config.OPENING_LIBRARY_ON = false;
-            UciSender.sendDebugMessage("Starting middle search");
             searcher.search();
         }
         else {

@@ -81,6 +81,7 @@ public interface BoardHelper {
 
         fillValues(board, fenSplit[1]);
         fillFormats(board, fenSplit[0]);
+        board.currentBoardState.FEN = getBoardFen(board);
     }
 
     static String BoardToFEN(Board board) {
@@ -157,7 +158,7 @@ public interface BoardHelper {
             Map.entry(BLACK | KING, 'k')
     );
 
-    private static String getBoardFen(Board board) {
+    static String getBoardFen(Board board) {
         StringBuilder fen = new StringBuilder();
         for(byte i=64; i>=1; i-=8) {
             int counter = 0;

@@ -1,5 +1,6 @@
 package org.example.Engine.Search.MiddleSearcher;
 
+import org.example.Engine.Args.Config;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.MoveGenerator;
@@ -18,17 +19,20 @@ public class MiddleSearcher implements Search {
     Searcher searcher;
     Evaluator evaluator;
 
+    QuiescenceSearch quiescenceSearch;
+
     public MiddleSearcher(Board board, Searcher searcher, Evaluator evaluator, MoveGenerator moveGenerator) {
         this.board = board;
         this.searcher = searcher;
         this.evaluator = evaluator;
         this.moveGenerator = moveGenerator;
+        this.quiescenceSearch = new QuiescenceSearch(board, evaluator, moveGenerator);
     }
 
     @Override
     public void search() {
         UciSender.sendDebugMessage("Entered middle searcher");
-
+        evaluator.getCount();
         for(int i=1; i<256; i++) {
             Move bestMoveInDepth = alphaBetaNegEntryPoint(i, searcher);
 
@@ -38,7 +42,7 @@ public class MiddleSearcher implements Search {
             if(searcher.stopSearch)
                 return;
 
-            UciSender.sendInfoMessage("depth " + i + " score cp " + evaluator.evaluate() + " pv " + searcher.bestMove);
+            UciSender.sendInfoMessage("depth " + i + " score cp " + evaluator.evaluate() + " pv " + searcher.bestMove + " nodes " + evaluator.getCount());
         }
 
 
@@ -60,7 +64,7 @@ public class MiddleSearcher implements Search {
             int score = -alphaBetaNeg(depth-1, Integer.MIN_VALUE, Integer.MAX_VALUE);
             board.unmakeMove();
 
-            if(score > bestMoveValue) {
+            if(score > bestMoveValue && !searcher.stopSearch) {
                 bestMoveValue = score;
                 bestMove = move;
             }
@@ -72,8 +76,14 @@ public class MiddleSearcher implements Search {
     private Integer alphaBetaNeg(int depth, int alpha, int beta) {
         ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
 
-        if(depth == 0 || moves.isEmpty())
-            return evaluator.evaluate();
+
+        if(depth == 0 || moves.isEmpty()) {
+            if(!Config.quiescenceSearch)
+                return evaluator.evaluate();
+            else
+                return quiescenceSearch.search(alpha, beta);
+
+        }
 
         int score = Integer.MIN_VALUE;
         for(Move move : moves) {

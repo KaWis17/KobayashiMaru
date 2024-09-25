@@ -66,7 +66,7 @@ public class UciReceiver {
     }
 
     private void processNewGameCommand() {
-        engine = new Engine();
+//        engine = new Engine();
     }
 
     private void processPositionCommand(String command) {

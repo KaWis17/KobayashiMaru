@@ -107,4 +107,7 @@ public class Move implements MoveConstants, BoardHelper {
         return move;
     }
 
+    public boolean equals(Move move) {
+        return departure == move.departure && destination == move.destination && type == move.type;
+    }
 }

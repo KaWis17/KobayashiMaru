@@ -29,7 +29,9 @@ public class Evaluator {
             evalForWhite += evaluator.evaluate();
         }
 
-        return (board.isWhiteToPlay()) ? evalForWhite : -evalForWhite;
+        int drawMinus = (board.isDrawByRepetition()) ? 2000 : 0;
+
+        return (board.isWhiteToPlay()) ? evalForWhite-drawMinus : -evalForWhite+drawMinus;
     }
 
     public int getCount () {
