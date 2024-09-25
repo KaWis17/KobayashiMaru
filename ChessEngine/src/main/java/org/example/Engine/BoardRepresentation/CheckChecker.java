@@ -1,7 +1,10 @@
 package org.example.Engine.BoardRepresentation;
 
+import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.MoveGenerator;
 import org.example.Engine.MoveGeneration.PieceGenerators.*;
+
+import java.util.List;
 
 public class CheckChecker implements BoardHelper{
 
@@ -26,8 +29,16 @@ public class CheckChecker implements BoardHelper{
         return isColorInCheck(WHITE);
     }
 
+    public boolean isWhiteInCheckMate(){
+        return isCheckMate(WHITE);
+    }
+
     public boolean isBlackInCheck() {
         return isColorInCheck(BLACK);
+    }
+
+    public boolean isBlackInCheckMate(){
+        return isCheckMate(BLACK);
     }
 
     public boolean isColorInCheck(byte color){
@@ -62,12 +73,26 @@ public class CheckChecker implements BoardHelper{
         return kingAsPawn != 0;
     }
 
-//    public boolean isCurrentPlayerInCheckMate() {
-//        byte currentColor = board.isWhiteToPlay() ? WHITE : BLACK;
-//        if(!isColorInCheck(currentColor))
-//            return false;
-//
-//        return generator.generateAllLegalMoves().isEmpty();
-//    }/
+    public boolean isCheckMate(byte color) {
+        if (!isColorInCheck(color)) {
+            return false;
+        }
+
+        // Generate all possible moves for the given color
+        List<Move> allPossibleMoves = generator.generateAllLegalMoves();
+
+        // For each move, make the move and check if the king is still in check
+        for (Move move : allPossibleMoves) {
+            board.makeMove(move);
+            boolean stillInCheck = isColorInCheck(color);
+            board.unmakeMove();
+
+            if (!stillInCheck) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 }

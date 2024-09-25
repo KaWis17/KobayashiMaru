@@ -18,7 +18,11 @@ public class WinLose implements Evaluation, BoardHelper {
     @Override
     public int evaluate() {
 
-
+        if(board.isWhiteToPlay() && board.isWhiteInCheckMate()) {
+            return LOSE;
+        } else if(!board.isWhiteToPlay() && board.isBlackInCheckMate()) {
+            return WIN;
+        }
         return 0;
     }
 

@@ -50,14 +50,14 @@ public class UciReceiver {
         UciSender.sendReadyOk();
     }
 
-    // TODO: Implement this method
     private void processSetOptionCommand(String command) {
-        if(command.equals("setoption name OwnBook value true"))
-            Config.OPENING_LIBRARY_ON = true;
-        else if(command.equals("setoption name OwnBook value false"))
-            Config.OPENING_LIBRARY_ON = false;
-        else
-            UciSender.sendUnsupportedCommand();
+        switch (command) {
+            case "setoption name OwnBook value true" -> Config.OPENING_LIBRARY_ON = true;
+            case "setoption name OwnBook value false" -> Config.OPENING_LIBRARY_ON = false;
+            case "setoption name Quiescence value true" -> Config.quiescenceSearch = true;
+            case "setoption name Quiescence value false" -> Config.quiescenceSearch = false;
+            default -> UciSender.sendUnsupportedCommand();
+        }
     }
 
     // TODO: Implement this method

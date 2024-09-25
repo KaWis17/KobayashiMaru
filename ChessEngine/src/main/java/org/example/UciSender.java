@@ -18,6 +18,7 @@ public class UciSender {
         System.out.println("option name Debug type check default false");
         System.out.println("option name Ponder type check default false");
         System.out.println("option name OwnBook type check default true");
+        System.out.println("option name Quiescence type check default true");
         System.out.println("option name UCI_EngineAbout type string default " + engine.ABOUT);
     }
 

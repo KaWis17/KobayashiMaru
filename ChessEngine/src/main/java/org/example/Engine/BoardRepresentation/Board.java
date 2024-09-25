@@ -89,8 +89,16 @@ public class Board implements BoardHelper {
         return checkChecker.isWhiteInCheck();
     }
 
+    public boolean isWhiteInCheckMate() {
+        return checkChecker.isWhiteInCheckMate();
+    }
+
     public boolean isBlackInCheck() {
         return checkChecker.isBlackInCheck();
+    }
+
+    public boolean isBlackInCheckMate() {
+        return checkChecker.isBlackInCheckMate();
     }
 
     @Override
@@ -100,7 +108,11 @@ public class Board implements BoardHelper {
 
     private String display() {
         StringBuilder sb = new StringBuilder();
-        sb.append("BOARD: ").append(BoardHelper.BoardToFEN(this)).append("\n");
+        sb.append("BOARD: ").append(BoardHelper.BoardToFEN(this)).append("\n");;
+        sb.append("isWhiteInCheck: ").append(isWhiteInCheck()).append("\n");
+        sb.append("isWhiteInCheckMate: ").append(isWhiteInCheckMate()).append("\n");
+        sb.append("isBlackInCheck: ").append(isBlackInCheck()).append("\n");
+        sb.append("isBlackInCheckMate: ").append(isBlackInCheckMate()).append("\n");
 
         for(byte i=64; i>=1; --i) {
             switch(arrayRepresentation.getPieceOnSquare(i)) {
