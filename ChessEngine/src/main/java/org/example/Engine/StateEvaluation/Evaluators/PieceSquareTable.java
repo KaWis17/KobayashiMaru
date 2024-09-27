@@ -167,6 +167,6 @@ public class PieceSquareTable implements Evaluation, BoardHelper {
             }
         }
 
-       return value;
+       return value*2;
     }
 }

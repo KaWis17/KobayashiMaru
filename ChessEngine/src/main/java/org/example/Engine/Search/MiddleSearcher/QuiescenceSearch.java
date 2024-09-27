@@ -7,6 +7,7 @@ import org.example.Engine.Search.Searcher;
 import org.example.Engine.StateEvaluation.Evaluator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class QuiescenceSearch {
 
@@ -24,26 +25,28 @@ public class QuiescenceSearch {
 
     public Integer search(int alpha, int beta, int maxDepth) {
 
+        int standPat = evaluator.evaluate();
+        if (standPat >= beta)
+            return beta;
+        if (alpha < standPat)
+            alpha = standPat;
+
         ArrayList<Move> moves = generator.generateAllLegalCaptureMoves();
-
-        if(moves.isEmpty() || maxDepth == 0)
-            return evaluator.evaluate();
-
-        int score = Integer.MIN_VALUE;
+        Collections.sort(moves);
 
         for(Move move : moves) {
             if(searcher.stopSearch)
                 break;
 
             board.makeMove(move);
-            score = Math.max(score, -search(-beta, -alpha, maxDepth-1));
+            int score = -search(-beta, -alpha, maxDepth-1);
             board.unmakeMove();
 
-            alpha = Math.max(alpha, score);
-            if(alpha >= beta)
-                break;
+            if(score >= beta)
+                return beta;
+            if(score > alpha)
+                alpha = score;
         }
-
         return alpha;
     }
 }

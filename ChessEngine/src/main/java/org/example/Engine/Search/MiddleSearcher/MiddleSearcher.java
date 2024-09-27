@@ -10,6 +10,7 @@ import org.example.Engine.StateEvaluation.Evaluator;
 import org.example.UciSender;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class MiddleSearcher implements Search {
@@ -33,7 +34,7 @@ public class MiddleSearcher implements Search {
     public void search() {
         UciSender.sendDebugMessage("Entered middle searcher");
         evaluator.getCount();
-        for(int i=1; i<256; i++) {
+        for(int i=1; i<255; i++) {
             Move bestMoveInDepth = alphaBetaNegEntryPoint(i, searcher);
 
             if(bestMoveInDepth != null)
@@ -51,7 +52,10 @@ public class MiddleSearcher implements Search {
         int bestMoveValue = Integer.MIN_VALUE;
         Move bestMove = null;
 
-        for(Move move : moveGenerator.generateAllLegalMoves()) {
+        ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
+        Collections.sort(moves);
+
+        for(Move move : moves) {
 
             if(searcher.stopSearch)
                 return null;
@@ -72,18 +76,17 @@ public class MiddleSearcher implements Search {
 
     private Integer alphaBetaNeg(int depth, int alpha, int beta) {
         ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
-//        Collections.sort(moves);
+        Collections.sort(moves);
 
         if(depth == 0 || moves.isEmpty()) {
             if(!Config.quiescenceSearch)
                 return evaluator.evaluate();
             else
-                return quiescenceSearch.search(alpha, beta, 3);
+                return quiescenceSearch.search(alpha, beta, 255);
         }
 
         int score = Integer.MIN_VALUE;
         for(Move move : moves) {
-
             if(searcher.stopSearch)
                 break;
 

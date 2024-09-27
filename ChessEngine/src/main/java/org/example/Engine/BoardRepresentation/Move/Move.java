@@ -109,12 +109,6 @@ public class Move implements MoveConstants, BoardHelper, Comparable<Move> {
 
     @Override
     public int compareTo(Move other) {
-        if (this.type != 0 && other.type == 0) {
-            return 1;
-        } else if (other.type != 0 && this.type == 0) {
-            return -1;
-        } else {
-            return 0;
-        }
+        return Integer.compare(movePriority[this.type], movePriority[other.type]);
     }
 }
