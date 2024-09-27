@@ -36,6 +36,7 @@ public class UciSender {
 
     public static void sendBestMove(String response) {
         System.out.println("bestmove " + response);
+
     }
 
     public static void sendDebugMessage(String message) {

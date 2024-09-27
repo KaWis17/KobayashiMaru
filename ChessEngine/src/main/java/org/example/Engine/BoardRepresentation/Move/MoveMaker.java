@@ -31,6 +31,14 @@ public class MoveMaker implements BoardHelper, MoveConstants {
 
         updateBoardRepresentationsAfterMove(moveToMake, color, piece);
         createNewCurrentState(moveToMake, color, piece, capturedPiece);
+
+        String shortFen = BoardHelper.BoardToLibraryFEN(board);
+        Integer value = board.positionCount.get(shortFen);
+        if (value == null || value == 0) {
+            board.positionCount.put(shortFen, 1);
+        } else {
+            board.positionCount.replace(shortFen, value, value + 1);
+        }
     }
 
     private void addCurrentStateToMoveHistory() {

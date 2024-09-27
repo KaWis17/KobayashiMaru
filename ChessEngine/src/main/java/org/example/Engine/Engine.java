@@ -60,7 +60,7 @@ public class Engine implements Constants {
             UciSender.sendDebugMessage("Starting search on separate thread");
 
         new Thread(searcher).start();
-        scheduleExecutorService(time-100);
+        scheduleExecutorService(time-250);
     }
 
     private void scheduleExecutorService(int time) {
@@ -81,7 +81,9 @@ public class Engine implements Constants {
     public void displayBoard() {
         System.out.println(board);
         int evaluation = evaluator.evaluate();
-        System.out.println("Evaluation: " + evaluation);
+        int multiply = (board.isWhiteToPlay()) ? 1 : -1;
+        System.out.println("EVAL FOR WHITE: " + multiply * evaluation);
+        System.out.println("EVAL FOR BLACK: " + multiply * -evaluation);
     }
 
     public void perft(int depth) {

@@ -3,9 +3,11 @@ package org.example.Engine.StateEvaluation;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.StateEvaluation.Evaluators.Material;
 import org.example.Engine.StateEvaluation.Evaluators.PieceSquareTable;
-import org.example.Engine.StateEvaluation.Evaluators.WinLose;
+import org.example.Engine.StateEvaluation.Evaluators.CheckBonus;
 
 import java.util.ArrayList;
+
+
 
 public class Evaluator {
 
@@ -15,7 +17,7 @@ public class Evaluator {
 
     public Evaluator(Board board) {
         this.board = board;
-        evaluators.add(new WinLose(board));
+        evaluators.add(new CheckBonus(board));
         evaluators.add(new Material(board));
         evaluators.add(new PieceSquareTable(board));
         counter = 0;
@@ -25,13 +27,16 @@ public class Evaluator {
         counter++;
         int evalForWhite = 0;
 
+        if(board.isBlackInCheckMate() ||  board.isWhiteInCheckMate())
+            return -10_000_000;
+        if(board.isDrawByRepetition())
+            return -10_000;
+
         for(Evaluation evaluator: evaluators) {
             evalForWhite += evaluator.evaluate();
         }
 
-        int drawMinus = (board.isDrawByRepetition()) ? 2000 : 0;
-
-        return (board.isWhiteToPlay()) ? evalForWhite-drawMinus : -evalForWhite+drawMinus;
+        return (board.isWhiteToPlay()) ? (evalForWhite) : (-evalForWhite);
     }
 
     public int getCount () {

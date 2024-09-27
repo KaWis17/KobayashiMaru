@@ -7,6 +7,7 @@ import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.BoardRepresentation.Move.MoveMaker;
 import org.example.Engine.BoardRepresentation.Move.MoveUnMaker;
 
+import java.util.HashMap;
 import java.util.Stack;
 
 public class Board implements BoardHelper {
@@ -22,6 +23,8 @@ public class Board implements BoardHelper {
     MoveUnMaker moveUnMaker = new MoveUnMaker(this);
 
     CheckChecker checkChecker = new CheckChecker(this);
+    public HashMap<String, Integer> positionCount = new HashMap<>();
+
 
     public void startFromDefaultPosition() {
         startFromCustomPosition(BoardHelper.STARTING_FEN);
@@ -102,9 +105,10 @@ public class Board implements BoardHelper {
     }
 
     public boolean isDrawByRepetition() {
-        if(stateHistory.size() < 7) return false;
-        return currentBoardState.FEN.equals(stateHistory.get(stateHistory.size()-4).FEN) &&
-                currentBoardState.FEN.equals(stateHistory.get(stateHistory.size()-8).FEN);
+        Integer value = positionCount.get(currentBoardState.FEN);
+        if (value == null)
+                return false;
+        return value >= 3;
     }
 
     @Override
@@ -114,8 +118,9 @@ public class Board implements BoardHelper {
 
     private String display() {
         StringBuilder sb = new StringBuilder();
-        sb.append("BOARD: ").append(BoardHelper.BoardToFEN(this)).append("\n");;
-        sb.append("isRepetition: ").append(isDrawByRepetition()).append("\n");;
+        sb.append("BOARD: ").append(BoardHelper.BoardToFEN(this)).append("\n");
+//        sb.append("isRepetition: ").append(isDrawByRepetition()).append("\n");;
+        sb.append("elements in positionCount: ").append(positionCount.size()).append("\n");
 
         for(byte i=64; i>=1; --i) {
             switch(arrayRepresentation.getPieceOnSquare(i)) {

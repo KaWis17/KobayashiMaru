@@ -3,7 +3,7 @@ package org.example.Engine.BoardRepresentation.Move;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardHelper;
 
-public class Move implements MoveConstants, BoardHelper {
+public class Move implements MoveConstants, BoardHelper, Comparable<Move> {
 
     public byte departure;
     public byte destination;
@@ -107,7 +107,14 @@ public class Move implements MoveConstants, BoardHelper {
         return move;
     }
 
-    public boolean equals(Move move) {
-        return departure == move.departure && destination == move.destination && type == move.type;
+    @Override
+    public int compareTo(Move other) {
+        if (this.type != 0 && other.type == 0) {
+            return 1;
+        } else if (other.type != 0 && this.type == 0) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }

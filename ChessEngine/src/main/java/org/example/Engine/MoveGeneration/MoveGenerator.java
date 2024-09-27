@@ -24,12 +24,18 @@ public class MoveGenerator implements BoardHelper {
     }
 
     public ArrayList<Move> generateAllLegalMoves() {
+        if(board.isDrawByRepetition())
+            return new ArrayList<>();
+
         ArrayList<Move> moves = generateAllPseudoLegalMoves();
 
         return deleteMovesThatPutKingInCheck(moves);
     }
 
     public ArrayList<Move> generateAllLegalCaptureMoves() {
+        if(board.isDrawByRepetition())
+            return new ArrayList<>();
+
         ArrayList<Move> moves = generateAllPseudoLegalCaptureMoves();
 
         return deleteMovesThatPutKingInCheck(moves);

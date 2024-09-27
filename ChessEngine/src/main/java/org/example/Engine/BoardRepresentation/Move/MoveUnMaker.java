@@ -12,6 +12,13 @@ public class MoveUnMaker implements MoveConstants, BoardHelper{
     }
 
     public void unmakeMove() {
+        String shortFen = BoardHelper.BoardToLibraryFEN(board);
+        Integer value = board.positionCount.get(shortFen);
+        if(value == 1)
+            board.positionCount.remove(shortFen);
+        else
+            board.positionCount.replace(shortFen, value, value - 1);
+
         revertBoardRepresentation(board.currentBoardState);
         revertStateChange(board.stateHistory.pop());
     }

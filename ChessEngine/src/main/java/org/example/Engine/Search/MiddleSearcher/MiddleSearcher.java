@@ -26,7 +26,7 @@ public class MiddleSearcher implements Search {
         this.searcher = searcher;
         this.evaluator = evaluator;
         this.moveGenerator = moveGenerator;
-        this.quiescenceSearch = new QuiescenceSearch(board, evaluator, moveGenerator);
+        this.quiescenceSearch = new QuiescenceSearch(board, evaluator, moveGenerator, searcher);
     }
 
     @Override
@@ -44,16 +44,12 @@ public class MiddleSearcher implements Search {
 
             UciSender.sendInfoMessage("depth " + i + " score cp " + evaluator.evaluate() + " pv " + searcher.bestMove + " nodes " + evaluator.getCount());
         }
-
-
     }
 
     private Move alphaBetaNegEntryPoint(int depth, Searcher searcher) {
 
-        int bestMoveValue;
+        int bestMoveValue = Integer.MIN_VALUE;
         Move bestMove = null;
-
-        bestMoveValue = Integer.MIN_VALUE;
 
         for(Move move : moveGenerator.generateAllLegalMoves()) {
 
@@ -68,6 +64,7 @@ public class MiddleSearcher implements Search {
                 bestMoveValue = score;
                 bestMove = move;
             }
+
         }
 
         return bestMove;
@@ -75,14 +72,13 @@ public class MiddleSearcher implements Search {
 
     private Integer alphaBetaNeg(int depth, int alpha, int beta) {
         ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
-
+//        Collections.sort(moves);
 
         if(depth == 0 || moves.isEmpty()) {
             if(!Config.quiescenceSearch)
                 return evaluator.evaluate();
             else
-                return quiescenceSearch.search(alpha, beta);
-
+                return quiescenceSearch.search(alpha, beta, 3);
         }
 
         int score = Integer.MIN_VALUE;
