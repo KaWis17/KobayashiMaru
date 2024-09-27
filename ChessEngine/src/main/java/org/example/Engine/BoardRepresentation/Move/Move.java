@@ -44,12 +44,11 @@ public class Move implements MoveConstants, BoardHelper, Comparable<Move> {
             return KING_CASTLE;
         }
 
-        if(isCapture(pieceOnDestination)) {
-            if(isEnPassantCapture(pieceToBeMoved, enPassantTarget, destination))
-                return EP_CAPTURE;
-
+        if(isCapture(pieceOnDestination))
             return CAPTURES;
-        }
+
+        if(isEnPassantCapture(pieceToBeMoved, enPassantTarget, destination))
+            return EP_CAPTURE;
 
         return QUIET_MOVE;
     }

@@ -34,6 +34,7 @@ public class MiddleSearcher implements Search {
     public void search() {
         UciSender.sendDebugMessage("Entered middle searcher");
         evaluator.getCount();
+
         for(int i=1; i<255; i++) {
             Move bestMoveInDepth = alphaBetaNegEntryPoint(i, searcher);
 
