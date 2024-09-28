@@ -21,6 +21,7 @@ public class MoveComparator implements MoveConstants, BoardHelper, Comparator<Mo
     }
 
     private int calculatePriority(Move move) {
+
         switch(move.type){
             case QUIET_MOVE,
                  ROOK_PROMOTION,

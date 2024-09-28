@@ -105,7 +105,7 @@ public class Board implements BoardHelper {
     }
 
     public boolean isDrawByRepetition() {
-        Integer value = positionCount.get(currentBoardState.FEN);
+        Integer value = positionCount.get(BoardHelper.BoardToLibraryFEN(this));
         if (value == null)
                 return false;
         return value >= 3;
@@ -119,7 +119,6 @@ public class Board implements BoardHelper {
     private String display() {
         StringBuilder sb = new StringBuilder();
         sb.append("BOARD: ").append(BoardHelper.BoardToFEN(this)).append("\n");
-//        sb.append("isRepetition: ").append(isDrawByRepetition()).append("\n");;
         sb.append("elements in positionCount: ").append(positionCount.size()).append("\n");
 
         for(byte i=64; i>=1; --i) {

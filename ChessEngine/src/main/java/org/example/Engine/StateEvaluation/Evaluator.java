@@ -27,7 +27,7 @@ public class Evaluator {
         counter++;
         int evalForWhite = 0;
 
-        if(board.isBlackInCheckMate() ||  board.isWhiteInCheckMate())
+        if(board.isBlackInCheckMate() || board.isWhiteInCheckMate())
             return -10_000_000;
         if(board.isDrawByRepetition())
             return -10_000;

@@ -23,7 +23,7 @@ public class MiddleSearcher implements Search {
     QuiescenceSearch quiescenceSearch;
 
     private static final int MINIMUM = -100_000_000;
-    private static final int MAXIMUM = +100_000_000;
+    private static final int MAXIMUM = 100_000_000;
 
     public MiddleSearcher(Board board, Searcher searcher, Evaluator evaluator, MoveGenerator moveGenerator) {
         this.board = board;
@@ -66,7 +66,6 @@ public class MiddleSearcher implements Search {
 
             board.makeMove(move);
             int score = -alphaBetaNeg(depth-1, -beta, -alpha);
-
             if(score > bestMoveValue && !searcher.stopSearch)
             {
                 bestMoveValue = score;
