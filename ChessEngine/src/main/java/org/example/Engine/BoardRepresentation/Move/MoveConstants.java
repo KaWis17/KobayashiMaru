@@ -15,9 +15,5 @@ public interface MoveConstants {
     byte BISHOP_PROMOTION_CAPTURE = 13;
     byte ROOK_PROMOTION_CAPTURE = 14;
     byte QUEEN_PROMOTION_CAPTURE = 15;
-
-    int[] movePriority = {
-        5, 4, 3, 3, 1, 1, 0, 0, 2, 2, 2, 2, 1, 1, 1, 1
-    };
 }
 

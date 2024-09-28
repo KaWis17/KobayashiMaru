@@ -8,11 +8,13 @@ public class Move implements MoveConstants, BoardHelper, Comparable<Move> {
     public byte departure;
     public byte destination;
     public byte type;
+    private MoveComparator moveComparator;
 
-    public Move(byte from, byte to, byte type) {
+    public Move(byte from, byte to, byte type, Board board) {
         this.departure = from;
         this.destination = to;
         this.type = type;
+        moveComparator = new MoveComparator(board);
     }
 
     public Move(String move, Board board) {
@@ -23,6 +25,7 @@ public class Move implements MoveConstants, BoardHelper, Comparable<Move> {
         byte pieceOnDestination = board.getPieceOnSquare(destination);
 
         this.type = decideType(move, pieceToBeMoved, pieceOnDestination, board.getEnPassantTarget());
+        moveComparator = new MoveComparator(board);
     }
 
     private byte decideType(String move, byte pieceToBeMoved, byte pieceOnDestination, byte enPassantTarget) {
@@ -108,6 +111,6 @@ public class Move implements MoveConstants, BoardHelper, Comparable<Move> {
 
     @Override
     public int compareTo(Move other) {
-        return Integer.compare(movePriority[this.type], movePriority[other.type]);
+        return moveComparator.compare(this, other);
     }
 }

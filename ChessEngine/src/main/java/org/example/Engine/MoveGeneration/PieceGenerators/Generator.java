@@ -27,7 +27,7 @@ public abstract class Generator implements BoardHelper, BitBoardHelper, MoveCons
     void addMovesFromMask(long mask, byte type, byte movedBy) {
         while(mask != 0L) {
             byte index = (byte) (64 - Long.numberOfLeadingZeros(mask));
-            possibleMoves.add(new Move((byte) (index + movedBy), index, type));
+            possibleMoves.add(new Move((byte) (index + movedBy), index, type, board));
             mask &= ~(1L << (index - 1));
         }
     }
@@ -35,7 +35,7 @@ public abstract class Generator implements BoardHelper, BitBoardHelper, MoveCons
     void addMovesFromMaskWithStartIndex(long mask, byte type, byte startIndex) {
         while(mask != 0L) {
             byte index = (byte) (64 - Long.numberOfLeadingZeros(mask));
-            possibleMoves.add(new Move(startIndex, index, type));
+            possibleMoves.add(new Move(startIndex, index, type, board));
             mask &= ~(1L << (index - 1));
         }
     }

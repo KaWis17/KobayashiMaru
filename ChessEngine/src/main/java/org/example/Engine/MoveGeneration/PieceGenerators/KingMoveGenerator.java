@@ -83,11 +83,11 @@ public class KingMoveGenerator extends Generator {
 
         if(board.currentBoardState.canWhiteCastleKingside) {
             if (board.getPieceOnSquare((byte) 2) == 0 && board.getPieceOnSquare((byte) 3) == 0)
-                castlingMoves.add(new Move((byte) 4, (byte) 2, KING_CASTLE));
+                castlingMoves.add(new Move((byte) 4, (byte) 2, KING_CASTLE, board));
         }
         if(board.currentBoardState.canWhiteCastleQueenside) {
             if (board.getPieceOnSquare((byte) 5) == 0 && board.getPieceOnSquare((byte) 6) == 0 && board.getPieceOnSquare((byte) 7) == 0)
-                castlingMoves.add(new Move((byte) 4, (byte) 6, QUEEN_CASTLE));
+                castlingMoves.add(new Move((byte) 4, (byte) 6, QUEEN_CASTLE, board));
         }
 
         return castlingMoves;
@@ -98,11 +98,11 @@ public class KingMoveGenerator extends Generator {
 
         if(board.currentBoardState.canBlackCastleKingside) {
             if (board.getPieceOnSquare((byte) 58) == 0 && board.getPieceOnSquare((byte) 59) == 0)
-                castlingMoves.add(new Move((byte) 60, (byte) 58, KING_CASTLE));
+                castlingMoves.add(new Move((byte) 60, (byte) 58, KING_CASTLE, board));
         }
         if(board.currentBoardState.canBlackCastleQueenside) {
             if (board.getPieceOnSquare((byte) 61) == 0 && board.getPieceOnSquare((byte) 62) == 0 && board.getPieceOnSquare((byte) 63) == 0)
-                castlingMoves.add(new Move((byte) 60, (byte) 62, QUEEN_CASTLE));
+                castlingMoves.add(new Move((byte) 60, (byte) 62, QUEEN_CASTLE, board));
         }
 
         return castlingMoves;
@@ -144,7 +144,7 @@ public class KingMoveGenerator extends Generator {
                         if(board.isWhiteInCheck())
                             checks++;
 
-                        board.makeMove(new Move((byte) 4, (byte) 3, QUIET_MOVE));
+                        board.makeMove(new Move((byte) 4, (byte) 3, QUIET_MOVE, board));
                         if(board.isWhiteInCheck()) {
                             checks++;
                         }
@@ -157,11 +157,11 @@ public class KingMoveGenerator extends Generator {
                         if(board.isWhiteInCheck())
                             checks++;
 
-                        board.makeMove(new Move((byte) 4, (byte) 5, QUIET_MOVE));
+                        board.makeMove(new Move((byte) 4, (byte) 5, QUIET_MOVE, board));
                         if(board.isWhiteInCheck())
                             checks++;
                         board.unmakeMove();
-                        board.makeMove(new Move((byte) 4, (byte) 6, QUIET_MOVE));
+                        board.makeMove(new Move((byte) 4, (byte) 6, QUIET_MOVE, board));
                         if(board.isWhiteInCheck())
                             checks++;
                         board.unmakeMove();
@@ -176,7 +176,7 @@ public class KingMoveGenerator extends Generator {
                         if(board.isBlackInCheck())
                             checks++;
 
-                        board.makeMove(new Move((byte) 60, (byte) 59, QUIET_MOVE));
+                        board.makeMove(new Move((byte) 60, (byte) 59, QUIET_MOVE, board));
                         if(board.isBlackInCheck()) {
                             checks++;
                         }
@@ -189,11 +189,11 @@ public class KingMoveGenerator extends Generator {
                         if(board.isBlackInCheck())
                             checks++;
 
-                        board.makeMove(new Move((byte) 60, (byte) 61, QUIET_MOVE));
+                        board.makeMove(new Move((byte) 60, (byte) 61, QUIET_MOVE, board));
                         if(board.isBlackInCheck())
                             checks++;
                         board.unmakeMove();
-                        board.makeMove(new Move((byte) 60, (byte) 62, QUIET_MOVE));
+                        board.makeMove(new Move((byte) 60, (byte) 62, QUIET_MOVE, board));
                         if(board.isBlackInCheck())
                             checks++;
                         board.unmakeMove();

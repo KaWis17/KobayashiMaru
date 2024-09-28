@@ -22,6 +22,9 @@ public class MiddleSearcher implements Search {
 
     QuiescenceSearch quiescenceSearch;
 
+    private static final int MINIMUM = -100_000_000;
+    private static final int MAXIMUM = +100_000_000;
+
     public MiddleSearcher(Board board, Searcher searcher, Evaluator evaluator, MoveGenerator moveGenerator) {
         this.board = board;
         this.searcher = searcher;
@@ -33,10 +36,10 @@ public class MiddleSearcher implements Search {
     @Override
     public void search() {
         UciSender.sendDebugMessage("Entered middle searcher");
-        evaluator.getCount();
 
         for(int i=1; i<255; i++) {
-            Move bestMoveInDepth = alphaBetaNegEntryPoint(i, searcher);
+            evaluator.counter = 0;
+            Move bestMoveInDepth = alphaBetaNegEntryPoint(i, MINIMUM, MAXIMUM);
 
             if(bestMoveInDepth != null)
                 searcher.bestMove = bestMoveInDepth;
@@ -48,9 +51,9 @@ public class MiddleSearcher implements Search {
         }
     }
 
-    private Move alphaBetaNegEntryPoint(int depth, Searcher searcher) {
+    private Move alphaBetaNegEntryPoint(int depth, int alpha, int beta) {
 
-        int bestMoveValue = Integer.MIN_VALUE;
+        int bestMoveValue = MINIMUM;
         Move bestMove = null;
 
         ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
@@ -62,16 +65,20 @@ public class MiddleSearcher implements Search {
                 return null;
 
             board.makeMove(move);
-            int score = -alphaBetaNeg(depth-1, Integer.MIN_VALUE, Integer.MAX_VALUE);
-            board.unmakeMove();
+            int score = -alphaBetaNeg(depth-1, -beta, -alpha);
 
-            if(score > bestMoveValue && !searcher.stopSearch) {
+            if(score > bestMoveValue && !searcher.stopSearch)
+            {
                 bestMoveValue = score;
                 bestMove = move;
+                if(score > alpha)
+                    alpha = score;
             }
 
+            board.unmakeMove();
+            if(score >= beta)
+                break;
         }
-
         return bestMove;
     }
 
@@ -83,22 +90,30 @@ public class MiddleSearcher implements Search {
             if(!Config.quiescenceSearch)
                 return evaluator.evaluate();
             else
-                return quiescenceSearch.search(alpha, beta, 255);
+                return quiescenceSearch.search(alpha, beta);
+
         }
 
-        int score = Integer.MIN_VALUE;
+        int bestMoveValue = MINIMUM;
         for(Move move : moves) {
             if(searcher.stopSearch)
                 break;
 
             board.makeMove(move);
-            score = Math.max(score, -alphaBetaNeg(depth-1, -beta, -alpha));
+            int score = -alphaBetaNeg(depth-1, -beta, -alpha);
+            if(score > bestMoveValue) {
+                bestMoveValue = score;
+                if(score > alpha)
+                    alpha = score;
+            }
             board.unmakeMove();
 
-            alpha = Math.max(alpha, score);
-            if(alpha >= beta)
+            if(score >= beta)
                 break;
         }
-        return score;
+        return bestMoveValue;
     }
+
+
 }
+

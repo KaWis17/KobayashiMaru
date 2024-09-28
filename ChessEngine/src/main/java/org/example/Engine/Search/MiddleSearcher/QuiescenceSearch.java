@@ -23,11 +23,12 @@ public class QuiescenceSearch {
         this.searcher = searcher;
     }
 
-    public Integer search(int alpha, int beta, int maxDepth) {
-
+    public Integer search(int alpha, int beta) {
         int standPat = evaluator.evaluate();
-        if (standPat >= beta)
+
+        if (standPat >= beta) {
             return beta;
+        }
         if (alpha < standPat)
             alpha = standPat;
 
@@ -35,11 +36,12 @@ public class QuiescenceSearch {
         Collections.sort(moves);
 
         for(Move move : moves) {
+
             if(searcher.stopSearch)
                 break;
 
             board.makeMove(move);
-            int score = -search(-beta, -alpha, maxDepth-1);
+            int score = -search(-beta, -alpha);
             board.unmakeMove();
 
             if(score >= beta)
