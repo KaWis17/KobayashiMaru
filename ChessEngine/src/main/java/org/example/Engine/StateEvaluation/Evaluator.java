@@ -28,9 +28,9 @@ public class Evaluator {
         int evalForWhite = 0;
 
         if(board.isBlackInCheckMate() || board.isWhiteInCheckMate())
-            return -10_000_000;
+            return -100_000_000;
         if(board.isDrawByRepetition())
-            return -10_000;
+            return 10_000;
 
         for(Evaluation evaluator: evaluators) {
             evalForWhite += evaluator.evaluate();

@@ -120,6 +120,7 @@ public class Board implements BoardHelper {
         StringBuilder sb = new StringBuilder();
         sb.append("BOARD: ").append(BoardHelper.BoardToFEN(this)).append("\n");
         sb.append("elements in positionCount: ").append(positionCount.size()).append("\n");
+        sb.append("is threefold repetition: ").append(isDrawByRepetition()).append("\n");
 
         for(byte i=64; i>=1; --i) {
             switch(arrayRepresentation.getPieceOnSquare(i)) {

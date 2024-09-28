@@ -39,19 +39,24 @@ public class MiddleSearcher implements Search {
 
         for(int i=1; i<255; i++) {
             evaluator.counter = 0;
-            Move bestMoveInDepth = alphaBetaNegEntryPoint(i, MINIMUM, MAXIMUM);
+            Result result = alphaBetaNegEntryPoint(i, MINIMUM, MAXIMUM);
 
-            if(bestMoveInDepth != null)
-                searcher.bestMove = bestMoveInDepth;
+
+            if(result != null) {
+                searcher.bestMove = result.move;
+                UciSender.sendInfoMessage("depth " + i + " score cp " + evaluator.evaluate() + " pv " + searcher.bestMove + " nodes " + evaluator.getCount());
+                if(result.score == MAXIMUM) {
+                    searcher.stopSearch = true;
+                    return;
+                }
+            }
 
             if(searcher.stopSearch)
                 return;
-
-            UciSender.sendInfoMessage("depth " + i + " score cp " + evaluator.evaluate() + " pv " + searcher.bestMove + " nodes " + evaluator.getCount());
         }
     }
 
-    private Move alphaBetaNegEntryPoint(int depth, int alpha, int beta) {
+    private Result alphaBetaNegEntryPoint(int depth, int alpha, int beta) {
 
         int bestMoveValue = MINIMUM;
         Move bestMove = null;
@@ -66,7 +71,7 @@ public class MiddleSearcher implements Search {
 
             board.makeMove(move);
             int score = -alphaBetaNeg(depth-1, -beta, -alpha);
-            if(score > bestMoveValue && !searcher.stopSearch)
+            if((score > bestMoveValue || bestMoveValue == MINIMUM) && !searcher.stopSearch)
             {
                 bestMoveValue = score;
                 bestMove = move;
@@ -75,10 +80,15 @@ public class MiddleSearcher implements Search {
             }
 
             board.unmakeMove();
+
+            if (bestMoveValue == MAXIMUM)
+                break;
+
             if(score >= beta)
                 break;
         }
-        return bestMove;
+
+        return new Result(bestMoveValue, bestMove);
     }
 
     private Integer alphaBetaNeg(int depth, int alpha, int beta) {
