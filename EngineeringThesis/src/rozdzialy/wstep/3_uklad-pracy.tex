@@ -1,22 +1,23 @@
-\section{Układ pracy}
+\usepackage{biblatex}\section{Układ pracy}
 \label{sec:uklad-pracy}
 
 Niniejsza praca inżynierska składa się z trzech głównych części.
 
 W pierwszej z nich opisano elementy oprogramowania konieczne do stworzenia podstawowej wersji silnika szachowego.
-Przedstawiono metody komunikacji z interfejsem, techniki reprezentacji pozycji, algorytm min-max wraz z metodologią zarządzania czasem gry.
+Przedstawiono metody komunikacji z interfejsem, techniki reprezentacji pozycji i generowania dostępnych ruchów, algorytm minimalizowania start i~maksymalizowania zysków wraz z oceną heurystyczną oraz metodologią zarządzania czasem gry.
 Przetestowano aplikację w celu sprawdzenia poprawności działania.
-Choć do zrozumienia pracy konieczna jest znajomość zasad gry w szachy, to w tym rozdziale mówiono także niektóre, bardziej zawiłe bądź mniej znane, jej aspekty.
 
 Następny rozdział poświęcono pracy nad ulepszeniem systemu.
-Przedstawiono zaimplementowane rozwiązania, mające na celu poprawę poziomu gry systemu.
-Skupiono się na dwóch kierunkach: poprawy prędkości przeszukiwania oraz na poprawie precyzji oceny heurystycznej.
-Jako że dla słabych silników o wiele większe znaczenie w poprawie jego gry ma pierwszy z tych aspektów, omówiono go na początku.
-
+Przedstawiono zaimplementowane rozwiązania mające na celu poprawę poziomu gry systemu.
+Skupiono się na dwóch kierunkach: poprawy prędkości przeszukiwania stanów oraz na poprawie precyzji heurystycznej oceny pozycji.
+Jako że dla słabych silników o wiele większe znaczenie w poprawie jego gry ma pierwszy z tych aspektów, omówiono go w pierwszej kolejności. \cite*{Vrzina2023}
 
 Ostatnią część pracy poświęcono testom wydajnościowym oraz jakościowym.
-Przetestowano w pierwszej kolejności program pomiędzy różnymi jego wersjami.
-W dalszej kolejności przetestowano system przeciwko innym, publicznie dostępnym silnikom.
-Na końcu przedstawiono podsumowanie rozgrywek przeprowadzonych z graczami.
+Przetestowano program pomiędzy różnymi jego wersjami.
+W dalszej części przedstawiono wyniki gry systemu przeciwko innym, publicznie dostępnym silnikom.
+Na końcu podsumowano rozgrywki przeprowadzone z graczami.
 
 W dodatku do pracy zamieszczono instrukcję wdrożenia aplikacji w celu odpalenia silnika we własnym środowisku.
+
+Choć autor zakłada, że czytelnik zna zasady gry w szachy, w pracy zawarto także omówienie niektórych, bardziej skomplikowanych bądź mniej znanych, aspektów tej gry.
+Wiele z opisanych w niniejszej pracy rozwiązań algorytmicznych można znaleźć jedynie w literaturze anglojęzycznej, a ich przetłumaczenie nie jest dokładne.

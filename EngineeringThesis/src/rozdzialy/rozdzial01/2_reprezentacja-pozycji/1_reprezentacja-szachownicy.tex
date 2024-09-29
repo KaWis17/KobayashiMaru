@@ -1,25 +1,25 @@
-\subsection{Reprezentacja szachownicy \colorbox{cyan}{In progress}}
+\subsection{Reprezentacja szachownicy}
 \label{subsec:reprezentacja-szachownicy}
 
 Istotnym aspektem, z punktu widzenia prędkości działania silnika, było zastosowanie odpowiedniego typu reprezentacji położenia bierek na 64-polowej planszy szachowej.
-Po~zapoznaniu się z proponowanymi w literaturze rozwiązaniami, w programie zdecydowano się zaimplementować dwie redundantne techniki.
+Po~zapoznaniu się z proponowanymi w literaturze rozwiązaniami, w projekcie zdecydowano się zaimplementować dwie redundantne techniki.
 
 Obie charakteryzują się odmiennymi właściwościami, znajdując zastosowanie dla innych algorytmów wewnątrz programu.
 Różnią się one pod względem gęstości zawartych informacji, szybkości dostępu do danych oraz łatwości modyfikacji.
-Jedno z nich skupia się na każdym z~pól~szachownicy (ang.~\emph{Square Centric}), drugie natomiast bierze pod uwagę konkretne rodzaje bierek (ang.~\emph{Piece Centric}).
+Jedna z nich skupia się na każdym z~pól~szachownicy (ang.~\emph{Square Centric}), druga natomiast bierze pod uwagę położenie konkretnych rodzajów bierek (ang.~\emph{Piece Centric}).
 
 \subsubsection{Tablica pól szachowych}
 
-Naturalnym podejściem do reprezentacji szachownicy wydaje się zastosowanie 64-elementowej tablicy, w której każde pole odpowiada konkretnemu miejscu na planszy.
+Naturalnym podejściem do reprezentacji szachownicy wydało się zastosowanie 64-elementowej tablicy, w której każde pole odpowiada konkretnemu miejscu na planszy.
 W tej implementacji poszczególne bierki zostały zakodowane liczbami od 1 do 6, natomiast cyfry 0 i 8 odpowiednio reprezentują biały oraz czarny kolor.
-W ten sposób, za pomocą pojedynczych bajtów, można jednoznacznie określić zarówno typ figury, jak i jej kolor na danym polu.
+W ten sposób, za pomocą pojedynczych bajtów, można określić zarówno typ figury, jak i jej kolor na danym polu.
 
-Taka struktura danych jest szczególnie użyteczna, gdy chcemy szybko odpowiedzieć na~pytanie, czy na danym polu znajduje się figura, a jeśli tak, to jaka.
+Taka struktura danych jest szczególnie użyteczna, gdy konieczna jest szybka odpowiedź na~pytanie, czy na danym kwadracie znajduje się figura, a jeśli tak, to jaka.
 Dzięki prostemu indeksowaniu tablicy dostęp do informacji o stanie pojedynczego pola jest bardzo efektywny.
 
-Problem pojawia się w momencie, gdy wymagane jest odnalezienie wszystkich pól~zawierających konkretny typ figury.
-W takim przypadku konieczna staje się iteracja całej tablicy, w celu zidentyfikowania odpowiednich pól.
-Operacja ta, szczególnie przy~wielokrotnym wywołaniu, może znacząco obniżyć wydajność algorytmu.
+Wada tej techniki pojawia się w momencie, gdy wymagane jest odnalezienie wszystkich pól~zawierających konkretny typ figury.
+W takim przypadku konieczna staje się iteracja całej tablicy, w celu zidentyfikowania odpowiednich miejsc.
+Operacja ta, szczególnie przy~wielokrotnym wywołaniu, może znacząco obniżyć wydajność implementowanego algorytmu.
 
 \begin{lstlisting}[
     language=Java,
@@ -46,6 +46,14 @@ Operacja ta, szczególnie przy~wielokrotnym wywołaniu, może znacząco obniży�
 
 \subsubsection{Tablice bitowe bierek}
 
+W celu zaadresowania powyższych spowolnień zastosowana została technika reprezentacji szachownicy za pomocą tablic bitowych.
+Informacja o położeniu bierek na planszy przechowywana jest w postaci tablicy liczb typu Long.
+
+Implementacja ta wykorzystuje fakt, że tak jak szachowa plansza posiada 64 pola, tak większość współczesnych komputerów posiada architekturę 64-bitową.
+Oznaczając figurę na danym polu za pomocą jedynki, a pozostałe pola jako zera, można w prosty sposób zakodować całą planszę w pojedynczym słowie.
+
+Dodatkowym atutem jest także szybkość manipulacji danymi przez operatory bitowe takie jak negacja, koniunkcja, alternatywa wykluczająca czy przesunięcie bitowe.
+Okazało się to być szczególnie użyteczne w przypadku algorytmów generowania możliwych posunięć.
 \begin{lstlisting}[
     language=Java,
     style=JavaStyle,
