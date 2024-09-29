@@ -1,5 +1,6 @@
 package org.example.Engine.BoardRepresentation;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public interface BoardHelper {
@@ -78,6 +79,7 @@ public interface BoardHelper {
         board.currentBoardState = new State();
 
         board.currentBoardState.gameState = GAME_STATE.EARLY_GAME;
+        board.positionCount = new HashMap<>();
 
         fillValues(board, fenSplit[1]);
         fillFormats(board, fenSplit[0]);
