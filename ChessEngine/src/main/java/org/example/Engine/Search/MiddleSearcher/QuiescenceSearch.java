@@ -37,7 +37,7 @@ public class QuiescenceSearch {
 
         for(Move move : moves) {
 
-            if(searcher.stopSearch)
+            if(!searcher.isCurrentlyThinking)
                 break;
 
             board.makeMove(move);

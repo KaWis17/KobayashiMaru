@@ -19,12 +19,13 @@ public class Searcher implements Runnable {
 
     public int searchId;
     public volatile Move bestMove;
-    public volatile boolean stopSearch;
+    public volatile boolean isCurrentlyThinking;
 
     public Searcher(Board board, Evaluator evaluator, MoveGenerator moveGenerator) {
         this.board = board;
         this.evaluator = evaluator;
         searchId = 0;
+        isCurrentlyThinking = false;
 
         earlySearcher = new EarlySearcher(board, this);
         middleSearcher = new MiddleSearcher(board, this, evaluator, moveGenerator);
@@ -33,7 +34,7 @@ public class Searcher implements Runnable {
 
     @Override
     public void run() {
-        stopSearch = false;
+        isCurrentlyThinking = true;
         searchId++;
 
         long time = System.currentTimeMillis();
@@ -47,12 +48,12 @@ public class Searcher implements Runnable {
             UciSender.sendDebugMessage("Time taken: " + (System.currentTimeMillis() - time) + "ms");
         }
 
-        if(!stopSearch)
-            stopSearch=true;
+        if(isCurrentlyThinking)
+            stopSearchAndSendResponse();
     }
 
     public void stopSearchAndSendResponse(){
-        stopSearch = true;
+        isCurrentlyThinking = false;
         UciSender.sendBestMove(bestMove.toString());
     }
 

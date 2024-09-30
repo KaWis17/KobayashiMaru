@@ -24,8 +24,6 @@ public class MoveGenerator implements BoardHelper {
     }
 
     public ArrayList<Move> generateAllLegalMoves() {
-        if(board.isDrawByRepetition())
-            return new ArrayList<>();
 
         ArrayList<Move> moves = generateAllPseudoLegalMoves();
 
@@ -42,6 +40,10 @@ public class MoveGenerator implements BoardHelper {
     }
 
     public ArrayList<Move> generateAllPseudoLegalMoves() {
+
+        if(board.isDrawByRepetition())
+            return new ArrayList<>();
+
         ArrayList<Move> moves = new ArrayList<>(40);
 
         boolean whiteToMove = board.isWhiteToPlay();
@@ -59,6 +61,10 @@ public class MoveGenerator implements BoardHelper {
     }
 
     public ArrayList<Move> generateAllPseudoLegalCaptureMoves() {
+
+        if(board.isDrawByRepetition())
+            return new ArrayList<>();
+
         ArrayList<Move> moves = new ArrayList<>(20);
 
         boolean whiteToMove = board.isWhiteToPlay();

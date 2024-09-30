@@ -56,11 +56,15 @@ public class Engine implements Constants {
     }
 
     public void findBestMoveWithTimeOnThread(int time) {
-        if(Config.DEBUG_ON)
-            UciSender.sendDebugMessage("Starting search on separate thread");
+        if(!searcher.isCurrentlyThinking) {
+            if(Config.DEBUG_ON)
+                UciSender.sendDebugMessage("Starting search on separate thread");
 
-        new Thread(searcher).start();
-        scheduleExecutorService(time-250);
+            new Thread(searcher).start();
+            scheduleExecutorService(time-100);
+        }
+        else if(Config.DEBUG_ON)
+            UciSender.sendDebugMessage("Engine is currently calculating position, cannot run in paralel.");
     }
 
     private void scheduleExecutorService(int time) {
@@ -68,13 +72,14 @@ public class Engine implements Constants {
         executorService.schedule(this::stopSearchingForBestMove, time, java.util.concurrent.TimeUnit.MILLISECONDS);
     }
 
+    private void stopSearchingForBestMove() {
+        if(searcher.isCurrentlyThinking)
+            searcher.stopSearchAndSendResponse();
+    }
+
     public void stopSearchManually() {
         executorService.shutdownNow();
         stopSearchingForBestMove();
-    }
-
-    private void stopSearchingForBestMove() {
-        searcher.stopSearchAndSendResponse();
     }
 
     // HELPERS
@@ -90,13 +95,16 @@ public class Engine implements Constants {
         PerftTest.perft(board, depth);
     }
 
-    private int decideTimeProposal(int wtime, int btime, int winc, int binc) {
-        int estimatedMovesLeft = Math.min(40 - board.getCurrentMoveNumber(), 10);
+    public int decideTimeProposal(int wtime, int btime, int winc, int binc) {
+        int estimatedMovesLeft = Math.max(40 - board.getCurrentMoveNumber(), 10);
         int estimatedTimeLeft =
                 (board.isWhiteToPlay()) ?
                 (wtime + winc * estimatedMovesLeft) :
                 (btime + binc * estimatedMovesLeft);
 
-        return estimatedTimeLeft/estimatedMovesLeft;
+        if(estimatedMovesLeft == 10)
+            estimatedTimeLeft -= 1000;
+
+        return (estimatedTimeLeft/estimatedMovesLeft - 100);
     }
 }

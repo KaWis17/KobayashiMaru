@@ -41,17 +41,14 @@ public class MiddleSearcher implements Search {
             evaluator.counter = 0;
             Result result = alphaBetaNegEntryPoint(i, MINIMUM, MAXIMUM);
 
-
             if(result != null) {
                 searcher.bestMove = result.move;
                 UciSender.sendInfoMessage("depth " + i + " score cp " + evaluator.evaluate() + " pv " + searcher.bestMove + " nodes " + evaluator.getCount());
                 if(result.score == MAXIMUM) {
-                    searcher.stopSearch = true;
                     return;
                 }
             }
-
-            if(searcher.stopSearch)
+            if(!searcher.isCurrentlyThinking)
                 return;
         }
     }
@@ -66,12 +63,12 @@ public class MiddleSearcher implements Search {
 
         for(Move move : moves) {
 
-            if(searcher.stopSearch)
+            if(!searcher.isCurrentlyThinking)
                 return null;
 
             board.makeMove(move);
             int score = -alphaBetaNeg(depth-1, -beta, -alpha);
-            if((score > bestMoveValue || bestMoveValue == MINIMUM) && !searcher.stopSearch)
+            if((score > bestMoveValue || bestMoveValue == MINIMUM) && searcher.isCurrentlyThinking)
             {
                 bestMoveValue = score;
                 bestMove = move;
@@ -81,8 +78,9 @@ public class MiddleSearcher implements Search {
 
             board.unmakeMove();
 
-            if (bestMoveValue == MAXIMUM)
-                break;
+            if (bestMoveValue == MAXIMUM) {
+                return new Result(bestMoveValue, bestMove);
+            }
 
             if(score >= beta)
                 break;
@@ -92,20 +90,20 @@ public class MiddleSearcher implements Search {
     }
 
     private Integer alphaBetaNeg(int depth, int alpha, int beta) {
-        ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
-        Collections.sort(moves);
 
-        if(depth == 0 || moves.isEmpty()) {
+        if(depth == 0) {
             if(!Config.quiescenceSearch)
                 return evaluator.evaluate();
             else
                 return quiescenceSearch.search(alpha, beta);
-
         }
+
+        ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
+        Collections.sort(moves);
 
         int bestMoveValue = MINIMUM;
         for(Move move : moves) {
-            if(searcher.stopSearch)
+            if(!searcher.isCurrentlyThinking)
                 break;
 
             board.makeMove(move);
