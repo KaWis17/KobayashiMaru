@@ -1,1 +1,3 @@
-![KobayashiMaru](/EngineeringThesis/out/Dyplom.pdf)
+Kobayashi Maru
+
+https://lichess.org/@/KobayashiMaruPL
