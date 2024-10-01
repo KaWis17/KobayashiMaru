@@ -32,7 +32,7 @@ public class QuiescenceSearch {
         if (alpha < standPat)
             alpha = standPat;
 
-        ArrayList<Move> moves = generator.generateAllLegalCaptureMoves();
+        ArrayList<Move> moves = generator.generateAllPseudoLegalCaptureMoves();
         Collections.sort(moves);
 
         for(Move move : moves) {
@@ -40,14 +40,17 @@ public class QuiescenceSearch {
             if(!searcher.isCurrentlyThinking)
                 break;
 
-            board.makeMove(move);
-            int score = -search(-beta, -alpha);
-            board.unmakeMove();
+            if(board.makeMove(move)) {
+                int score = -search(-beta, -alpha);
+                board.unmakeMove();
 
-            if(score >= beta)
-                return beta;
-            if(score > alpha)
-                alpha = score;
+                if(score >= beta)
+                    return beta;
+                if(score > alpha)
+                    alpha = score;
+            }
+            else
+                board.unmakeMove();
         }
         return alpha;
     }

@@ -85,8 +85,7 @@ public class MoveGenerator implements BoardHelper {
        ArrayList<Move> legalMoves = new ArrayList<>(40);
 
         for(Move move : moves) {
-            board.makeMove(move);
-            if(!board.isOpponentColorInCheck())
+            if(board.makeMove(move))
                 legalMoves.add(move);
             board.unmakeMove();
         }

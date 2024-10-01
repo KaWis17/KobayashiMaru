@@ -58,7 +58,7 @@ public class MiddleSearcher implements Search {
         int bestMoveValue = MINIMUM;
         Move bestMove = null;
 
-        ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
+        ArrayList<Move> moves = moveGenerator.generateAllPseudoLegalMoves();
         Collections.sort(moves);
 
         for(Move move : moves) {
@@ -66,24 +66,26 @@ public class MiddleSearcher implements Search {
             if(!searcher.isCurrentlyThinking)
                 return null;
 
-            board.makeMove(move);
-            int score = -alphaBetaNeg(depth-1, -beta, -alpha);
-            if((score > bestMoveValue || bestMoveValue == MINIMUM) && searcher.isCurrentlyThinking)
-            {
-                bestMoveValue = score;
-                bestMove = move;
-                if(score > alpha)
-                    alpha = score;
+            if(board.makeMove(move)){
+                int score = -alphaBetaNeg(depth-1, -beta, -alpha);
+                if((score > bestMoveValue || bestMoveValue == MINIMUM) && searcher.isCurrentlyThinking)
+                {
+                    bestMoveValue = score;
+                    bestMove = move;
+                    if(score > alpha)
+                        alpha = score;
+                }
+                board.unmakeMove();
+
+                if (bestMoveValue == MAXIMUM) {
+                    return new Result(bestMoveValue, bestMove);
+                }
+
+                if(score >= beta)
+                    break;
             }
-
-            board.unmakeMove();
-
-            if (bestMoveValue == MAXIMUM) {
-                return new Result(bestMoveValue, bestMove);
-            }
-
-            if(score >= beta)
-                break;
+            else
+                board.unmakeMove();
         }
 
         return new Result(bestMoveValue, bestMove);
@@ -98,7 +100,7 @@ public class MiddleSearcher implements Search {
                 return quiescenceSearch.search(alpha, beta);
         }
 
-        ArrayList<Move> moves = moveGenerator.generateAllLegalMoves();
+        ArrayList<Move> moves = moveGenerator.generateAllPseudoLegalMoves();
         Collections.sort(moves);
 
         int bestMoveValue = MINIMUM;
@@ -106,17 +108,20 @@ public class MiddleSearcher implements Search {
             if(!searcher.isCurrentlyThinking)
                 break;
 
-            board.makeMove(move);
-            int score = -alphaBetaNeg(depth-1, -beta, -alpha);
-            if(score > bestMoveValue) {
-                bestMoveValue = score;
-                if(score > alpha)
-                    alpha = score;
-            }
-            board.unmakeMove();
+            if(board.makeMove(move)) {
+                int score = -alphaBetaNeg(depth-1, -beta, -alpha);
+                if(score > bestMoveValue) {
+                    bestMoveValue = score;
+                    if(score > alpha)
+                        alpha = score;
+                }
+                board.unmakeMove();
 
-            if(score >= beta)
-                break;
+                if(score >= beta)
+                    break;
+            }
+            else
+                board.unmakeMove();
         }
         return bestMoveValue;
     }

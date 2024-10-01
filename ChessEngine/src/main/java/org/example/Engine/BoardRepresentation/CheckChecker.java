@@ -79,16 +79,20 @@ public class CheckChecker implements BoardHelper{
         }
 
         // Generate all possible moves for the given color
-        List<Move> allPossibleMoves = generator.generateAllLegalMoves();
+        List<Move> allPossibleMoves = generator.generateAllPseudoLegalMoves();
 
         // For each move, make the move and check if the king is still in check
         for (Move move : allPossibleMoves) {
-            board.makeMove(move);
-            boolean stillInCheck = isColorInCheck(color);
-            board.unmakeMove();
+            if(board.makeMove(move)) {
+                boolean stillInCheck = isColorInCheck(color);
+                board.unmakeMove();
 
-            if (!stillInCheck) {
-                return false;
+                if (!stillInCheck) {
+                    return false;
+                }
+            }
+            else {
+                board.unmakeMove();
             }
         }
 

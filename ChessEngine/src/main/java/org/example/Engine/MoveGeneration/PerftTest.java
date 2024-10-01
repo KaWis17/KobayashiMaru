@@ -22,14 +22,14 @@ public class PerftTest {
         MoveGenerator generator = new MoveGenerator(board);
 
         long sum = 0;
-        for(Move move: generator.generateAllLegalMoves()) {
-            board.makeMove(move);
-            long children = perftHelper(generator, board, depth-1);
+        for(Move move: generator.generateAllPseudoLegalMoves()) {
+            if(board.makeMove(move)) {
+                long children = perftHelper(generator, board, depth-1);
 
-            System.out.println(move + ": " + children);
+                System.out.println(move + ": " + children);
 
-            sum += children;
-
+                sum += children;
+            }
             board.unmakeMove();
         }
 
@@ -41,11 +41,12 @@ public class PerftTest {
             return 1L;
 
         long sum = 0;
-        ArrayList<Move> moves = generator.generateAllLegalMoves();
+        ArrayList<Move> moves = generator.generateAllPseudoLegalMoves();
 
         for(Move newMove: moves) {
-            board.makeMove(newMove);
-            sum += perftHelper(generator, board, depth-1);
+            if(board.makeMove(newMove)){
+                sum += perftHelper(generator, board, depth-1);
+            }
             board.unmakeMove();
         }
 

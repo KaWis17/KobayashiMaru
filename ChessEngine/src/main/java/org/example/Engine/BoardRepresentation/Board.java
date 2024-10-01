@@ -34,12 +34,16 @@ public class Board implements BoardHelper {
         BoardHelper.FENToBoard(this, fen);
     }
 
-    public void makeMove(Move moveToMake) {
+    public boolean makeMove(Move moveToMake) {
         moveMaker.makeMove(moveToMake);
+
+        return !isOpponentColorInCheck();
     }
 
-    public void makeMove(String moveToMake) {
+    public boolean makeMove(String moveToMake) {
         moveMaker.makeMove(moveToMake);
+
+        return !isOpponentColorInCheck();
     }
 
     public void unmakeMove() {
