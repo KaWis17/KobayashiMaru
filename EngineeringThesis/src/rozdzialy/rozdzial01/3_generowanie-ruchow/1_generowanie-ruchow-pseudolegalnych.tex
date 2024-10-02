@@ -1,7 +1,21 @@
-\subsection{Generowanie ruchów pseudolegalnych \colorbox{yellow}{Implemented}}
+\subsection{Generowanie ruchów pseudolegalnych \colorbox{cyan}{In progress}}
 \label{subsec:generowanie-ruchow-pseudolegalnych}
+
+\subsubsection{Generowanie ruchów piona}
+
+Pionek na szachownicy ma do dyspozycji parę możliwych ruchów, które zależą od aktualnej pozycji na planszy:
+\begin{itemize}
+    \item ruch o jedno pole do przodu, jeśli to pole to jest wolne,
+    \item ruch o dwa pola do przodu, jeśli pionek znajduje się na swoim polu startowym oraz zarówno pole docelowe, jak i pole, przez które przechodzi, są wolne,
+    \item bicie w przód na skos w lewo lub prawo, jeśli na polu docelowym znajduje się bierka przeciwnika,
+    \item bicie en-passant.
+\end{itemize}
+Powyższe ruchy zostały zaimplementowane przez operacje bitowe i bitowe przesunięcia na masce bitowej reprezentującej pionki.
+Dla przykładu technika generowania ruchów piona o jedno pole do przodu:
+
+
+
+\subsubsection{Generowanie ruchów hetmana, wieży i gońca}
 
 \subsubsection{Generowanie ruchów króla i skoczka}
 
-\subsubsection{Generowanie ruchów hetmana, wieży i gońca}
-\subsubsection{Generowanie ruchów piona}
