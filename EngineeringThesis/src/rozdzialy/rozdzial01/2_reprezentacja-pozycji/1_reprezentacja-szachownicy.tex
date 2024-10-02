@@ -21,27 +21,25 @@ Wada tej techniki pojawia się w momencie, gdy wymagane jest odnalezienie wszyst
 W takim przypadku konieczna staje się iteracja całej tablicy, w celu zidentyfikowania odpowiednich miejsc.
 Operacja ta, szczególnie przy~wielokrotnym wywołaniu, może znacząco obniżyć wydajność implementowanego algorytmu.
 
-\begin{lstlisting}[
-    language=Java,
-    style=JavaStyle,
-    caption=Implementacja reprezentacji szachownicy tablicą pól,
-    label=lst:pierwszy]
-
-    public byte[] board = new byte[64];
-
-    @Override
-    public void addPieceOnSquare(byte square, byte color, byte piece) {
-        square = (byte) (64 - square);
-        board[square] = (byte) (color | piece);
-    }
-
-    @Override
-    public void deletePieceOnSquare(byte square, byte color, byte piece) {
-        square = (byte) (64 - square);
-        board[square] = 0;
-    }
-
-\end{lstlisting}
+%\begin{lstlisting}[
+%    language=Java,
+%    style=JavaStyle,
+%    caption=Implementacja reprezentacji szachownicy tablicą pól,
+%    label=lst:pierwszy]
+%
+%    public byte[] board = new byte[64];
+%
+%    @Override
+%    public void addPieceOnSquare(byte square, byte color, byte piece) {
+%        board[square] = (byte) (color | piece);
+%    }
+%
+%    @Override
+%    public void deletePieceOnSquare(byte square, byte color, byte piece) {
+%        board[square] = 0;
+%    }
+%
+%\end{lstlisting}
 
 
 \subsubsection{Tablice bitowe bierek}
@@ -59,20 +57,14 @@ Okazało się to być szczególnie użyteczne w przypadku algorytmów generowani
     style=JavaStyle,
     caption=Implementacja reprezentacji szachownicy tablicami bitowymi bierek,
     label=lst:drugi]
-
-    public long[] bitBoards = new long[15];
-
-    @Override
     public void addPieceOnSquare(byte square, byte color, byte piece) {
         bitBoards[piece | color] |= Long.rotateLeft(1L, square-1);
         bitBoards[color] |= Long.rotateLeft(1L, square-1);
     }
 
-    @Override
     public void deletePieceOnSquare(byte square, byte color, byte piece) {
         bitBoards[piece | color] &= ~Long.rotateLeft(1L, square-1);
         bitBoards[color] &= ~Long.rotateLeft(1L, square-1);
     }
-
 \end{lstlisting}
 

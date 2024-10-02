@@ -13,32 +13,34 @@ Została stworzona przez dziennikarza Davida Forsytha, a następnie dalej dostos
 
 Notacja FEN jest linią znaków ASCII, która pozwala na precyzyjne określenie aktualnego stanu gry.
 Wielkimi literami kodowane są bierki białe, małymi natomiast bierki czarne.
-Każda z nich opisana jest skrótem pochodzącym od ich angielskich nazw:
+Każda z nich opisana jest skrótem pochodzącym od ich angielskich nazw.
 
-\begin{multicols}{3}
-    \begin{itemize}
-        \item P/p — pion
-        \item N/n — skoczek
-        \item B/b — goniec
-        \item R/r — wieża
-        \item Q/q — hetman
-        \item K/k — król
-    \end{itemize}
-\end{multicols}
-
-Sześć następujących po sobie pól, oddzielonych spacjami, określa kolejne aspekty gry:
-\begin{enumerate}[itemsep=0.3em]
-    \item Reprezentacja 64 pól szachownicy z perspektywy białego gracza.
-    Każdy z wierszy planszy oddzielony jest \("\)/\("\), a jego zawartość opisywana zostaje od kolumny a, do kolumny h.
-    Liczbę nieprzerwanie pustych pól w danym wierszu określa cyfra z zakresu od 1 do 8.
-    \item Sprecyzowanie, do którego gracza należy następny ruch (w - biały, b - czarny).
-    \item Przedstawienie możliwości roszady obu stron (K/k - krótka roszada, Q/q - długa roszada).
-    \item Sprecyzowanie pola będącego celem bicia w przelocie, szerzej znanego jako ruch en~passant.
-    Brak możliwości bicia określany jest jako\("\)-\("\)
-    \item Liczba posunięć od ostatniego bicia bądź ruchu pionem.
-    Wartość ta jest istotna z punktu widzenia reguły 50 posunięć.
-    \item Liczba pełnych ruchów, która zostaje każdorazowo zwiększana po ruchu czarnych bierek.
-\end{enumerate}
+%
+%
+%\begin{multicols}{3}
+%    \begin{itemize}
+%        \item P/p — pion
+%        \item N/n — skoczek
+%        \item B/b — goniec
+%        \item R/r — wieża
+%        \item Q/q — hetman
+%        \item K/k — król
+%    \end{itemize}
+%\end{multicols}
+%
+%Sześć następujących po sobie pól, oddzielonych spacjami, określa kolejne aspekty gry:
+%\begin{enumerate}[itemsep=0.3em]
+%    \item Reprezentacja 64 pól szachownicy z perspektywy białego gracza.
+%    Każdy z wierszy planszy oddzielony jest \("\)/\("\), a jego zawartość opisywana zostaje od kolumny a, do kolumny h.
+%    Liczbę nieprzerwanie pustych pól w danym wierszu określa cyfra z zakresu od 1 do 8.
+%    \item Sprecyzowanie, do którego gracza należy następny ruch (w - biały, b - czarny).
+%    \item Przedstawienie możliwości roszady obu stron (K/k - krótka roszada, Q/q - długa roszada).
+%    \item Sprecyzowanie pola będącego celem bicia w przelocie, szerzej znanego jako ruch en~passant.
+%    Brak możliwości bicia określany jest jako\("\)-\("\)
+%    \item Liczba posunięć od ostatniego bicia bądź ruchu pionem.
+%    Wartość ta jest istotna z punktu widzenia reguły 50 posunięć.
+%    \item Liczba pełnych ruchów, która zostaje każdorazowo zwiększana po ruchu czarnych bierek.
+%\end{enumerate}
 
 Pełna specyfikacja FEN dostępna jest w dokumentacji \("\)Portable Game Notation\("\). \cite*{PGNdoc}
 
@@ -46,9 +48,9 @@ Pełna specyfikacja FEN dostępna jest w dokumentacji \("\)Portable Game Notatio
     \centering
     \begin{tabular}{@{}ll@{}}
         a) & b) \\
-        \includegraphics[width=0.425\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_startowa}
+        \includegraphics[width=0.4\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_startowa}
         &
-        \includegraphics[width=0.425\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_niejasna}
+        \includegraphics[width=0.4\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_niejasna}
     \end{tabular}
     \caption{Przykładowe pozycje szachowe: a) startowa, b) po paru ruchach}
     \label{fig: basic_chess_positions}

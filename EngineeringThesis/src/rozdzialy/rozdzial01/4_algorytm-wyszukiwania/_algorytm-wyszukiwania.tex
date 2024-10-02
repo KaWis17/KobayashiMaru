@@ -1,6 +1,13 @@
 \section{Algorytm wyszukiwania}
 \label {sec:algorytm-wyszukiwania}
 
+Z punktu widzenia teorii gier, szachy można zakwalifikować jako dwuosobową grę o sumie zerowej z pełną informacją.
+Oznacza to, że każdy z graczy wykonujących ruch ma dostęp do pełnej wiedzy na temat aktualnego stanu gry oraz jej historii.
+Co więcej, po wykonaniu ruchu, zysk gracza jest równy stratom poniesionym przez jego oponenta.
+
+W związku ze średnią ilością możliwych posunięć w danej pozycji niemożliwe jest wprowadzenie optymalnej analizy statycznej proponującej następne ruchy.
+Z tego względu konieczne jest zastosowanie algorytmów dynamicznie przechodzących przez drzewo gry, w celu znalezienia najlepszego posunięcia.
+
 \input{rozdzialy/rozdzial01/4_algorytm-wyszukiwania/1_algorytm-min-max}
 
 \input{rozdzialy/rozdzial01/4_algorytm-wyszukiwania/2_iteracyjne-poglebianie-wyszukiwania}
