@@ -1,8 +1,11 @@
 \subsection{Reprezentacja stanu}
 \label{subsec:reprezentacja-stanu}
 
-Reprezentacja stanu zawiera resztę informacji koniecznych do przedstawienia pozycji szachowej.
-Znajdują się w niej dane o możliwości roszad, polu en-passant, liczbie posunięć od ostatniego bicia, czy informacji, do którego gracza należy następny ruch.
+Reprezentacja stanu zawiera resztę informacji koniecznych do przedstawienia pozycji szachowej odkodowywanej z FEN.
+Znajdują się w niej dane o możliwych roszadach, polu en-passant, liczbie posunięć od ostatniego bicia, czy informacji, do którego gracza należy następny ruch.
 
-W tym miejscu zawarto także strukturę HashMap zawierającą informacje o tym, jak często dane pozycja wystąpiły już w grze.
+W tej klasie zawarto także informację o tym, jaki ruch doprowadził do aktualnej pozycji, oraz strukturę HashMap zawierającą informacje, jak często dane pozycja wystąpiły już w grze.
 Pozwoliło to na wykrywanie trzykrotnego powtórzenia stanu gry (niekoniecznie następującego bezpośrednio po sobie), które skutkuje automatycznym remisem.
+
+Przechowywanie danych o etapie gry oraz o wyliczonej ocenie heurystycznej pozwoliło na~uniknięcie wielokrotnego przeliczania tych samych wartości przez różne fragmenty programu.
+

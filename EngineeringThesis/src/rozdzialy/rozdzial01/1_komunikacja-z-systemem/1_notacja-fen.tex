@@ -5,13 +5,12 @@
 W 1950 roku amerykański matematyk Claude Shanon na łamach \("\)Philosophical Magazine\("\) opublikował pracę naukową zatytułowaną \("\)Programowanie komputera do gry w szachy\("\).~\cite*{Shannon1950XXIIPA}
 Stała się ona teoretyczną podstawą dla dalszego rozwoju silników szachowych.
 Zawarte w niej zostało między innymi oszacowanie, co do ilości możliwych pozycji szachowych, wynoszące~$10^{43}$.
-Oznacza to, że liczba legalnych ułożeń planszy przewyższa o rzędy wielkości liczbę gwiazd w widzialnym wszechświecie.
+Oznacza to, że liczba legalnych ułożeń planszy o rzędy wielkości przewyższa liczbę gwiazd w widzialnym wszechświecie.
 
-Aby umożliwić użytkownikowi efektywne wprowadzenie danych oraz komunikację z programem, należało w pierwszej kolejności sprecyzować format, w jakim zostaną dostarczone informacje dotyczące aktualnej pozycji.
+Aby umożliwić użytkownikowi efektywne wprowadzenie danych oraz komunikację z~programem, należało w pierwszej kolejności sprecyzować format, w jakim zostaną dostarczone informacje dotyczące aktualnej pozycji.
 Standardem, wykorzystywanym nie tylko w większości silników, ale także w pojedynkach rozgrywanych online, jest Notacja Forsytha-Edwardsa (ang.~\emph{Forsyth–Edwards~Notation}, w~skrócie FEN).
-Została stworzona przez dziennikarza Davida Forsytha, a następnie dalej dostosowywana do potrzeb komputerów przez Stevena Edwardsa.
 
-Notacja FEN jest linią znaków ASCII, która pozwala na precyzyjne określenie aktualnego stanu gry.
+Notacja FEN jest sześciopolową linią znaków ASCII, która pozwala na precyzyjne określenie aktualnego stanu gry.
 Wielkimi literami kodowane są bierki białe, małymi natomiast bierki czarne.
 Każda z nich opisana jest skrótem pochodzącym od ich angielskich nazw.
 
@@ -48,9 +47,9 @@ Pełna specyfikacja FEN dostępna jest w dokumentacji \("\)Portable Game Notatio
     \centering
     \begin{tabular}{@{}ll@{}}
         a) & b) \\
-        \includegraphics[width=0.4\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_startowa}
+        \includegraphics[width=0.35\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_startowa}
         &
-        \includegraphics[width=0.4\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_niejasna}
+        \includegraphics[width=0.35\textwidth]{rozdzialy/rozdzial01/1_komunikacja-z-systemem/rysunki/pozycja_niejasna}
     \end{tabular}
     \caption{Przykładowe pozycje szachowe: a) startowa, b) po paru ruchach}
     \label{fig: basic_chess_positions}

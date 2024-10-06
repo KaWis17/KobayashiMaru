@@ -1,6 +1,7 @@
 package org.example.Engine.BoardRepresentation;
 
 import junit.framework.TestCase;
+import org.example.Engine.BoardRepresentation.BoardFormats.BitBoardsRepresentation;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.MoveGenerator;
 
@@ -47,13 +48,14 @@ public class BoardTest extends TestCase {
         b.startFromDefaultPosition();
         MoveGenerator g = new MoveGenerator(b);
 
-        long[] deepCopy = b.bitBoardsRepresentation.bitBoards.clone();
+
+        long[] deepCopy = ((BitBoardsRepresentation)b.bitBoardsRepresentation).bitBoards.clone();
 
         for(Move move : g.generateAllLegalMoves()) {
             b.makeMove(move);
             b.unmakeMove();
             for(int i=0; i<deepCopy.length; i++) {
-                assertEquals(deepCopy[i], b.bitBoardsRepresentation.bitBoards[i]);
+                assertEquals(deepCopy[i], ((BitBoardsRepresentation)b.bitBoardsRepresentation).bitBoards[i]);
             }
         }
     }
