@@ -5,6 +5,9 @@ import org.example.Engine.BoardRepresentation.Move.Move;
 
 import java.util.ArrayList;
 
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
+import static org.example.Engine.BoardRepresentation.Move.MoveConstants.*;
+
 public class KingMoveGenerator extends Generator {
 
     long[] preComputedMasks = new long[64];
@@ -81,11 +84,11 @@ public class KingMoveGenerator extends Generator {
     private ArrayList<Move> getCastlingMovesForWhite() {
         ArrayList<Move> castlingMoves = new ArrayList<>(2);
 
-        if(board.currentBoardState.canWhiteCastleKingside) {
+        if(board.currentBoardState.canWhiteCastleKingSide) {
             if (board.getPieceOnSquare((byte) 2) == 0 && board.getPieceOnSquare((byte) 3) == 0)
                 castlingMoves.add(new Move((byte) 4, (byte) 2, KING_CASTLE, board));
         }
-        if(board.currentBoardState.canWhiteCastleQueenside) {
+        if(board.currentBoardState.canWhiteCastleQueenSide) {
             if (board.getPieceOnSquare((byte) 5) == 0 && board.getPieceOnSquare((byte) 6) == 0 && board.getPieceOnSquare((byte) 7) == 0)
                 castlingMoves.add(new Move((byte) 4, (byte) 6, QUEEN_CASTLE, board));
         }
@@ -96,11 +99,11 @@ public class KingMoveGenerator extends Generator {
     private ArrayList<Move> getCastlingMovesForBlack() {
         ArrayList<Move> castlingMoves = new ArrayList<>(2);
 
-        if(board.currentBoardState.canBlackCastleKingside) {
+        if(board.currentBoardState.canBlackCastleKingSide) {
             if (board.getPieceOnSquare((byte) 58) == 0 && board.getPieceOnSquare((byte) 59) == 0)
                 castlingMoves.add(new Move((byte) 60, (byte) 58, KING_CASTLE, board));
         }
-        if(board.currentBoardState.canBlackCastleQueenside) {
+        if(board.currentBoardState.canBlackCastleQueenSide) {
             if (board.getPieceOnSquare((byte) 61) == 0 && board.getPieceOnSquare((byte) 62) == 0 && board.getPieceOnSquare((byte) 63) == 0)
                 castlingMoves.add(new Move((byte) 60, (byte) 62, QUEEN_CASTLE, board));
         }

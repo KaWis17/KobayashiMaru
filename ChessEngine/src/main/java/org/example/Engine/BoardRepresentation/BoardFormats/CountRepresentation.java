@@ -2,7 +2,7 @@ package org.example.Engine.BoardRepresentation.BoardFormats;
 
 import java.util.Arrays;
 
-public class CountRepresentation implements Format {
+public class CountRepresentation extends BoardFormat {
 
     public byte[] pieces = new byte[16];
 

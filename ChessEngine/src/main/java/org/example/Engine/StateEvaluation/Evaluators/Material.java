@@ -4,7 +4,7 @@ import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.StateEvaluation.Evaluation;
 
-public class Material implements Evaluation, BoardHelper {
+public class Material implements Evaluation {
 
     Board board;
 
@@ -14,17 +14,17 @@ public class Material implements Evaluation, BoardHelper {
 
     @Override
     public int evaluate() {
-        return evaluateColor(WHITE) - evaluateColor(BLACK);
+        return evaluateColor(board.WHITE) - evaluateColor(board.BLACK);
     }
 
     private int evaluateColor(byte color) {
         int value = 0;
 
-        value += 100 * board.countRepresentation.pieces[color | PAWN];
-        value += 300 * board.countRepresentation.pieces[color | KNIGHT];
-        value += 300 * board.countRepresentation.pieces[color | BISHOP];
-        value += 500 * board.countRepresentation.pieces[color | ROOK];
-        value += 900 * board.countRepresentation.pieces[color | QUEEN];
+        value += 100 * board.getPieceCount(color | board.PAWN);
+        value += 300 * board.getPieceCount(color | board.KNIGHT);
+        value += 300 * board.getPieceCount(color | board.BISHOP);
+        value += 500 * board.getPieceCount(color | board.ROOK);
+        value += 900 * board.getPieceCount(color | board.QUEEN);
 
         return value;
     }

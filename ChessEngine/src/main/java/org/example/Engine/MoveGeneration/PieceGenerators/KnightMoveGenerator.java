@@ -5,6 +5,9 @@ import org.example.Engine.BoardRepresentation.Move.Move;
 
 import java.util.ArrayList;
 
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
+import static org.example.Engine.BoardRepresentation.Move.MoveConstants.*;
+
 public class KnightMoveGenerator extends Generator {
 
     long sameColorKnights;

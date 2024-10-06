@@ -3,8 +3,10 @@ package org.example.Engine.BoardRepresentation.Move;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.State;
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
+import static org.example.Engine.BoardRepresentation.Move.MoveConstants.*;
 
-public class MoveUnMaker implements MoveConstants, BoardHelper{
+public class MoveUnMaker {
 
     Board board;
     public MoveUnMaker(Board board) {
@@ -12,7 +14,7 @@ public class MoveUnMaker implements MoveConstants, BoardHelper{
     }
 
     public void unmakeMove() {
-        String shortFen = BoardHelper.BoardToLibraryFEN(board);
+        String shortFen = board.BoardToLibraryFEN(board);
         Integer value = board.positionCount.get(shortFen);
 
         if(value == 1)
@@ -32,11 +34,11 @@ public class MoveUnMaker implements MoveConstants, BoardHelper{
         Move moveToUnmake = currentState.moveThatTookToThisPosition;
 
         byte pieceToUnMove = board.getPieceOnSquare(moveToUnmake.destination);
-        byte color = BoardHelper.getPieceColor(pieceToUnMove);
-        byte piece = BoardHelper.getPieceType(pieceToUnMove);
+        byte color = board.getPieceColor(pieceToUnMove);
+        byte piece = board.getPieceType(pieceToUnMove);
 
         byte capturedPiece = currentState.capturedPiece;
-        byte typeOfCapturedPiece = BoardHelper.getPieceType(capturedPiece);
+        byte typeOfCapturedPiece = board.getPieceType(capturedPiece);
 
         switch(moveToUnmake.type) {
             case QUIET_MOVE, DOUBLE_PAWN_PUSH -> unMakeQuietMove(moveToUnmake, color, piece);

@@ -1,12 +1,12 @@
-package org.example.Engine.BoardRepresentation;
+package org.example.Engine.MoveGeneration;
 
+import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
-import org.example.Engine.MoveGeneration.MoveGenerator;
 import org.example.Engine.MoveGeneration.PieceGenerators.*;
 
 import java.util.List;
 
-public class CheckChecker implements BoardHelper{
+public class CheckChecker {
 
     Board board;
     Generator kingMoveGenerator;
@@ -26,25 +26,25 @@ public class CheckChecker implements BoardHelper{
     }
 
     public boolean isWhiteInCheck(){
-        return isColorInCheck(WHITE);
+        return isColorInCheck(board.WHITE);
     }
 
     public boolean isWhiteInCheckMate(){
-        return isCheckMate(WHITE);
+        return isCheckMate(board.WHITE);
     }
 
     public boolean isBlackInCheck() {
-        return isColorInCheck(BLACK);
+        return isColorInCheck(board.BLACK);
     }
 
     public boolean isBlackInCheckMate(){
-        return isCheckMate(BLACK);
+        return isCheckMate(board.BLACK);
     }
 
     public boolean isColorInCheck(byte color){
-        byte opponentColor = color == WHITE ? BLACK : WHITE;
+        byte opponentColor = color == board.WHITE ? board.BLACK : board.WHITE;
 
-        long myKing = board.getSpecificBitBoard((byte) (KING | color));
+        long myKing = board.getSpecificBitBoard((byte) (board.KING | color));
 
         long allMyColor = board.getSpecificBitBoard(color);
         long allOpponentColor = board.getSpecificBitBoard(opponentColor);
@@ -54,7 +54,7 @@ public class CheckChecker implements BoardHelper{
         if (myKing == 0L)
             return true;
 
-        if (board.getSpecificBitBoard((byte) (KING | opponentColor)) == 0L)
+        if (board.getSpecificBitBoard((byte) (board.KING | opponentColor)) == 0L)
             return true;
 
         long kingAsOpponentKing = kingMoveGenerator.getKingAsFigureDangerMask(color, myKing, allMyColor, allOpponentColor, allEmpty);

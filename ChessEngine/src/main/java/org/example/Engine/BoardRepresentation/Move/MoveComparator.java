@@ -1,11 +1,12 @@
 package org.example.Engine.BoardRepresentation.Move;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardHelper;
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
+import static org.example.Engine.BoardRepresentation.Move.MoveConstants.*;
 
 import java.util.Comparator;
 
-public class MoveComparator implements MoveConstants, BoardHelper, Comparator<Move> {
+public class MoveComparator implements Comparator<Move> {
 
     private final Board board;
 

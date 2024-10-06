@@ -2,7 +2,7 @@ package org.example.Engine.BoardRepresentation.BoardFormats;
 
 import java.util.Arrays;
 
-public class ArrayRepresentation implements Format {
+public class ArrayRepresentation extends BoardFormat {
 
     public byte[] board = new byte[64];
 

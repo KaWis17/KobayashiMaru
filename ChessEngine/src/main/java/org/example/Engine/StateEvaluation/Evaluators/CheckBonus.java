@@ -1,10 +1,9 @@
 package org.example.Engine.StateEvaluation.Evaluators;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.StateEvaluation.Evaluation;
 
-public class CheckBonus implements Evaluation, BoardHelper {
+public class CheckBonus implements Evaluation {
 
     public static final int CHECK = 500;
 

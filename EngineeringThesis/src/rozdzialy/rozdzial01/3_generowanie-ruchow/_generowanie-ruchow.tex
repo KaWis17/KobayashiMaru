@@ -1,15 +1,17 @@
+\newpage
 \section{Generowanie ruchów}
 \label{sec:generowanie-ruchow}
 
 Generowanie możliwych ruchów w danej pozycji jest jednym z podstawowych, ale~też~kluczowych elementów każdego silnika szachowego.
 Jego efektywna implementacja ma znaczący wpływ na wydajność całego systemu.
-Opisane w poprzednim podroździale struktury danych reprezentacji szachownicy w dużym stopniu determinują techniki, które zostały wykorzystane w generatorze.
+Opisane w poprzednim podroździale struktury danych reprezentacji szachownicy w dużym stopniu zdeterminowały techniki, które zostały wykorzystane w generatorze.
 
-Podstawowym rozróżnieniem zastosowanych rozwiązań jest podział na generowanie ruchów pseudolegalnych oraz ruchów legalnych.
+Podstawowym rozróżnieniem stosowanych rozwiązań jest podział na generowanie ruchów pseudolegalnych oraz ruchów legalnych.
 Ruch pseudolegalny to taki, który nie narusza zasad ruchów poszczególnych bierek, natomiast istnieje możliwość, że po jego wykonaniu własny król znajdzie się w szachu.
 Takie rozwiązanie jest możliwe do zaimplementowania, z~uwagi na pozostawienie odpowiedzialności za sprawdzenie legalności ruchu funkcji ten ruch wykonującej.
 Główną zaletą tego rozwiązania jest znacznie łatwiejsza implementacja.
 
-\input{rozdzialy/rozdzial01/3_generowanie-ruchow/1_generowanie-ruchow-pseudolegalnych}
-
-\input{rozdzialy/rozdzial01/3_generowanie-ruchow/2_generowanie-ruchow-legalnych}
+\input{rozdzialy/rozdzial01/3_generowanie-ruchow/1_operacje-na-mapach-bitowych}
+\input{rozdzialy/rozdzial01/3_generowanie-ruchow/2_hyperbola-quintessence}
+\input{rozdzialy/rozdzial01/3_generowanie-ruchow/3_ruchy-specjalne}
+\input{rozdzialy/rozdzial01/3_generowanie-ruchow/4_generowanie-ruchow-legalnych}

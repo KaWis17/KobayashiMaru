@@ -8,7 +8,7 @@ import org.example.Engine.BoardRepresentation.Move.Move;
 import java.util.ArrayList;
 
 
-public class MoveGeneratorTest extends TestCase implements BoardHelper {
+public class MoveGeneratorTest extends TestCase {
 
     public void testPerft() {
         Board board = new Board();

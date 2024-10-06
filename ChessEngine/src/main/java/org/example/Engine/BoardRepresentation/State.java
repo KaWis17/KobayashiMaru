@@ -1,16 +1,18 @@
 package org.example.Engine.BoardRepresentation;
 
 import org.example.Engine.BoardRepresentation.Move.Move;
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
 
 public class State {
+
     public boolean whiteToMove;
 
     public byte capturedPiece;
 
-    public boolean canWhiteCastleKingside;
-    public boolean canWhiteCastleQueenside;
-    public boolean canBlackCastleKingside;
-    public boolean canBlackCastleQueenside;
+    public boolean canWhiteCastleKingSide;
+    public boolean canWhiteCastleQueenSide;
+    public boolean canBlackCastleKingSide;
+    public boolean canBlackCastleQueenSide;
 
     public byte enPassantTarget;
 
@@ -18,7 +20,7 @@ public class State {
     public byte fullMoveNumber;
 
     public Move moveThatTookToThisPosition;
-    public BoardHelper.GAME_STATE gameState;
+    public GAME_STATE gameState;
 
     public String FEN = "";
 
@@ -31,10 +33,10 @@ public class State {
 
         this.capturedPiece = state.capturedPiece;
 
-        this.canWhiteCastleKingside = state.canWhiteCastleKingside;
-        this.canWhiteCastleQueenside = state.canWhiteCastleQueenside;
-        this.canBlackCastleKingside = state.canBlackCastleKingside;
-        this.canBlackCastleQueenside = state.canBlackCastleQueenside;
+        this.canWhiteCastleKingSide = state.canWhiteCastleKingSide;
+        this.canWhiteCastleQueenSide = state.canWhiteCastleQueenSide;
+        this.canBlackCastleKingSide = state.canBlackCastleKingSide;
+        this.canBlackCastleQueenSide = state.canBlackCastleQueenSide;
 
         this.enPassantTarget = state.enPassantTarget;
 

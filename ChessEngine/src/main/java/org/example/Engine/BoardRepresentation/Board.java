@@ -2,10 +2,12 @@ package org.example.Engine.BoardRepresentation;
 
 import org.example.Engine.BoardRepresentation.BoardFormats.ArrayRepresentation;
 import org.example.Engine.BoardRepresentation.BoardFormats.BitBoardsRepresentation;
+import org.example.Engine.BoardRepresentation.BoardFormats.BoardFormat;
 import org.example.Engine.BoardRepresentation.BoardFormats.CountRepresentation;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.BoardRepresentation.Move.MoveMaker;
 import org.example.Engine.BoardRepresentation.Move.MoveUnMaker;
+import org.example.Engine.MoveGeneration.CheckChecker;
 
 import java.util.HashMap;
 import java.util.Stack;
@@ -15,9 +17,9 @@ public class Board implements BoardHelper {
     public State currentBoardState;
     public Stack<State> stateHistory = new Stack<>();
 
-    public BitBoardsRepresentation bitBoardsRepresentation = new BitBoardsRepresentation();
-    public ArrayRepresentation arrayRepresentation = new ArrayRepresentation();
-    public CountRepresentation countRepresentation = new CountRepresentation();
+    public BoardFormat bitBoardsRepresentation = new BitBoardsRepresentation();
+    public BoardFormat arrayRepresentation = new ArrayRepresentation();
+    public BoardFormat countRepresentation = new CountRepresentation();
 
     MoveMaker moveMaker = new MoveMaker(this);
     MoveUnMaker moveUnMaker = new MoveUnMaker(this);
@@ -41,7 +43,8 @@ public class Board implements BoardHelper {
     }
 
     public boolean makeMove(String moveToMake) {
-        moveMaker.makeMove(moveToMake);
+        Move move = new Move(moveToMake, this);
+        moveMaker.makeMove(move);
 
         return !isOpponentColorInCheck();
     }
@@ -69,7 +72,7 @@ public class Board implements BoardHelper {
     }
 
     public byte getPieceOnSquare(byte square) {
-        return arrayRepresentation.getPieceOnSquare(square);
+        return ((ArrayRepresentation) arrayRepresentation).getPieceOnSquare(square);
     }
 
     public byte getEnPassantTarget() {
@@ -77,7 +80,7 @@ public class Board implements BoardHelper {
     }
 
     public long getSpecificBitBoard(byte piece) {
-        return bitBoardsRepresentation.bitBoards[piece];
+        return ((BitBoardsRepresentation) bitBoardsRepresentation).bitBoards[piece];
     }
 
     public int getCurrentMoveNumber() {
@@ -115,6 +118,34 @@ public class Board implements BoardHelper {
         return value >= 3;
     }
 
+    public int getPieceCount(int piece) {
+        return ((CountRepresentation)countRepresentation).pieces[piece];
+    }
+
+    public byte squareStringToNumber(String square){
+        return BoardHelper.squareStringToNumber(square);
+    }
+
+    public String squareNumberToString(byte square) {
+        return BoardHelper.squareNumberToString(square);
+    }
+
+    public String BoardToLibraryFEN(Board board){
+        return BoardHelper.BoardToLibraryFEN(board);
+    }
+
+    public String getBoardFen(Board board){
+        return BoardHelper.getBoardFen(board);
+    }
+
+    public byte getPieceType(byte piece){
+        return BoardHelper.getPieceType(piece);
+    }
+
+    public byte getPieceColor(byte piece){
+        return BoardHelper.getPieceColor(piece);
+    }
+
     @Override
     public String toString() {
         return display();
@@ -128,7 +159,7 @@ public class Board implements BoardHelper {
         sb.append("is threefold repetition: ").append(positionCount).append("\n");
 
         for(byte i=64; i>=1; --i) {
-            switch(arrayRepresentation.getPieceOnSquare(i)) {
+            switch(getPieceOnSquare(i)) {
                 case WHITE | PAWN -> sb.append("P ");
                 case BLACK | PAWN -> sb.append("p ");
                 case WHITE | BISHOP -> sb.append("B ");

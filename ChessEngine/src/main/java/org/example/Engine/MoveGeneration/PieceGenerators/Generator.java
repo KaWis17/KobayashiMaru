@@ -1,14 +1,12 @@
 package org.example.Engine.MoveGeneration.PieceGenerators;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.Move.Move;
-import org.example.Engine.BoardRepresentation.Move.MoveConstants;
 import org.example.Engine.MoveGeneration.BitBoardHelper;
 
 import java.util.ArrayList;
 
-public abstract class Generator implements BoardHelper, BitBoardHelper, MoveConstants {
+public abstract class Generator implements BitBoardHelper {
 
     Board board;
     long allOpponentColor;

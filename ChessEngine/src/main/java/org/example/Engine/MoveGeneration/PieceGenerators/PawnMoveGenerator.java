@@ -2,8 +2,11 @@ package org.example.Engine.MoveGeneration.PieceGenerators;
 
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
+import static org.example.Engine.BoardRepresentation.Move.MoveConstants.*;
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
 
 import java.util.ArrayList;
+
 
 public class PawnMoveGenerator extends Generator {
 

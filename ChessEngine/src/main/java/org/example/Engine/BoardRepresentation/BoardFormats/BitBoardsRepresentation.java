@@ -2,7 +2,7 @@ package org.example.Engine.BoardRepresentation.BoardFormats;
 
 import java.util.Arrays;
 
-public class BitBoardsRepresentation implements Format {
+public class BitBoardsRepresentation extends BoardFormat {
 
     public long[] bitBoards = new long[15];
 

@@ -101,10 +101,10 @@ public interface BoardHelper {
 
         boardState.whiteToMove = (leftoverSplit[0].equals("w"));
 
-        boardState.canWhiteCastleKingside = (leftoverSplit[1].contains("K"));
-        boardState.canWhiteCastleQueenside = (leftoverSplit[1].contains("Q"));
-        boardState.canBlackCastleKingside = (leftoverSplit[1].contains("k"));
-        boardState.canBlackCastleQueenside = (leftoverSplit[1].contains("q"));
+        boardState.canWhiteCastleKingSide = (leftoverSplit[1].contains("K"));
+        boardState.canWhiteCastleQueenSide = (leftoverSplit[1].contains("Q"));
+        boardState.canBlackCastleKingSide = (leftoverSplit[1].contains("k"));
+        boardState.canBlackCastleQueenSide = (leftoverSplit[1].contains("q"));
 
         boardState.enPassantTarget = BoardHelper.squareStringToNumber(leftoverSplit[2]);
 
@@ -165,7 +165,7 @@ public interface BoardHelper {
         for(byte i=64; i>=1; i-=8) {
             int counter = 0;
             for(byte j=i; j>i-8; j--) {
-                int piece = board.arrayRepresentation.getPieceOnSquare(j);
+                int piece = board.getPieceOnSquare(j);
                 if (piece == 0) {
                     counter++;
                 } else {
@@ -191,11 +191,11 @@ public interface BoardHelper {
         if(board.isWhiteToPlay()) fen.append("w ");
         else fen.append("b ");
 
-        fen.append((boardState.canWhiteCastleKingside || boardState.canWhiteCastleQueenside || boardState.canBlackCastleKingside || boardState.canBlackCastleQueenside) ? "" : "-" );
-        if(boardState.canWhiteCastleKingside) fen.append("K");
-        if(boardState.canWhiteCastleQueenside) fen.append("Q");
-        if(boardState.canBlackCastleKingside) fen.append("k");
-        if(boardState.canBlackCastleQueenside) fen.append("q");
+        fen.append((boardState.canWhiteCastleKingSide || boardState.canWhiteCastleQueenSide || boardState.canBlackCastleKingSide || boardState.canBlackCastleQueenSide) ? "" : "-" );
+        if(boardState.canWhiteCastleKingSide) fen.append("K");
+        if(boardState.canWhiteCastleQueenSide) fen.append("Q");
+        if(boardState.canBlackCastleKingSide) fen.append("k");
+        if(boardState.canBlackCastleQueenSide) fen.append("q");
 
         if(boardState.enPassantTarget == 0) fen.append(" - ");
         else fen.append(" ").append(BoardHelper.squareNumberToString(boardState.enPassantTarget)).append(" ");
@@ -214,11 +214,11 @@ public interface BoardHelper {
         if(board.isWhiteToPlay()) fen.append("w ");
         else fen.append("b ");
 
-        fen.append((boardState.canWhiteCastleKingside || boardState.canWhiteCastleQueenside || boardState.canBlackCastleKingside || boardState.canBlackCastleQueenside) ? "" : "-" );
-        if(boardState.canWhiteCastleKingside) fen.append("K");
-        if(boardState.canWhiteCastleQueenside) fen.append("Q");
-        if(boardState.canBlackCastleKingside) fen.append("k");
-        if(boardState.canBlackCastleQueenside) fen.append("q");
+        fen.append((boardState.canWhiteCastleKingSide || boardState.canWhiteCastleQueenSide || boardState.canBlackCastleKingSide || boardState.canBlackCastleQueenSide) ? "" : "-" );
+        if(boardState.canWhiteCastleKingSide) fen.append("K");
+        if(boardState.canWhiteCastleQueenSide) fen.append("Q");
+        if(boardState.canBlackCastleKingSide) fen.append("k");
+        if(boardState.canBlackCastleQueenSide) fen.append("q");
 
         fen.append(" -");
 

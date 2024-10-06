@@ -1,10 +1,10 @@
 package org.example.Engine.StateEvaluation.Evaluators;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.StateEvaluation.Evaluation;
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
 
-public class PieceSquareTable implements Evaluation, BoardHelper {
+public class PieceSquareTable implements Evaluation {
 
     Board board;
 

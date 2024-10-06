@@ -2,28 +2,32 @@ package org.example.Engine.BoardRepresentation.Move;
 
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardHelper;
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
 
-public class Move implements MoveConstants, BoardHelper, Comparable<Move> {
+public class Move implements MoveConstants, Comparable<Move> {
 
     public byte departure;
     public byte destination;
     public byte type;
-    private MoveComparator moveComparator;
+    private final Board board;
+    private final MoveComparator moveComparator;
 
     public Move(byte from, byte to, byte type, Board board) {
         this.departure = from;
         this.destination = to;
         this.type = type;
+        this.board = board;
         moveComparator = new MoveComparator(board);
     }
 
     public Move(String move, Board board) {
-        this.departure = BoardHelper.squareStringToNumber(move.substring(0, 2));
-        this.destination = BoardHelper.squareStringToNumber(move.substring(2, 4));
+        this.departure = board.squareStringToNumber(move.substring(0, 2));
+        this.destination = board.squareStringToNumber(move.substring(2, 4));
 
         byte pieceToBeMoved = board.getPieceOnSquare(departure);
         byte pieceOnDestination = board.getPieceOnSquare(destination);
 
+        this.board = board;
         this.type = decideType(move, pieceToBeMoved, pieceOnDestination, board.getEnPassantTarget());
         moveComparator = new MoveComparator(board);
     }
@@ -94,8 +98,8 @@ public class Move implements MoveConstants, BoardHelper, Comparable<Move> {
 
     @Override
     public String toString() {
-        String move = BoardHelper.squareNumberToString(departure);
-        move += BoardHelper.squareNumberToString(destination);
+        String move = board.squareNumberToString(departure);
+        move += board.squareNumberToString(destination);
 
         if(type == QUEEN_PROMOTION || type == QUEEN_PROMOTION_CAPTURE)
             move += "q";

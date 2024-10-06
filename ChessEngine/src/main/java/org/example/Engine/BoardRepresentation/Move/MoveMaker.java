@@ -1,11 +1,13 @@
 package org.example.Engine.BoardRepresentation.Move;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardHelper;
-import org.example.Engine.BoardRepresentation.CheckChecker;
+import org.example.Engine.MoveGeneration.CheckChecker;
 import org.example.Engine.BoardRepresentation.State;
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
+import static org.example.Engine.BoardRepresentation.Move.MoveConstants.*;
 
-public class MoveMaker implements BoardHelper, MoveConstants {
+
+public class MoveMaker {
 
     Board board;
     CheckChecker checkChecker;
@@ -15,15 +17,10 @@ public class MoveMaker implements BoardHelper, MoveConstants {
         checkChecker = new CheckChecker(board);
     }
 
-    public void makeMove(String moveToMake) {
-        Move move = new Move(moveToMake, board);
-        makeMove(move);
-    }
-
     public void makeMove(Move moveToMake) {
         byte pieceToMove = board.getPieceOnSquare(moveToMake.departure);
-        byte color = BoardHelper.getPieceColor(pieceToMove);
-        byte piece = BoardHelper.getPieceType(pieceToMove);
+        byte color = board.getPieceColor(pieceToMove);
+        byte piece = board.getPieceType(pieceToMove);
 
         byte capturedPiece = board.getPieceOnSquare(moveToMake.destination);
 
@@ -32,7 +29,7 @@ public class MoveMaker implements BoardHelper, MoveConstants {
         updateBoardRepresentationsAfterMove(moveToMake, color, piece);
         createNewCurrentState(moveToMake, color, piece, capturedPiece);
 
-        String shortFen = BoardHelper.BoardToLibraryFEN(board);
+        String shortFen = board.BoardToLibraryFEN(board);
         Integer value = board.positionCount.get(shortFen);
         if (value == null || value == 0) {
             board.positionCount.put(shortFen, 1);
@@ -59,7 +56,7 @@ public class MoveMaker implements BoardHelper, MoveConstants {
         updateFullMoveNumber(updatedState);
 
         updatedState.moveThatTookToThisPosition = move;
-        updatedState.FEN = BoardHelper.getBoardFen(board);
+        updatedState.FEN = board.getBoardFen(board);
 
         board.currentBoardState = updatedState;
     }
@@ -94,35 +91,35 @@ public class MoveMaker implements BoardHelper, MoveConstants {
     }
 
     private static void updateCastlingRights(Move move, byte color, byte piece, State updatedState) {
-        updatedState.canWhiteCastleKingside = updateWhiteKingsideCastleRights(move, color, piece, updatedState);
-        updatedState.canWhiteCastleQueenside = updateWhiteQueensideCastleRights(move, color, piece, updatedState);
-        updatedState.canBlackCastleKingside = updateBlackKingsideCastleRights(move, color, piece, updatedState);
-        updatedState.canBlackCastleQueenside = updateBlackQueensideCastleRights(move, color, piece, updatedState);
+        updatedState.canWhiteCastleKingSide = updateWhiteKingsideCastleRights(move, color, piece, updatedState);
+        updatedState.canWhiteCastleQueenSide = updateWhiteQueensideCastleRights(move, color, piece, updatedState);
+        updatedState.canBlackCastleKingSide = updateBlackKingsideCastleRights(move, color, piece, updatedState);
+        updatedState.canBlackCastleQueenSide = updateBlackQueensideCastleRights(move, color, piece, updatedState);
     }
 
     private static boolean updateWhiteKingsideCastleRights(Move move, byte color, byte piece, State previousState) {
-        if(!previousState.canWhiteCastleKingside) return false;
+        if(!previousState.canWhiteCastleKingSide) return false;
         if(color == WHITE && piece == KING) return false;
         if(color == WHITE && piece == ROOK && move.departure == 1) return false;
         return move.destination != 1;
     }
 
     private static boolean updateWhiteQueensideCastleRights(Move move, byte color, byte piece, State previousState) {
-        if(!previousState.canWhiteCastleQueenside) return false;
+        if(!previousState.canWhiteCastleQueenSide) return false;
         if(color == WHITE && piece == KING) return false;
         if(color == WHITE && piece == ROOK && move.departure == 8) return false;
         return move.destination != 8;
     }
 
     private static boolean updateBlackKingsideCastleRights(Move move, byte color, byte piece, State previousState) {
-        if(!previousState.canBlackCastleKingside) return false;
+        if(!previousState.canBlackCastleKingSide) return false;
         if(color == BLACK && piece == KING) return false;
         if(color == BLACK && piece == ROOK && move.departure == 57) return false;
         return move.destination != 57;
     }
 
     private static boolean updateBlackQueensideCastleRights(Move move, byte color, byte piece, State updatedState) {
-        if(!updatedState.canBlackCastleQueenside) return false;
+        if(!updatedState.canBlackCastleQueenSide) return false;
         if(color == BLACK && piece == KING) return false;
         if(color == BLACK && piece == ROOK && move.departure == 64) return false;
         return move.destination != 64;
@@ -130,7 +127,7 @@ public class MoveMaker implements BoardHelper, MoveConstants {
 
     private void updateBoardRepresentationsAfterMove(Move move, byte color, byte piece) {
         byte pieceOnDestination = board.getPieceOnSquare(move.destination);
-        byte typeOfPieceOnDestination = BoardHelper.getPieceType(pieceOnDestination);
+        byte typeOfPieceOnDestination = board.getPieceType(pieceOnDestination);
 
         switch (move.type) {
             case QUIET_MOVE, DOUBLE_PAWN_PUSH -> makeQuietMove(move, color, piece);

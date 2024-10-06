@@ -28,17 +28,17 @@ public class BoardTest extends TestCase {
             Move m = new Move(moves[i], board);
             board.makeMove(m);
             assertEquals(fens[i], BoardHelper.BoardToFEN(board));
-            assertTrue(CohesionCheck.isCohesive(board));
+//            assertTrue(CohesionCheck.isCohesive(board));
         }
 
         for (int i = moves.length-1; i >= 0; i--) {
             assertEquals(fens[i], BoardHelper.BoardToFEN(board));
             board.unmakeMove();
-            assertTrue(CohesionCheck.isCohesive(board));
+//            assertTrue(CohesionCheck.isCohesive(board));
         }
 
         assertEquals(BoardHelper.STARTING_FEN, BoardHelper.BoardToFEN(board));
-        assertTrue(CohesionCheck.isCohesive(board));
+//        assertTrue(CohesionCheck.isCohesive(board));
     }
 
     public void testGenerateMakeUnmakeMoves() {

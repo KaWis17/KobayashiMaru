@@ -1,13 +1,13 @@
 package org.example.Engine.MoveGeneration;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardHelper;
+import static org.example.Engine.BoardRepresentation.BoardHelper.*;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.MoveGeneration.PieceGenerators.*;
 
 import java.util.ArrayList;
 
-public class MoveGenerator implements BoardHelper {
+public class MoveGenerator {
 
     Board board;
     Generator pawnMoveGenerator;
