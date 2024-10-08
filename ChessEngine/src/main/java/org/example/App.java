@@ -11,8 +11,10 @@ public class App {
         while(true) {
             String command = input.nextLine();
 
-            if(command.equals("quit"))
-                return;
+            if(command.equals("quit")) {
+                input.close();
+                System.exit(0);
+            }
 
             uci.dispatch(command);
         }
