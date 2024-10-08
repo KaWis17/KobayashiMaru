@@ -1,2 +1,30 @@
 \subsection{Hyperbola Quintessence}
 \label{subsec:hyperbola-quintessence}
+
+Generowanie ruchów hetmana, wieży i gońca odbywa się w sposób odmienny.
+Wynika to~z~faktu, że figury te poruszają się~o~dowolną liczbę pól w danym kierunku, aż do momentu napotkania innej bierki na swojej drodze.
+W przypadku bierki przeciwnika możliwe jest bicie, w przypadku bierki własnej, należy zatrzymać się o pole wcześniej.
+
+Choć są to trzy różne figury, to mają do dyspozycji dwa możliwe ruchy, ruch w linii prostej, jak wieża, oraz ruch po przekątnej, jak goniec.
+Ruchy hetmana są natomiast sumą dwóch powyższych generatorów.
+
+Większość silników szachowych korzystających z masek bitowych implementuje funkcję, która w literaturze zwana jest jako ang. \emph{Hyperbola Quintessence}.
+Pozwala ona na wygenerowanie dostępnych ruchów w jednej płaszczyźnie.
+\begin{align*}
+    o = \text{11010101} && o' = \text{10101011} && \text{pola zajęte przez bierki} \\
+    r = \text{00010000} && r' = \text{00001000} && \text{pole figury dla której generujemy ruchy} \\
+    o-r = \text{11000101} && o'-r' = \text{10100011} && \text{pola zajęte minus pole figury} \\
+    \alpha = o-2r = \text{10110101} && \beta = o'-2r' = \text{10011011} && \text{pola zajęte dwukrotnie minus pole figury} \\
+    (\alpha \oplus \beta') \wedge \neg \gamma && \text{01101100} && \text{maska legalnych ruchów}
+\end{align*}
+\begin{multicols}{2}
+    \begin{itemize}[label={}]
+        \item \(\oplus\) — alternatywa wykluczająca
+        \item \(\wedge\) — koniunkcja
+        \item \(x'\) — odwrócenie bitów
+        \item \(\gamma\) — maska pól zajętych przez własne bierki
+    \end{itemize}
+\end{multicols}
+
+
+

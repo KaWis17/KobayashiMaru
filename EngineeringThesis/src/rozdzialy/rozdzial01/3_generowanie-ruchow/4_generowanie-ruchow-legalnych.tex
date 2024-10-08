@@ -3,6 +3,17 @@
 
 \subsubsection{Technika usuwania ruchów pseudo-legalnych}
 
+Program umożliwia ruchy pseudo-legalne.
+Ruch po którym własny król znajduje się w szachu nie tylko jest nieoptymalny, ale również z punktu widzenia reguł FIDE jest nielegalny.
+W celu zagwarantowania poprawności ruchów, konieczne było upewnienie się, że ruch jest legalny.
+
+Osiągnięto to w ten sposób, że po wykonaniu ruchu, generuje się ruchy wszystkich możliwych figur przeciwnika od pola, na którym znajduje się król.
+Jeśli którykolwiek z tych posunięć zakończyłby się biciem figury tego samego typu, ruch jest nielegalny.
+
+TODO...
+
 \subsubsection{Perft test}
 
 Z uwagi na złożoność powyższego problemu, konieczne było wykonanie testów jednostkowych, które pozwolą sprawdzić poprawność otrzymywanych tablic ruchów.
+
+TODO...

@@ -1,2 +1,18 @@
 \subsection{Ruchy specjalne}
 \label{subsec:ruchy-specjalne}
+
+Pozostałymi ruchami do zaimplementowania były bicie w przelocie oraz roszady.
+Oba z nich wymagały dodatkowej weryfikacji z danymi dostępnymi w reprezentacji stanu gry.
+
+Pierwszy z nich - en-passant - został wygenerowany przez nałożenie na siebie maski pola bicia w przelocie oraz maski pinów, odpowiednio przesuniętych o $\pm 7$ oraz $\pm 9$ kratek.
+
+Aby uzyskać prawo roszady, należy spełnić następujące warunki:
+\begin{enumerate}
+    \item Ani król, ani wieża biorąca udział w roszadzie nie mogły wykonać wcześniej ruchu.
+    \item Pola między królem a wieżą muszą być puste.
+    \item Król nie może znajdować się w szachu.
+    \item Król nie może przechodzić bądź kończyć ruch na polach, atakowanych przez bierki przeciwnika.
+\end{enumerate}
+
+
+
