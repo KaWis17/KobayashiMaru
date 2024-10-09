@@ -1,9 +1,10 @@
 \subsection{Ruchy specjalne}
 \label{subsec:ruchy-specjalne}
 
-Pozostałymi ruchami do zaimplementowania były bicie w przelocie oraz roszady.
-Oba z nich wymagały dodatkowej weryfikacji z danymi dostępnymi w reprezentacji stanu gry.
+Pozostałymi ruchami do zaimplementowania było bicie w przelocie oraz cztery roszady.
+Z uwagi na znikomą ilość takich posunięć w danej pozycji oraz na złożoną logikę tych ruchów, zostały one wygenerowane explicite z zasad gry.
 
+Oba typy ruchów wymagały dodatkowej weryfikacji z danymi dostępnymi w reprezentacji stanu gry.
 Pierwszy z nich - en-passant - został wygenerowany przez nałożenie na siebie maski pola bicia w przelocie oraz maski pinów, odpowiednio przesuniętych o $\pm 7$ oraz $\pm 9$ kratek.
 
 Aby uzyskać prawo roszady, należy spełnić następujące warunki:
