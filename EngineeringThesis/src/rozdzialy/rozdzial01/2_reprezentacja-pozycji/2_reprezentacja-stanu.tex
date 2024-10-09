@@ -1,11 +1,18 @@
 \subsection{Reprezentacja stanu}
 \label{subsec:reprezentacja-stanu}
 
-Reprezentacja stanu zawiera resztę informacji koniecznych do przedstawienia pozycji szachowej odkodowywanej z FEN.
-Znajdują się w niej dane o możliwych roszadach, polu en-passant, liczbie posunięć od ostatniego bicia, czy informacji, do którego gracza należy następny ruch.
+Reprezentacja stanu zawiera resztę informacji koniecznych do przedstawienia pozycji.
+Znajduje się w niej logika dotycząca możliwych roszadach, pola en-passant, czy liczby posunięć od~ostatniego bicia.
+Stan gry posiada również wiedzę o ruchu, który do danej pozycji doprowadził, aby ułatwić jego cofanie przez inne komponenty systemu.
+W tej klasie zawarto także strukturę HashMap z informacjami, jak często dana pozycja wystąpiła już w grze.
 
-W tej klasie zawarto także informację o tym, jaki ruch doprowadził do aktualnej pozycji, oraz strukturę HashMap zawierającą informacje, jak często dane pozycja wystąpiły już w grze.
-Pozwoliło to na wykrywanie trzykrotnego powtórzenia stanu gry (niekoniecznie następującego bezpośrednio po sobie), które skutkuje automatycznym remisem.
+Pozwoliło to na wykrywanie wielokrotnego powtórzenia pozycji, które niekoniecznie następują bezpośrednio po sobie.
+Choć według oficjalnych zasad automatyczny remis następuje dopiero po pięciokrotnym powtórzeniu, większość platform do rozgrywek online uznaje trzykrotne powtórzenie za obligatoryjny remis.
+Taka też wersja została zaimplementowana.
 
-Przechowywanie danych o etapie gry oraz o wyliczonej ocenie heurystycznej pozwoliło na~uniknięcie wielokrotnego przeliczania tych samych wartości przez różne fragmenty programu.
+Reguła remisu dyktowanego pięćdziesięcioma ruchami bez bicia lub ruchu pionem nie~została zaimplementowana.
+Ze statystyk wynikło, że takie sytuacje zdarzały się niezwykle rzadko, a gdy się pojawiały, pozycje obydwu graczy można było uznać za równą.
+Remis w takiej sytuacji uznano za korzystny dla obydwu graczy.
+
+
 
