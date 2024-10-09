@@ -8,13 +8,36 @@
 \centering
 \caption{UCI - komunikacja GUI do silnika}
 \label{tab:UCI_GUI_silnik}
-\begin{tabularx}{\linewidth}{|p{.25\linewidth}|X|}\hline
-Komenda & Opis działania \\ \hline\hline
+\begin{tabularx}{\linewidth}{|p{.35\linewidth}|X|}\hline
+\textbf{Komenda} & \textbf{Opis działania} \\ \hline\hline
 
-uci & Wytłumaczenie działania komendy \\ \hline
-debug & Wytłumaczenie działania komendy \\ \hline
-isready & Wytłumaczenie działania komendy \\ \hline
-setoption & Wytłumaczenie działania komendy \\ \hline
+\texttt{uci} &
+Określenie używanego protokołu.
+Po otrzymaniu komendy silnik powinien odpowiedzieć \texttt{id} oraz listą dostępnych opcji.\\ \hline
+
+\texttt{setoption name~<name> value~<value>} &
+Instrukcja zmiany wewnętrznego parametru silnika.
+Nazwa parametru jest podawana przez silnik.
+Wartość może być typu bool, int, String. \\ \hline
+
+\texttt{position [startpos~|~<fen>] moves <moves>} &
+Ustawienie pozycji zaczynając od startowej bądź z~podanego FEN.
+Możliwe wykonanie dalszych ruchów przekazanych w formacie LAN.\\ \hline
+
+\texttt{isready} &
+Zapytanie, służące synchronizacji GUI z silnikiem.
+Gdy silnik nie przetwarza poleceń powinien odpowiedzieć \texttt{uciok}.\\ \hline
+
+\texttt{go wtime~<wtime> btime~<btime> winc~<winc> binc~<binc>} &
+Instrukcja rozpoczęcia szukania ruchu.
+Kolejne argumenty w milisekundach wyrażają: pozostały czas białego i czarnego, dodatkowy czas per ruch białego i czarnego.\\ \hline
+
+\texttt{debug [on | off]} &
+Zmiana trybu diagnostycznego silnika. \\ \hline
+
+\texttt{quit} &
+Kończy działanie silnika. \\ \hline
+
 \end{tabularx}
 \end{table}
 
@@ -22,14 +45,69 @@ setoption & Wytłumaczenie działania komendy \\ \hline
 \centering
 \caption{UCI - komunikacja silnika do GUI}
 \label{tab:UCI_silnik_GUI}
-\begin{tabularx}{\linewidth}{|p{.25\linewidth}|X|}\hline
-Komenda & Opis działania \\ \hline\hline
+\begin{tabularx}{\linewidth}{|p{.35\linewidth}|X|}\hline
+\textbf{Komenda} & \textbf{Opis działania} \\ \hline\hline
 
-id & Wytłumaczenie działania komendy \\ \hline
-uciok & Wytłumaczenie działania komendy \\ \hline
-readyok & Wytłumaczenie działania komendy \\ \hline
+\texttt{id [name | author] <value>} &
+Instrukcja służąca identyfikacji silnika przez GUI. \\ \hline
+
+\texttt{option name <name> type <type>} &
+Wypisanie dostępnych opcji oraz typu ich działania. \\ \hline
+
+\texttt{uciok} &
+Wysyłany po \texttt{id} oraz \texttt{option}, aby potwierdzić poprawne wykonanie komedny \texttt{uci}. \\ \hline
+
+\texttt{readyok} &
+Odpowiedź na \texttt{isready}.
+Synchronizuje GUI z silnikiem.\\ \hline
+
+\texttt{info <value>} &
+Przekazywanie GUI informacji nad aktualnym stanem obliczeń najlepszego ruchu.\\ \hline
+
+\texttt{bestmove <move>} &
+Odpowiedź na instrukcję \texttt{go}.
+Zwraca ruch proponowany przez silnik.\\ \hline
+
 \end{tabularx}
 \end{table}
 
 \section{Przykład użycia}
 \label{sec:przyklad-uzycia}
+
+\begin{table}[htb] \footnotesize
+\centering
+\caption{Przykład użycia UCI}
+\label{tab:przyklad_uci}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}p{.51\linewidth}>{\raggedleft\arraybackslash}X|}\hline
+\textbf{Output GUI} & \textbf{Output silnika} \\ \hline\hline
+
+\texttt{uci} & \texttt{} \\ \hline
+\texttt{} & \texttt{
+    id name KobayashiMaru \linebreak
+    id author Krzysztof Antoni Wiśniewski \linebreak
+    option name OwnBook type check \linebreak
+    uciok
+} \\ \hline
+\texttt{setoption name OwnBook value false \linebreak
+    isready
+} & \texttt{} \\ \hline
+
+\texttt{} & \texttt{readyok} \\ \hline
+\texttt{position startpos \linebreak
+    go wtime 60000 btime 60000 winc 600 binc 600} & \texttt{} \\ \hline
+\texttt{} & \texttt{
+    info depth 1 nodes 21 pv g1f3\linebreak
+    info depth 2 nodes 177 pv d2d4 g8f6\linebreak
+    ... \linebreak
+    bestmove d2d4} \\ \hline
+
+\texttt{position startpos moves d2d4 d7d5\linebreak
+go wtime 58000 btime 55000 winc 600 binc 600} & \texttt{} \\ \hline
+
+\texttt{...} & \texttt{...} \\ \hline
+\texttt{quit} & \texttt{} \\ \hline
+
+\end{tabularx}
+\end{table}
+
+
