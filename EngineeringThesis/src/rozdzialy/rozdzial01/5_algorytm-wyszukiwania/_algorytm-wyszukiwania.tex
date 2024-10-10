@@ -1,0 +1,22 @@
+\section{Algorytm wyszukiwania}
+\label {sec:algorytm-wyszukiwania}
+
+
+Z punktu widzenia teorii gier, szachy można klasyfikować na wiele różnych sposobów.
+\begin{enumerate}
+    \item W wydaniu europejskim są one grą dwuosobową.
+    \item Jest to gra o sumie stałej, ponieważ w wyniku wykonywania dowolnej liczby ruchów proporcja zysków jednego gracza pozostaje niezmienna w stosunku do strat drugiego.
+    Gry o sumie stałej można sprowadzić do gier o sumie zerowej.
+    \item Rozgrywka toczy się w postaci ekstensywnej, a więc ruchy wykonywane są na przemian.
+    \item Jest to gra skończona, z uwagi na regułę trzykrotnego powtórzenia.
+    \item Każdy z graczy posiada dostęp do doskonałej informacji.
+\end{enumerate}
+
+Najbardziej istotne, z punktu tworzenia silnika szachowego, jest połączenie dwóch pierwszych z wymienionych cech.
+Takie gry nazywane są ściśle konkurencyjnymi.
+Innymi słowy, aby uzyskać maksymalną wypłatę, gracz dąży do tego, by zminimalizować sumę wypłat przeciwnika. \cite*{wstep-teoria-gier}
+
+W algorytmice problemy tego typu można rozwiązać za pomocą algorytmów dążących do minimalizowania maksymalnych strat.
+
+\input{rozdzialy/rozdzial01/5_algorytm-wyszukiwania/1_algorytm-minimalizowania-maksymalnych-strat}
+\input{rozdzialy/rozdzial01/5_algorytm-wyszukiwania/2_zarządzanie-czasem}

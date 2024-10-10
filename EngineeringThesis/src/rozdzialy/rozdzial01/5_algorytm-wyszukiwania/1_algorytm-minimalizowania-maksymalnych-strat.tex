@@ -1,0 +1,34 @@
+\subsection{Algorytm minimalizowania maksymalnych strat}
+\label{subsec:algorytm-minimalizowania-maksymalnych-strat}
+
+Algorytm minimax polega na przeszukiwaniu drzewa gry.
+Z uwagi na mnogość możliwych decyzji, proces ogranicza się do określonej głębokości.
+Liściom drzewa przypisywane są~obliczone wartości heurystyczne.
+Idąc wzwyż grafu, na kolejnych poziomach, nadawane są wartości maksymalne dla protagonisty i minimalne dla antagonisty.
+Ruch, który prowadzi z korzenia do wierzchołka na głębokości jeden z największą wartością, jest ruchem proponowanym przez algorytm.
+
+W silniku zastosowano skróconą wersję powyższego algorytmu, wykorzystując fakt, że~$max(\alpha, \beta) = -min(-\alpha, -\beta)$.
+
+\begin{lstlisting}[
+    language=Java,
+    style=JavaStyle,
+    caption=Implementacja algorytmu negaMax,
+    label=lst:drugi]
+    negaMax(int depth) {
+        moves = moveGenerator.generateMoves();
+        if(depth == 0 || moves.isEmpty())
+                return evaluator.evaluate();
+
+        int bestMoveValue = MINIMUM;
+        for(Move move : moves) {
+            board.makeMove(move);
+            int score = -negaMax(depth-1);
+            if(score > bestMoveValue)
+                bestMoveValue = score;
+            board.unmakeMove();
+        }
+        return bestMoveValue;
+    }
+\end{lstlisting}
+
+
