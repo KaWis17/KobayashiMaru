@@ -1,5 +1,37 @@
 \section{Ocena heurystyczna}
 \label{sec:ocena-heurystyczna}
 
-Funkcja heurystyczna jest komponentem szachowego, który odpowiada za ocenę konkretnej pozycji szachowej na planszy.
-Jest to istotne ze względu na to, że ułatwia silnikowi wybór i dokonywanie takich ruchów, które prowadzą do osiągnięcia najkorzystniejszej z punktu widzenia silnika pozycji.
+Funkcje heurystyczne są komponentami silnika szachowego, które odpowiadają za ocenę konkretnej pozycji szachowej, z punktu widzenia jednego z graczy.
+Jest to istotne ze względu na~to, że umożliwiają silnikowi wybór i wykonywanie takich ruchów, które prowadzą do~osiągnięcia najkorzystniejszej z punktu widzenia silnika pozycji.
+
+Z czysto teoretycznego punktu widzenia, nieskończona moc obliczeniowa pozwalałaby na~przeszukanie pełnego drzewa gry, a co za tym idzie, jedyną funkcją heurystyczną godną implementacji, byłaby funkcja zwracająca $1$ w przypadku wygranej, oraz $-1$ w~przypadku przeciwnym.
+W rzeczywistości natomiast mnogość możliwych ruchów z każdej pozycji nakłada limit co do głębokości przeszukiwania i konieczności oceny pozycji, które nie~są~liśćmi drzewa, to jest pozycjami, które nie kończą partii.
+Z tego względu konieczne było zaimplementowanie funkcji heurystycznych, które, choć nie prowadzą gracza bezpośrednio do~wygranej, to~przybliżają go do tego celu na określone sposoby.
+
+W podstawowej wersji silnika zaimplementowano dwie funkcje heurystyczne.
+
+Pierwsza z nich zwraca $MAX$ w przypadku mata króla przeciwnika, $MIN$ w przypadku mata własnego króla, oraz $-5000$ w przypadku pata, bądź trzykrotnego powtórzenia pozycji, w~celu demotywowania silnika do dążenia do remisu.
+Druga natomiast opiera się na~intuicyjnym założeniu, że korzystniejsza pozycja to taka, w które gracz ma więcej bierek na planszy niż~przeciwnik.
+Różnica między liczbą bierek konkretnego typu dla gracza oraz jego oponenta jest przemnażana przez wagę poszczególnej bierki.
+W tym celu skorzystano ze skali zaproponowanej przez Claude Shannona, w której odpowiednio hetman, wieża, goniec, skoczek oraz pion mają wartości 900, 500, 300, 300 oraz 100.
+
+W dalszej części pracy przedstawiono kolejne funkcje heurystyczne, mające na celu poprawę precyzji oceny pozycji.
+Klasa oceny heurystycznej silnika szachowego zwraca ocenę pozycji~$P$~dla koloru, który aktualnie wykonuje ruch według zasady:
+
+\begin{equation}
+    Ocena(P) =
+    \begin{cases}
+        H_0(P) & \text{if } H_0(P) \ne 0 \\
+        $\sum_{i=1}^{n} (c_i * H_i(P))$ & \text{else}\\
+    \end{cases}
+\end{equation}
+\begin{multicols}{2}
+    \begin{itemize}[label={}]
+        \item \(H_0\) – heurystyka win-loss-draw
+        \item \(H_i\) – kolejne funkcje heurystyczne
+        \item \(c_i\) – waga heurystyki $i$
+    \end{itemize}
+\end{multicols}
+
+Manipulowanie wagami konkretnych heurystyk pozwoliło na przeprowadzenie testów porównawczych i ich dostrojenie w celu uzyskania jak najdokładniejszej oceny.
+

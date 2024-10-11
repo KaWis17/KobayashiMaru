@@ -17,7 +17,7 @@ W silniku zastosowano skróconą wersję powyższego algorytmu, wykorzystując f
     negaMax(int depth) {
         moves = moveGenerator.generateMoves();
         if(depth == 0 || moves.isEmpty())
-                return evaluator.evaluate();
+                return evaluator.evaluateForCurrentColor();
 
         int bestMoveValue = MINIMUM;
         for(Move move : moves) {

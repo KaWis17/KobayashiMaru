@@ -1,3 +1,24 @@
 \subsection{Zarządzanie czasem}
 \label{subsec:zarzadzanie-czasem}
-TODO
+\subsubsection{Estymacja dostępnego czasu}
+Większość pojedynków szachowych odbywa się w czasie rzeczywistym, z narzuconym ograniczeniem co do łącznego czasu na wykonanie ruchu.
+Przekroczenie tego limitu stanowiłoby automatyczną wygraną oponenta.
+Koniecznym było zatem zaimplementowanie mechanizmu zarządzania, który pozwoliłby na podział pozostałego czasu, na wykonanie poszczególnych ruchów.
+Pozostały czas otrzymany przez UCI w formie \texttt{go wtime <wtime> btime <btime> winc <winc> binc <binc>} pozwolił na implementacje rozwiązania opartego na~wzorze:
+\begin{align*}
+    \text{Est pozostałych ruchów} &= {\max(40 - \text{wykonaneRuchy}, 10)} \\
+    \text{Est pozostałego czasu} &= time_{color} + (inc_{color} * \text{Est pozostałych ruchów}) \\
+    \text{Propozycja czasu} &= \dfrac{\text{Est pozostałych ruchów}}{\text{Est pozostałego czasu}}
+\end{align*}
+
+Założono średnią ilość ruchów na poziomie czterdziestu.
+
+\subsubsection{Iteratywne pogłębianie wyszukiwania}
+Prędkość wykonania algorytmu negaMax zależy od wielu czynników, takich jak głębokość wyszukiwania, aktualna pozycja, prędkość generowania ruchów czy ilość dostępnych dla~programu zasobów.
+Nie ma możliwości oszacowania, ile czasu zajmie jego wykonanie, a~przerwanie w trakcie działania, może skutkować wybraniem skrajnie nieopłacalnych posunięć.
+
+W tym celu zaimplementowano rozwiązanie iteracyjnego pogłębiania wyszukiwania, polegającego na szukaniu najlepszego ruchu dla kolejnych głębokościach.
+W momencie upływu czasu na obliczenia zwracana jest wartość otrzymana z najgłębszego, w pełni ukończonego przeszukiwania.
+
+Takie podejście mogłoby wydawać się skrajnie nieoptymalne, gdyż wymaga wielokrotnego generowania drzewa gry.
+W praktyce jednak jest to rozwiązanie gwarantujące otrzymanie w miarę dobrego ruchu, a ulepszenia algorytmu takie jak dynamiczne sortowanie ruchów pozwalają na osiągnięcie szybszych rezultatów, niż przy przeszukaniu drzewa od razu dla danej głębokości. \cite*{wiki-deepening}
