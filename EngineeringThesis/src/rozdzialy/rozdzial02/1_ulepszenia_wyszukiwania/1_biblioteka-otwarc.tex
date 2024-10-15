@@ -2,11 +2,24 @@
 \label{subsec:biblioteka-otwarc}
 
 \subsubsection{Opis zagadnienia}
-Głównym problemem, który należało zaadresować, była przewidywalność i powtarzalność zaimplementowanego rozwiązania.
-W tym celu zdecydowano się na zaimplementowanie biblioteki otwarć.
+Głównym problemem, który należało zaadresować, były otwarcia partii rozgrywanych przez silnik.
+Gry szachowe zawsze rozpoczynają się z tego samego położenia, więc wiadomo, że~system znajdzie się w wielu pozycjach bezpośrednio wynikających z pierwszych posunięć.
+Program natomiast na obliczenia poświęcał wiele czasu, który lepiej byłoby spożytkować w~środkowym etapie rozgrywki.
+
+Profesjonalni gracze, korzystając z dorobku i doświadczenia wielu pokoleń szachistów, zapamiętują pierwsze posunięcia do wykonania.
+Tym samym oszczędzają czas, który pozostaje na bardziej złożone pozycje w środkowej fazie gry.
 
 \subsubsection{Implementacja}
-Zdecydowano się na zaimplementowanie biblioteki otwarć we własnym formacie,
+W celu zaimplementowania biblioteki otwarć, dostępne posunięcia czytane są z pliku, a~następnie zapisywane przy inicjalizacji silnika do HashMapy \texttt{<String, []Moves>}.
+Podczas działania silnika, FEN aktualnej pozycji porównywalny jest z dostępnymi kluczami, a ruch losowo wybierany spośród dostępnych w tablicy.
+W przypadku nieznalezienia klucza program przechodzi do gry środkowej z wykorzystaniem algorytmu negaMax.
 
+W literaturze znanych jest wiele formatów zapisu biblioteki otwarć, np.\ EPD, PGN czy~Bin-format.
+System wykorzystuje bibliotekę wygenerowaną przez Sebastiana Lague i~dostępną na licencji MIT w~implementacji jego silnika. \cite*{opening-library}
 \subsubsection{Rezultat}
-Wynikiem implementacji stał się silnik, który nie tylko rozpoczyna gry na różne sposoby, ale także o wiele szybciej je wykonuje, co pozwala zaoszczędzić czas obliczeniowy na środkowy moment gry.
+Efektem prac stał się silnik, który początkowe posunięcia wykonuje za pomocą podpiętej biblioteki otwarć.
+Dzięki temu pierwsze ruchy wykonywane są bardzo szybko, pozostawiając cenny czas obliczeniowy na dalszą grę, tym samym zwiększając precyzję.
+
+We wcześniejszej wersji silnik był deterministyczny, to jest, dla konkretnej głębokości i pozycji, algorytm zwracał ten sam najlepszy ruch.
+Dodatkowym atutem stała się jego nieprzewidywalność.
+Początkowe posunięcia są zrandomizowane, co pozwala na jego testowanie w większej ilości wariantów, a także umila rozgrywkę użytkownikowi.
