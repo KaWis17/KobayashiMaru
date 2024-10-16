@@ -1,7 +1,44 @@
 \subsection{Alfa-Beta cięcie}
 \label{subsec:alfa-beta-ciecie}
-\textit{Usprawnia przeszukiwania drzewa.}
-
 \subsubsection{Opis zagadnienia}
+Poprawne wykonanie algorytmu negaMax nie gwarantuje jego skuteczności.
+Wraz z~pogłębianiem wyszukiwania rośnie również liczba wierzchołków, które należy odwiedzić.
+Uśredniając, liczba dzieci, to jest pozycji wynikających z wykonania ruchu, dla danego rodzica w szachach wynosi $35$. \cite*{branching-factor}
+Wartość ta nazywa się współczynnikiem rozgałęzienia (ang.~\textit{branching~factor}).
+
+Do minimalizacji liczby węzłów wykorzystuje się alfa-beta cięcia.
+Jest to przykład algorytmu metody podziału i ograniczeń, a jego skuteczność w dużym stopniu zależy~od kolejności przeszukiwanych ruchów.
+Zakładając ułożenie posunięć od najlepszego, algorytm wykona najwięcej cięć, co w efekcie skutkować będzie zmniejszeniem liczby odwiedzonych wierzchołków dla głębokości według wzoru z tabeli:
+
+\begin{table}[htb] \small
+\centering
+\caption{Teoretyczny limit alfa-beta cięcia dla współczynnika rozgałęzienia $b_f = 35$}
+\label{tab:alfa-beat}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|c|c|}\hline
+Głębokość $n$ & ${b_{f}}^{n}$ & $b_{f}^{\lceil \frac{n}{2} \rceil} + b_{f}^{\lfloor \frac{n}{2} \rfloor} - 1$\\ \hline\hline
+
+$1$ & $35$ & $35$\\ \hline
+$2$ & $1225$ & $69$\\ \hline
+$3$ & $42 875$ & $1259$\\ \hline
+$\vdots$ & $\vdots$ & $\vdots$\\ \hline
+$10$ & $2,76 * 10^{15}$ & $1,05 * 10^{8}$\\ \hline
+
+\end{tabular}
+\end{table}
+
+Posortowanie ruchów od najgorszych, spowoduje brak możliwych cięć, a tym samym wynik będzie identyczny, jak przy algorytmie bez implementacji alfa-beta cięcia.
+
+
 \subsubsection{Implementacja}
+
+Algorytm alfa-beta cięcia jest edycją kodu funkcji negaMax \ref{lst:drugi}.
+$\alpha$ oraz $\beta$ zostają dodane jako argumenty.
+W sytuacji, gdy \texttt{score} $>$ \texttt{bestMoveValue} oraz $\alpha >$ \texttt{bestMoveValue}, $\alpha$~zostaje zaktualizowana na \texttt{bestMoveValue}.
+Jeśli \texttt{score} $>=\beta$ następuje odcięcie i zwracana jest wartość \texttt{bestMoveValue}.
+W wywołaniach funkcji na większej głębokości $\alpha = -\beta$ oraz $\beta = -\alpha$.
+
 \subsubsection{Rezultat}
+
+Implementacja powyższego rozwiązania pozwoliła na zmniejszenie liczby odwiedzonych wierzchołków podczas przeszukiwania, a tym samym pozwoliła iteratywnemu pogłębianiu na~osiągnięcie lepszych rezultatów.
+Realna wartość tego ulepszenia jest różna w zależności od~aktualnej pozycji na szachownicy.
