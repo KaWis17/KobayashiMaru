@@ -29,13 +29,12 @@ public class MoveMaker {
         updateBoardRepresentationsAfterMove(moveToMake, color, piece);
         createNewCurrentState(moveToMake, color, piece, capturedPiece);
 
-        String shortFen = board.BoardToLibraryFEN(board);
-        Integer value = board.positionCount.get(shortFen);
-        if (value == null || value == 0) {
-            board.positionCount.put(shortFen, 1);
-        } else {
-            board.positionCount.replace(shortFen, value, value + 1);
-        }
+        Long hash = board.zobristHashing.getHash();
+        Integer value = board.positionCount.get(hash);
+        if (value == null || value == 0)
+            board.positionCount.put(hash, 1);
+        else
+            board.positionCount.replace(hash, value, value + 1);
     }
 
     private void addCurrentStateToMoveHistory() {
@@ -56,8 +55,6 @@ public class MoveMaker {
         updateFullMoveNumber(updatedState);
 
         updatedState.moveThatTookToThisPosition = move;
-        updatedState.FEN = board.getBoardFen(board);
-
         board.currentBoardState = updatedState;
     }
 

@@ -16,10 +16,14 @@ public class UciSender {
 
     public static void sendOptionInformation(Engine engine) {
         System.out.println("option name Debug type check default false");
-        System.out.println("option name Ponder type check default false");
         System.out.println("option name OwnBook type check default true");
+        System.out.println("option name AlphaBeta type check default true");
         System.out.println("option name Quiescence type check default true");
-        System.out.println("option name UCI_EngineAbout type string default " + engine.ABOUT);
+        System.out.println("option name StaticMoveOrdering type check default true");
+        System.out.println("option name ZobristHashing type check default true");
+        System.out.println("option name TranspositionTable type check default true");
+        System.out.println("option name EstimationWindow type check default true");
+        System.out.println("option name MoveExtensions type check default true");
     }
 
     public static void sendOkInformation() {

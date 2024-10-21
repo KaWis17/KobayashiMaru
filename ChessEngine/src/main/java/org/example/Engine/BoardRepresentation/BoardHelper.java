@@ -83,7 +83,7 @@ public interface BoardHelper {
 
         fillValues(board, fenSplit[1]);
         fillFormats(board, fenSplit[0]);
-        board.currentBoardState.FEN = getBoardFen(board);
+        board.zobristHashing.createNew();
     }
 
     static String BoardToFEN(Board board) {

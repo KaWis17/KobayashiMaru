@@ -21,6 +21,8 @@ public class Searcher implements Runnable {
     public volatile Move bestMove;
     public volatile boolean isCurrentlyThinking;
 
+    public boolean isLibrarySearchComplete = false;
+
     public Searcher(Board board, Evaluator evaluator, MoveGenerator moveGenerator) {
         this.board = board;
         this.evaluator = evaluator;
@@ -58,7 +60,7 @@ public class Searcher implements Runnable {
     }
 
     public void search() {
-        if(Config.OPENING_LIBRARY_ON)
+        if(Config.OPENING_LIBRARY_ON && !isLibrarySearchComplete)
             earlySearcher.search();
         else
             middleSearcher.search();

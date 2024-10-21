@@ -61,13 +61,13 @@ public class EarlySearcher implements Search {
 
     @Override
     public void search() {
-        String fen = BoardHelper.BoardToLibraryFEN(board);
+        String fen = board.boardToLibraryFEN();
         UciSender.sendDebugMessage("Searching for string: " + fen);
         String[] moves = openingLibrary.get(fen);
         UciSender.sendDebugMessage("Found: " + Arrays.toString(moves));
 
         if(moves == null || moves.length == 0) {
-            Config.OPENING_LIBRARY_ON = false;
+            searcher.isLibrarySearchComplete = true;
             searcher.search();
         }
         else {

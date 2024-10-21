@@ -14,13 +14,12 @@ public class MoveUnMaker {
     }
 
     public void unmakeMove() {
-        String shortFen = board.BoardToLibraryFEN(board);
-        Integer value = board.positionCount.get(shortFen);
-
+        Long hash = board.zobristHashing.getHash();
+        Integer value = board.positionCount.get(hash);
         if(value == 1)
-            board.positionCount.remove(shortFen);
+            board.positionCount.remove(hash);
         else
-            board.positionCount.replace(shortFen, value, value - 1);
+            board.positionCount.replace(hash, value, value - 1);
 
         revertBoardRepresentation(board.currentBoardState);
         revertStateChange(board.stateHistory.pop());

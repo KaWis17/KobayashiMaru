@@ -54,8 +54,21 @@ public class UciReceiver {
         switch (command) {
             case "setoption name OwnBook value true" -> Config.OPENING_LIBRARY_ON = true;
             case "setoption name OwnBook value false" -> Config.OPENING_LIBRARY_ON = false;
-            case "setoption name Quiescence value true" -> Config.quiescenceSearch = true;
-            case "setoption name Quiescence value false" -> Config.quiescenceSearch = false;
+            case "setoption name AlphaBeta value true" -> Config.ALPHA_BETA_ON = true;
+            case "setoption name AlphaBeta value false" -> Config.ALPHA_BETA_ON = false;
+            case "setoption name Quiescence value true" -> Config.QUIESCENCE_SEARCH_ON = true;
+            case "setoption name Quiescence value false" -> Config.QUIESCENCE_SEARCH_ON = false;
+            case "setoption name StaticMoveOrdering value true" -> Config.STATIC_MOVE_ORDERING_ON = true;
+            case "setoption name StaticMoveOrdering value false" -> Config.STATIC_MOVE_ORDERING_ON = false;
+            case "setoption name ZobristHashing value true" -> Config.ZOBRITS_HASHING_ON = true;
+            case "setoption name ZobristHashing value false" -> Config.ZOBRITS_HASHING_ON = false;
+            case "setoption name TranspositionTable value true" -> Config.TRANSPOSITION_TABLE_ON = true;
+            case "setoption name TranspositionTable value false" -> Config.TRANSPOSITION_TABLE_ON = false;
+            case "setoption name EstimationWindow value true" -> Config.ESTIMATION_WINDOW = true;
+            case "setoption name EstimationWindow value false" -> Config.ESTIMATION_WINDOW = false;
+            case "setoption name MoveExtensions value true" -> Config.MOVE_EXTENSIONS_ON = true;
+            case "setoption name MoveExtensions value false" -> Config.MOVE_EXTENSIONS_ON = false;
+
             default -> UciSender.sendUnsupportedCommand();
         }
     }

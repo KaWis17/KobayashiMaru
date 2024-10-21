@@ -25,7 +25,9 @@ public class Board implements BoardHelper {
     MoveUnMaker moveUnMaker = new MoveUnMaker(this);
 
     CheckChecker checkChecker = new CheckChecker(this);
-    public HashMap<String, Integer> positionCount = new HashMap<>();
+    public ZobristHashing zobristHashing = new ZobristHashing(this);
+
+    public HashMap<Long, Integer> positionCount = new HashMap<>();
 
 
     public void startFromDefaultPosition() {
@@ -57,18 +59,21 @@ public class Board implements BoardHelper {
         bitBoardsRepresentation.addPieceOnSquare(square, color, piece);
         arrayRepresentation.addPieceOnSquare(square, color, piece);
         countRepresentation.addPieceOnSquare(square, color, piece);
+        zobristHashing.addOnSquare(square, color, piece);
     }
 
     public void deletePieceFromSquare(byte square, byte color, byte piece) {
         bitBoardsRepresentation.deletePieceOnSquare(square, color, piece);
         arrayRepresentation.deletePieceOnSquare(square, color, piece);
         countRepresentation.deletePieceOnSquare(square, color, piece);
+        zobristHashing.deleteOnSquare(square, color, piece);
     }
 
     public void clearBoard() {
         bitBoardsRepresentation.clearBoard();
         arrayRepresentation.clearBoard();
         countRepresentation.clearBoard();
+        zobristHashing.clear();
     }
 
     public byte getPieceOnSquare(byte square) {
@@ -112,7 +117,7 @@ public class Board implements BoardHelper {
     }
 
     public boolean isDrawByRepetition() {
-        Integer value = positionCount.get(BoardHelper.BoardToLibraryFEN(this));
+        Integer value = positionCount.get(zobristHashing.getHash());
         if (value == null)
                 return false;
         return value >= 3;
@@ -130,12 +135,8 @@ public class Board implements BoardHelper {
         return BoardHelper.squareNumberToString(square);
     }
 
-    public String BoardToLibraryFEN(Board board){
-        return BoardHelper.BoardToLibraryFEN(board);
-    }
-
-    public String getBoardFen(Board board){
-        return BoardHelper.getBoardFen(board);
+    public String boardToLibraryFEN() {
+        return BoardHelper.BoardToLibraryFEN(this);
     }
 
     public byte getPieceType(byte piece){

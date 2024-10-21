@@ -3,6 +3,7 @@ package org.example.Engine.MoveGeneration;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.Move.Move;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class PerftTest {
@@ -11,10 +12,14 @@ public class PerftTest {
         Board board = new Board();
         board.startFromCustomPosition(fen);
 
-        return perft(board, depth);
+        long start = System.currentTimeMillis();
+        long value = perft(board, depth);
+        System.out.println(System.currentTimeMillis() - start);
+        return value;
     }
 
     public static long perft(Board board, int depth) {
+        long start = System.currentTimeMillis();
 
         if(depth == 0)
             return 1L;
@@ -32,7 +37,7 @@ public class PerftTest {
             }
             board.unmakeMove();
         }
-
+        System.out.println("TIME: " + (System.currentTimeMillis() - start));
         return sum;
     }
 

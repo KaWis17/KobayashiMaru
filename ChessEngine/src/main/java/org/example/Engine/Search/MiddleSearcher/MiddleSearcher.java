@@ -21,25 +21,34 @@ public class MiddleSearcher implements Search {
     Evaluator evaluator;
 
     QuiescenceSearch quiescenceSearch;
-
+    TranspositionTable transpositionTable = new TranspositionTable();
     private static final int MINIMUM = -100_000_000;
     private static final int MAXIMUM = 100_000_000;
+
+    private static final int DEPTH_FOR_QUIESCENCE = 100;
 
     public MiddleSearcher(Board board, Searcher searcher, Evaluator evaluator, MoveGenerator moveGenerator) {
         this.board = board;
         this.searcher = searcher;
         this.evaluator = evaluator;
         this.moveGenerator = moveGenerator;
-        this.quiescenceSearch = new QuiescenceSearch(board, evaluator, moveGenerator, searcher);
+        this.quiescenceSearch = new QuiescenceSearch(board, evaluator, moveGenerator, searcher, transpositionTable);
     }
 
     @Override
     public void search() {
         UciSender.sendDebugMessage("Entered middle searcher");
 
+        transpositionTable.reset();
+
         for(int i=1; i<255; i++) {
             evaluator.counter = 0;
-            Result result = alphaBetaNegEntryPoint(i, MINIMUM, MAXIMUM);
+            Result result;
+
+            if(Config.ALPHA_BETA_ON)
+                result = alphaBetaNegEntryPoint(i+DEPTH_FOR_QUIESCENCE, MINIMUM, MAXIMUM);
+            else
+                result = negaMaxEntryPoint(i);
 
             if(result != null) {
                 searcher.bestMove = result.move;
@@ -59,7 +68,8 @@ public class MiddleSearcher implements Search {
         Move bestMove = null;
 
         ArrayList<Move> moves = moveGenerator.generateAllPseudoLegalMoves();
-        Collections.sort(moves);
+        if(Config.STATIC_MOVE_ORDERING_ON)
+            Collections.sort(moves);
 
         for(Move move : moves) {
 
@@ -93,15 +103,24 @@ public class MiddleSearcher implements Search {
 
     private Integer alphaBetaNeg(int depth, int alpha, int beta) {
 
-        if(depth == 0) {
-            if(!Config.quiescenceSearch)
+        Integer result = transpositionTable.get(board.zobristHashing.getHash(), depth, board.isWhiteToPlay());
+        if (result != null) {
+            return result;
+        }
+
+        if(depth == DEPTH_FOR_QUIESCENCE) {
+            if(!Config.QUIESCENCE_SEARCH_ON)
                 return evaluator.evaluate();
-            else
-                return quiescenceSearch.search(alpha, beta);
+            else {
+                result = quiescenceSearch.search(depth-1, alpha, beta);
+                transpositionTable.put(board.zobristHashing.getHash(), depth, result, board.isWhiteToPlay());
+                return result;
+            }
         }
 
         ArrayList<Move> moves = moveGenerator.generateAllPseudoLegalMoves();
-        Collections.sort(moves);
+        if(Config.STATIC_MOVE_ORDERING_ON)
+            Collections.sort(moves);
 
         int bestMoveValue = MINIMUM;
         for(Move move : moves) {
@@ -119,6 +138,65 @@ public class MiddleSearcher implements Search {
 
                 if(score >= beta)
                     break;
+            }
+            else
+                board.unmakeMove();
+        }
+        transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, board.isWhiteToPlay());
+
+        return bestMoveValue;
+    }
+
+
+
+    private Result negaMaxEntryPoint(int depth) {
+        int bestMoveValue = MINIMUM;
+        Move bestMove = null;
+
+        ArrayList<Move> moves = moveGenerator.generateAllPseudoLegalMoves();
+
+        for(Move move : moves) {
+
+            if(!searcher.isCurrentlyThinking)
+                return null;
+
+            if(board.makeMove(move)){
+                int score = -negaMax(depth-1);
+                if((score > bestMoveValue || bestMoveValue == MINIMUM) && searcher.isCurrentlyThinking)
+                {
+                    bestMoveValue = score;
+                    bestMove = move;
+                }
+                board.unmakeMove();
+
+                if (bestMoveValue == MAXIMUM)
+                    return new Result(bestMoveValue, bestMove);
+            }
+            else
+                board.unmakeMove();
+        }
+
+        return new Result(bestMoveValue, bestMove);
+    }
+
+    private Integer negaMax(int depth) {
+
+        if(depth == 0) {
+            return evaluator.evaluate();
+        }
+
+        ArrayList<Move> moves = moveGenerator.generateAllPseudoLegalMoves();
+
+        int bestMoveValue = MINIMUM;
+        for(Move move : moves) {
+            if(!searcher.isCurrentlyThinking)
+                break;
+
+            if(board.makeMove(move)) {
+                int score = -negaMax(depth-1);
+                if(score > bestMoveValue)
+                    bestMoveValue = score;
+                board.unmakeMove();
             }
             else
                 board.unmakeMove();

@@ -2,6 +2,7 @@ package org.example.Engine.MoveGeneration;
 
 import junit.framework.TestCase;
 import org.example.Engine.BoardRepresentation.BoardHelper;
+import org.example.Engine.Engine;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -119,6 +120,12 @@ public class PerftTestTest extends TestCase {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void test(){
+        Engine engine = new Engine();
+        engine.initiateDefaultPosition();
+        engine.perft(5);
     }
 
 }

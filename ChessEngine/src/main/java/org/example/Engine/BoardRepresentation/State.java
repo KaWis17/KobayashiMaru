@@ -22,8 +22,6 @@ public class State {
     public Move moveThatTookToThisPosition;
     public GAME_STATE gameState;
 
-    public String FEN = "";
-
     // Default constructor
     public State(){}
 
@@ -45,6 +43,5 @@ public class State {
 
         this.moveThatTookToThisPosition = state.moveThatTookToThisPosition;
         this.gameState = state.gameState;
-        this.FEN = state.FEN;
     }
 }

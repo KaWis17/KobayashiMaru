@@ -56,6 +56,11 @@ public class Engine implements Constants {
     }
 
     public void findBestMoveWithTimeOnThread(int time) {
+        if(invalidConfig()){
+            UciSender.sendInfoMessage("INVALID CONFIG");
+            return;
+        }
+
         if(!searcher.isCurrentlyThinking) {
             if(Config.DEBUG_ON)
                 UciSender.sendDebugMessage("Starting search on separate thread");
@@ -106,5 +111,40 @@ public class Engine implements Constants {
             estimatedTimeLeft -= 1000;
 
         return (estimatedTimeLeft/estimatedMovesLeft - 100);
+    }
+
+    public boolean invalidConfig(){
+        if(!Config.ALPHA_BETA_ON) {
+            if(Config.STATIC_MOVE_ORDERING_ON) {
+                UciSender.sendDebugMessage("ENABLED MOVE ORDERING WITH DISABLED ALPHA BETA IS NOT ALLOWED");
+                return true;
+            }
+            if(Config.QUIESCENCE_SEARCH_ON){
+                UciSender.sendDebugMessage("ENABLED QUIESCENCE SEARCH WITH DISABLED ALPHA BETA IS NOT ALLOWED");
+                return true;
+            }
+            if(Config.ZOBRITS_HASHING_ON) {
+                UciSender.sendDebugMessage("ENABLED ZOBRIST HASHING WITH DISABLED ALPHA BETA IS NOT ALLOWED");
+                return true;
+            }
+            if(Config.TRANSPOSITION_TABLE_ON) {
+                UciSender.sendDebugMessage("ENABLED TRANSPOSITION TABLE WITH DISABLED ALPHA BETA IS NOT ALLOWED");
+                return true;
+            }
+            if(Config.ESTIMATION_WINDOW) {
+                UciSender.sendDebugMessage("ENABLED ESTIMATION WINDOW WITH DISABLED ALPHA BETA IS NOT ALLOWED");
+                return true;
+            }
+            if(Config.MOVE_EXTENSIONS_ON) {
+                UciSender.sendDebugMessage("ENABLED MOVE EXTENSIONS WITH DISABLED ALPHA BETA IS NOT ALLOWED");
+                return true;
+            }
+        }
+
+        if(Config.TRANSPOSITION_TABLE_ON && !Config.ZOBRITS_HASHING_ON) {
+            UciSender.sendDebugMessage("ENABLED TRANSPOSITION TABLE WITH DISABLED ZOBRIST HASHING IS NOT ALLOWED");
+            return true;
+        }
+        return false;
     }
 }

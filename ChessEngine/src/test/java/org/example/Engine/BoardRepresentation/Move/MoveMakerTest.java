@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.State;
+import org.example.Engine.Engine;
 
 
 public class MoveMakerTest extends TestCase {
@@ -62,5 +63,16 @@ public class MoveMakerTest extends TestCase {
         maker.makeMove(move);
         System.out.println(board2);
         System.out.println(" ");
+    }
+
+    public void test(){
+        Engine engine = new Engine();
+        engine.initiateDefaultPosition();
+
+        System.out.println("INITIAL HASH: " + board.zobristHashing.getHash());
+        board.makeMove("d2d4");
+        board.makeMove("e7e6");
+        board.unmakeMove();
+        board.unmakeMove();
     }
 }
