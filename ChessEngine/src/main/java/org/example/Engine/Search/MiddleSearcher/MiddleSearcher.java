@@ -39,8 +39,6 @@ public class MiddleSearcher implements Search {
     public void search() {
         UciSender.sendDebugMessage("Entered middle searcher");
 
-        transpositionTable.reset();
-
         for(int i=1; i<255; i++) {
             evaluator.counter = 0;
             Result result;

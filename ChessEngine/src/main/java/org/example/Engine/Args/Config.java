@@ -5,7 +5,7 @@ public class Config {
     public static boolean DEBUG_ON = true;
 
     /* ---------- OPENING LIBRARY ---------- */
-    public static boolean OPENING_LIBRARY_ON = false;
+    public static boolean OPENING_LIBRARY_ON = true;
     public static String OPENING_LIBRARY_LOCATION = "/Users/kawis/Developer/KobayashiMaru/ChessEngine/resources/library.txt";
 
     /* ---------- ALPHA BETA PRUNING ---------- */
@@ -29,4 +29,15 @@ public class Config {
     /* ---------- MOVE EXTENSIONS ---------- */
     public static boolean MOVE_EXTENSIONS_ON = true;
 
+    /* ---------- PIECE SQUARE TABLE ---------- */
+    public static boolean PIECE_SQUARE_TABLE_ON = true;
+
+    /* ---------- KING SAFETY ---------- */
+    public static boolean KING_SAFETY_ON = true;
+
+    /* ---------- PAWN STRUCTURE ---------- */
+    public static boolean PAWN_STRUCTURE_ON = true;
+
+    /* ---------- MOBILITY ---------- */
+    public static boolean MOBILITY_ON = true;
 }

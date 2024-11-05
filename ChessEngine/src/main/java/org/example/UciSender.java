@@ -24,6 +24,10 @@ public class UciSender {
         System.out.println("option name TranspositionTable type check default true");
         System.out.println("option name EstimationWindow type check default true");
         System.out.println("option name MoveExtensions type check default true");
+        System.out.println("option name PieceSquareTable type check default true");
+        System.out.println("option name KingSafety type check default true");
+        System.out.println("option name PawnStructure type check default true");
+        System.out.println("option name Mobility type check default true");
     }
 
     public static void sendOkInformation() {

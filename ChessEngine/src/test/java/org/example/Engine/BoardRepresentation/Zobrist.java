@@ -2,9 +2,7 @@ package org.example.Engine.BoardRepresentation;
 
 import junit.framework.TestCase;
 import org.example.Engine.BoardRepresentation.Move.Move;
-import org.example.Engine.Engine;
 import org.example.Engine.MoveGeneration.MoveGenerator;
-import org.example.Engine.MoveGeneration.PieceGenerators.Generator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,10 +14,10 @@ public class Zobrist extends TestCase {
 
     public void testCase() {
         board = new Board();
-        board.startFromDefaultPosition();
+        board.startFromCustomPosition("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
         generator = new MoveGenerator(board);
         testForCollision = new HashMap<>();
-        perft(2);
+        perft(6);
         System.out.println("SIZE: " + testForCollision.size());
     }
 

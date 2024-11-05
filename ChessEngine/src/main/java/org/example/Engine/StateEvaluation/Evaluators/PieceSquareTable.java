@@ -1,5 +1,6 @@
 package org.example.Engine.StateEvaluation.Evaluators;
 
+import org.example.Engine.Args.Config;
 import org.example.Engine.BoardRepresentation.Board;
 import org.example.Engine.StateEvaluation.Evaluation;
 import static org.example.Engine.BoardRepresentation.BoardHelper.*;
@@ -148,6 +149,10 @@ public class PieceSquareTable implements Evaluation {
 
     @Override
     public int evaluate() {
+
+        if(!Config.PIECE_SQUARE_TABLE_ON)
+            return 0;
+
         int value = 0;
 
         for(byte i = 1; i <= 64; i++) {

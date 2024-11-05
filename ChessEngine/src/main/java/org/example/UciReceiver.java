@@ -68,6 +68,14 @@ public class UciReceiver {
             case "setoption name EstimationWindow value false" -> Config.ESTIMATION_WINDOW = false;
             case "setoption name MoveExtensions value true" -> Config.MOVE_EXTENSIONS_ON = true;
             case "setoption name MoveExtensions value false" -> Config.MOVE_EXTENSIONS_ON = false;
+            case "setoption name PieceSquareTable value true" -> Config.PIECE_SQUARE_TABLE_ON = true;
+            case "setoption name PieceSquareTable value false" -> Config.PIECE_SQUARE_TABLE_ON = false;
+            case "setoption name KingSafety value true" -> Config.KING_SAFETY_ON = true;
+            case "setoption name KingSafety value false" -> Config.KING_SAFETY_ON = false;
+            case "setoption name PawnStructure value true" -> Config.PAWN_STRUCTURE_ON = true;
+            case "setoption name PawnStructure value false" -> Config.PAWN_STRUCTURE_ON = false;
+            case "setoption name Mobility value true" -> Config.MOBILITY_ON = true;
+            case "setoption name Mobility value false" -> Config.MOBILITY_ON = false;
 
             default -> UciSender.sendUnsupportedCommand();
         }
