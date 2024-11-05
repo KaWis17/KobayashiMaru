@@ -15,10 +15,25 @@ Ze statystyk wynikło, że takie sytuacje zdarzały się niezwykle rzadko, a gdy
 Remis w takiej sytuacji uznano za korzystny dla obydwu graczy.
 
 \subsubsection{Haszowanie Zobrist}
+Struktura HashMap zawierająca informacje o wcześniejszych pozycjach w grze w pierwotnej wersji została zaimplementowana z kluczami reprezentującymi pozycję FEN.
+Z perspektywy czasu stało się jasnym natomiast, że każdorazowe generowanie klucza w postaci zmiennej typu String było niezmiernie kosztowne.
 
-\begin{center}
-    \textcolor{red}{\textbf{DODAĆ OPIS}}
-\end{center}
+Postanowiono zatem jako klucz użyć wartości zwracanej przez haszowanie Zobrist, które posiada parę cech znacząco przyspieszających cały proces.
+Polega ono na przypisaniu kolorowi czarnemu oraz każdej figurze na każdym polu planszy losowej liczby typu \texttt{long}.
+Korzystając ze standardowego generatora liczb pseudolosowych, dostępnego w języku Java, otrzymano 769 liczb.
+
+Wartość haszowania dla danej pozycji obliczona została jako alternatywa wykluczająca wszystkich wartości dla figur na planszy oraz koloru aktualnego gracza.
+Rozwiązanie to byłoby równie złożone, gdyby nie fakt, że wartością odwrotną dla XOR jest ona sama.
+W trakcie gry nie jest konieczne ponowne obliczanie wartości haszowania dla całej planszy, a jedynie zamiana wartości dla figury dodawanej i usuwanej.
+
+Niestety, zaimplementowany algorytm jest funkcją nieiniekcyjną.
+Liczba możliwych pozycji w szachach znacząco przewyższa liczbę dostępnych wartości haszowania.
+Z tego względu istnieje ryzyko kolizji, którego nie da rady się pozbyć.
+Jest ono natomiast na~tyle małe, że zysk czasowy znacząco przewyższa możliwe komplikacje z nim związane.
+W celu otrzymania większej powtarzalności wyników zdecydowano się na zastosowanie tego samego ziarna~(ang.~\emph{seed}) dla generatora liczb pseudolosowych.
+Przeprowadzono testy jednostkowe, gdzie dla różnych pozycji na planszy przechodzono przez drzewo gry, a~następnie sprawdzano, czy wartości haszowania powtórzą się dla różnych pozycji.
+Kolizji nie zaobserwowano.
+Powyższe rozwiązanie zostało także wykorzystane w dalszych etapach pracy, przy implementacji tabeli transpozycji.
 
 
 
