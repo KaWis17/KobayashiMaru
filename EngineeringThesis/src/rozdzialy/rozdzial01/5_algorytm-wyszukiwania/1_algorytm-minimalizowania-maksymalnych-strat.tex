@@ -1,13 +1,19 @@
 \subsection{Algorytm minimalizowania maksymalnych strat}
 \label{subsec:algorytm-minimalizowania-maksymalnych-strat}
 
-Algorytm minimax polega na przeszukiwaniu drzewa gry.
-Z uwagi na mnogość możliwych decyzji, proces ogranicza się do określonej głębokości.
+Algorytm minimax polega na przeszukiwaniu w głąb drzewa gry.
+Z uwagi na mnogość możliwych decyzji, proces ogranicza się do eksploracji do określonej głębokości.
 Liściom drzewa przypisywane są~obliczone wartości heurystyczne.
-Idąc wzwyż grafu, na kolejnych poziomach, nadawane są wartości maksymalne dla protagonisty i minimalne dla antagonisty.
-Ruch, który prowadzi z korzenia do wierzchołka na głębokości jeden z największą wartością, jest ruchem proponowanym przez algorytm.
+Następnie idąc wzwyż grafu, na kolejnych poziomach, nadawane są wartości maksymalne dla protagonisty i minimalne dla antagonisty.
+Ruch, który prowadzi z korzenia do wierzchołka z największą wartością, jest ruchem proponowanym przez algorytm.
 
 W silniku zastosowano skróconą wersję powyższego algorytmu, wykorzystując fakt, że~$max(\alpha, \beta) = -min(-\alpha, -\beta)$.
+
+\begin{center}
+    \textcolor{red}{\textbf{DOPISAĆ DO KOŃCA STRONY}}
+\end{center}
+\newpage
+
 
 \begin{lstlisting}[
     language=Java,

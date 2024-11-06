@@ -2,9 +2,55 @@
 \label{subsec:ewaluacja-cichych-stanow}
 
 \subsubsection{Opis zagadnienia}
-Kolejnym zagadnieniem wartym opisania jest efekt horyzontu.
-Występuje on w sytuacji, gdy
+Silnik znacznie przyspieszył znajdowanie ruchów dla danej głębokości.
+Zdarzały się jednak sytuacje, że zwracane wyniki znacznie odbiegały od optymalnych.
+Dla przykładu mogła zdarzyć się sytuacja, że liściem w drzewie było bicie hetmanem skoczka.
+Silnik zwracał wynik heurystyki jako bardzo wysoki i wykonywał powyższy ruch.
+Program nie brał jednak pod uwagę faktu, że~na~głębokości o jednej większej, hetman ten mógłby zostać zbity przez pionka.
+
+Taką sytuację nazywa się efektem horyzontu.
+Rozwiązaniem wykonywania nieoptymalnych ruchów, było wykonanie dodatkowego wyszukiwania po osiągnięciu głębokości końcowej.
+Z liścia drzewa, które poprzednio zostało oceniane heurystycznie, wyprowadzono kolejne wyszukiwanie, w którym generowane ruchy są tylko biciami.
+Pozwoliło to na ocenę tak zwanych stanów cichych, czyli pozycji, gdzie nie ma żadnego dostępnego ruchu, który prowadziłby do~bicia.
 
 \subsubsection{Implementacja}
 
+Algorytm rozwiązujący efekt horyzontu w literaturze nosi nazwę Quiescence Search.
+
+\begin{lstlisting}[
+    language=Java,
+    style=JavaStyle,
+    caption=Implementacja algorytmu Quiescence Search,
+    label=lst:trzeci]
+    public Integer search(int depth, int alpha, int beta) {
+        int standPat = evaluator.evaluate();
+        if(depth == 0)
+            return standPat;
+
+        if (standPat >= beta)
+            return beta;
+        if (alpha < standPat)
+            alpha = standPat;
+
+        ArrayList<Move> moves = generator.generateCaptureMoves();
+        for(Move move : moves) {
+            board.makeMove(move);
+            int score = -search(depth-1, -beta, -alpha);
+            board.unmakeMove();
+
+            if(score >= beta)
+                return beta;
+            if(score > alpha)
+                alpha = score;
+        }
+        return alpha;
+    }
+\end{lstlisting}
+
+Niektóre wersje tego algorytmu, oprócz ruchów prowadzących do bicia, korzystają także z roszad, czy~podwójnych ruchów piona, z uwagi na ich szczególny charakter.
+
 \subsubsection{Rezultat}
+
+W efekcie implementacji algorytmu osiągnięto silnik, który jest odporny na efekt horyzontu.
+Niestety, z uwagi na~ilość odwiedzonych wierzchołków w algorytmie Quiescence Search, prędkość wyszukiwania rozwiązań dla danej głębokości znacznie spowolniła.
+Ostatecznie, czy korzystniejszym jest wyszukiwanie dla większych głębokości, czy korzystanie wyłącznie ze~stanów cichych zależy od konkretnej sytuacji na planszy.
