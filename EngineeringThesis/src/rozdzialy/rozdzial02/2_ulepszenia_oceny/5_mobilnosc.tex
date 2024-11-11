@@ -1,11 +1,16 @@
 \subsection{Mobilność}
 \label{subsec:mobilnosc}
-\begin{center}
-    \textcolor{red}{\textbf{JESZCZE NIE ZAIMPLEMENTOWANE}}
-\end{center}
-\textit{Usprawnia pozycjonowanie hetmana, wieży i gońca.}
-
 
 \subsubsection{Opis zagadnienia}
-\subsubsection{Implementacja}
-\subsubsection{Rezultat}
+Mobilność bierek mówi o ilości posunięć dostępnych dla danej figury.
+Celem jest zwiększenie liczby dostępnych ruchów, a co za tym idzie, kontroli większej części planszy, zmuszając przeciwnika do wycofania.
+Tablice figur pozwoliły na wskazanie typowych pól, które są korzystne z punktu widzenia hetmana, wierzy czy gońca.
+Istnieją jednak sytuacje, w których warto ustawić się na polu obiektywnie mniej korzystnym, natomiast umożliwiającym kontrolę otwartej linii bądź przekątnej.
+
+\subsubsection{Implementacja i rezultat}
+Do implementacji zastosowano generator ruchów, który wskazywał ilość dostępnych posunięć dla konkretnej figury.
+Wartość ta, przekazywana do funkcji heurystycznej i mnożona przez odpowiedni współczynnik, pozwalała na ocenę mobilności.
+W wyniku implementacji powstał silnik, który lepiej oceniał poszczególne dostępne ruchy.
+Niestety, zwiększenie liczby koniecznych obliczeń zdecydowanie obniżyło wydajność.
+Efektywna implementacja tego ulepszenia, choć możliwa, wymagałaby zastosowania bardziej zaawansowanych technik generowania ruchów.
+Zdecydowano się na zrezygnowanie z tego ulepszenia na rzecz innych, bardziej obiecujących pod względem efektywności.

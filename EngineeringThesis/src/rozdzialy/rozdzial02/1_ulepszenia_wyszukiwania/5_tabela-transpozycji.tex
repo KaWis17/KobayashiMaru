@@ -1,9 +1,15 @@
 \subsection{Tabela transpozycji}
 \label{subsec:tabela-transpozycji}
-\textit{Minimalizuje czas obliczania heurystyki.}
-
-
 
 \subsubsection{Opis zagadnienia}
-\subsubsection{Implementacja}
-\subsubsection{Rezultat}
+Silnik szachowy wielokrotnie znajduje się w tej samej pozycji planszy, musząc wyliczać wartości heurystyczne od nowa.
+Dzieje się tak, zarówno w przypadku dotarcia do pozycji w wyniku odmiennych sekwencji ruchów, jak i w wyniku wykonywania kolejnych ruchów.
+Rozwiązaniem tego problemu jest zastosowanie tabeli transpozycji, która przechowuje wyniki obliczeń dla pozycji, mając jednocześnie na uwadze głębokość, dla której wynik został obliczony.
+W sytuacji, gdy silnik ponownie napotka na tę samą pozycję, w pierwszej kolejności sprawdzi, czy w tabeli nie znajduje się wynik oceny heurystycznej dla tej samej, bądź większej głębokości.
+
+\subsubsection{Implementacja i rezultat}
+Do implementacji zastosowano strukturę \texttt{HashMap}, gdzie kluczem jest wartość \texttt{Zobrist Hasz} planszy, a wartością wynik obliczeń dla danej pozycji.
+Po zastosowaniu ulepszenia zaobserwowano znaczący wzrost wydajności silnika dla mniejszych głębokości przeszukiwania drzewa gry.
+Wynikało to z faktu napotykania tych samych pozycji w trakcie przeszukiwania poprzedniego posunięcia.
+Nie przełożyło się to jednak na ogólny poziom gry silnika.
+Program komputerowy zaczął docierać do głębokości, w których nie było już możliwości ukończenia całego poziomu w wyznaczonym czasie, nawet pomimo znajdowania par klucz-wartość dla niższych głębokości.

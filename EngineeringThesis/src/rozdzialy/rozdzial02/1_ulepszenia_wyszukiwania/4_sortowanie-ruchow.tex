@@ -1,8 +1,24 @@
 \subsection{Statyczne sortowanie ruchów}
 \label{subsec:sortowanie-ruchow}
-\textit{Przyspiesza pruning drzewa. MVV-LVA}
-
 
 \subsubsection{Opis zagadnienia}
+W czasie testów zauważono, że podczas przeszukiwania drzewa nie następuje taka ilość alfa-beta cięć, która pozwalałaby na znaczne przyspieszenie obliczeń.
+Rozpoczynanie przeszukiwania węzłów gry od najlepszych posunięć pozwoliłoby na osiągnięcie teoretycznego limitu wskazanego w tabeli \ref{tab:alfa-beat-limit}.
+W żaden sposób nie ma jednak możliwości wskazania, który ruch prowadzi do najlepszej pozycji, przed wykonaniem tych ruchów.
+Istnieją jednak posunięcia, które można rozważyć w pierwszej kolejności, ze względu na ich szczególny charakter, a~tym~samym przyspieszyć pruning.
+Jeśli sortowanie jest niezależne od wcześniejszych obliczeń, to~jest to sortowanie statyczne.
+
 \subsubsection{Implementacja}
+Sortowanie wykonano dzięki implementacji interfejsu \texttt{Comparator} w klasie \texttt{Move}.
+W celu porównania pomiędzy sobą dwóch dowolnych ruchów wykorzystano następujące założenia:
+\begin{itemize}
+    \item Ruch, który umożliwia bicie, jest prawdopodobnie lepszy od ruchów, które nie umożliwiają bicia.
+    \item Wszystkie ruchy specjalne, takie jak roszady, podwójne ruchy pionem czy promocje, są lepsze od ruchów zwykłych.
+    \item Promocje do wieży i gońca należy rozważyć na końcu, gdyż są mniej wartościowe od promocji do hetmana, jednocześnie dając dostęp do tych samych ruchów.
+    \item Zastosowano technikę Najbardziej wartościowa ofiara – Najmniej wartościowa atakujący (ang.~\emph{Most Valuable Victim – Least Valuable Attacker}, w~skrócie MVV-LVA). Sortuje ona~bicia zakładając, że korzystniejsze są posunięcia, w których bierka zbita reprezentuje wartość większą, od bierki atakującej.
+\end{itemize}
+
 \subsubsection{Rezultat}
+Dzięki zastosowaniu sortowania statycznego, udało się zwiększyć ilość alfa-beta cięć, co~spowodowało możliwości przeszukiwania drzew gry do większych głębokości.
+Szczególnie zauważalne było to ulepszenie w procesie wyszukiwania stanów cichych, gdzie każdy z~dostępnych ruchów można było zakwalifikować za pomocą MVV–LVA.
+Dodatek \ref{ch:wyniki-perft} zawiera przykładowe pozycje, w których porównano wyniki perft dla wersji klasycznej, z alfa-beta cięciem, oraz z sortowaniem ruchów.
