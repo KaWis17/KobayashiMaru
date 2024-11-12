@@ -39,22 +39,40 @@ public class MiddleSearcher implements Search {
     public void search() {
         UciSender.sendDebugMessage("Entered middle searcher");
 
+        int estimationDelta = 30;
+        int prevBestEval = -100_000_000;
+
         for(int i=1; i<255; i++) {
             evaluator.counter = 0;
             Result result;
-
-            if(Config.ALPHA_BETA_ON)
-                result = alphaBetaNegEntryPoint(i+DEPTH_FOR_QUIESCENCE, MINIMUM, MAXIMUM);
-            else
+            if(Config.ALPHA_BETA_ON) {
+                if (Config.ESTIMATION_WINDOW_ON && i > 2) {
+                    result = alphaBetaNegEntryPoint(i + DEPTH_FOR_QUIESCENCE, prevBestEval - estimationDelta, prevBestEval + estimationDelta);
+                } else
+                    result = alphaBetaNegEntryPoint(i + DEPTH_FOR_QUIESCENCE, MINIMUM, MAXIMUM);
+            }
+            else {
                 result = negaMaxEntryPoint(i);
+            }
 
             if(result != null) {
-                searcher.bestMove = result.move;
-                UciSender.sendInfoMessage("depth " + i + " score cp " + evaluator.evaluate() + " pv " + searcher.bestMove + " nodes " + evaluator.getCount());
-                if(result.score == MAXIMUM) {
-                    return;
+                if(Config.ESTIMATION_WINDOW_ON && i > 2) {
+                    if (result.score <= prevBestEval - estimationDelta || result.score >= prevBestEval + estimationDelta) {
+                        System.out.println("Estimation window miss with result " + result.score + " and prevBestEval " + prevBestEval);
+                        result = alphaBetaNegEntryPoint(i + DEPTH_FOR_QUIESCENCE, MINIMUM, MAXIMUM);
+                        System.out.println("New result " + result.score + " " + result.move);
+                    }
+                }
+                if(result != null) {
+                    searcher.bestMove = result.move;
+                    prevBestEval = result.score;
+                    UciSender.sendInfoMessage("depth " + i + " score cp " + result.score + " pv " + searcher.bestMove + " nodes " + evaluator.getCount());
+                    if(result.score == MAXIMUM) {
+                        return;
+                    }
                 }
             }
+
             if(!searcher.isCurrentlyThinking)
                 return;
         }

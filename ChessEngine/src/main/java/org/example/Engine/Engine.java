@@ -131,7 +131,7 @@ public class Engine implements Constants {
                 UciSender.sendDebugMessage("ENABLED TRANSPOSITION TABLE WITH DISABLED ALPHA BETA IS NOT ALLOWED");
                 return true;
             }
-            if(Config.ESTIMATION_WINDOW) {
+            if(Config.ESTIMATION_WINDOW_ON) {
                 UciSender.sendDebugMessage("ENABLED ESTIMATION WINDOW WITH DISABLED ALPHA BETA IS NOT ALLOWED");
                 return true;
             }

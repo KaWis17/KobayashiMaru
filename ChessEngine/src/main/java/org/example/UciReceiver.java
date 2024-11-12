@@ -64,8 +64,8 @@ public class UciReceiver {
             case "setoption name ZobristHashing value false" -> Config.ZOBRITS_HASHING_ON = false;
             case "setoption name TranspositionTable value true" -> Config.TRANSPOSITION_TABLE_ON = true;
             case "setoption name TranspositionTable value false" -> Config.TRANSPOSITION_TABLE_ON = false;
-            case "setoption name EstimationWindow value true" -> Config.ESTIMATION_WINDOW = true;
-            case "setoption name EstimationWindow value false" -> Config.ESTIMATION_WINDOW = false;
+            case "setoption name EstimationWindow value true" -> Config.ESTIMATION_WINDOW_ON = true;
+            case "setoption name EstimationWindow value false" -> Config.ESTIMATION_WINDOW_ON = false;
             case "setoption name MoveExtensions value true" -> Config.MOVE_EXTENSIONS_ON = true;
             case "setoption name MoveExtensions value false" -> Config.MOVE_EXTENSIONS_ON = false;
             case "setoption name PieceSquareTable value true" -> Config.PIECE_SQUARE_TABLE_ON = true;
