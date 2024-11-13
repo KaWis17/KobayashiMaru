@@ -14,7 +14,7 @@ Ryzyko ich pojawienia zostało zminimalizowane dzięki wprowadzeniu testów jedn
 \subsubsection{Tablica pól szachowych}
 
 Naturalnym podejściem do reprezentacji szachownicy wydało się zastosowanie 64 elementowej tablicy, w której każde pole odpowiada konkretnemu miejscu na planszy.
-W tej implementacji poszczególne bierki zostały zakodowane liczbami od 1 do 6, natomiast cyfry 0 i 8 odpowiednio reprezentują biały oraz czarny kolor.
+W tej implementacji poszczególne bierki zostały zakodowane liczbami od 1 do 6, natomiast liczby 0 i 8 odpowiednio reprezentują biały oraz czarny kolor.
 W ten sposób, za pomocą pojedynczych bajtów, można określić zarówno typ figury, jak i jej kolor na danym polu.
 
 Taka struktura danych jest szczególnie użyteczna, gdy konieczna jest szybka odpowiedź na~pytanie, czy na danym kwadracie znajduje się figura, a jeśli tak, to jaka.
@@ -51,7 +51,7 @@ W celu zaadresowania powyższych spowolnień zastosowana została technika repre
 Informacja o położeniu konkretnego typu bierki na planszy przechowywana jest w postaci tablicy liczb o rozmiarze 8 bajtów.
 
 Implementacja ta wykorzystuje kodowanie 64 polowej tablicy szachowej w 64 pojedynczych bitach zmiennej.
-Oznaczając figurę na danym polu za pomocą jedynki, a pozostałe pola jako zera, można w prosty sposób zawrzeć informacje o planszy w dwunastu pojedynczych słowach.
+Oznaczając figurę na danym polu za pomocą jedynki, a pozostałe pola jako zera, można w prosty sposób zawrzeć informacje o planszy w dwunastu pojedynczych literach.
 Pozycje bierek nie są natomiast jedyną informacją, którą można zakodować w tablicach bitowych.
 Uprzednio policzone maski możliwych ruchów czy atakowanych pól, to tylko niektóre z możliwych zastosowań, które na późniejszych etapach implementacji znacznie przyspieszały obliczenia.
 

@@ -16,7 +16,11 @@ Większość silników ustawia wartość $\delta$ na $1/3$ wartości pionka. \ci
 Taką też wartość zastosowano w programie.
 W przypadku wyjścia poza zakres, okno estymacji poszerzone zostaje do $-\infty$ i $+\infty$, co w efekcie gwarantuje poprawne działanie.
 
+Dodatkowym utrudnieniem, stał się fakt, że przejście algorytmu, którego efektem będzie zwrócenie wartości spoza okna estymacji, wywoływało zapis nieprawdziwych wartości do tabeli transpozycji.
+Przy próbie jednoczesnego zastosowania obu rozwiązań, należałoby zastosować bufor, który zapisywałby wartości z danego przeszukania jedynie w przypadku, gdy wartość końcowa mieściła się w oknie estymacji.
+
 \subsubsection{Rezultat}
-\begin{center}
-    \textcolor{red}{\textbf{JESZCZE NIE ZAIMPLEMENTOWANE}}
-\end{center}
+W programie zdecydowano się nie wykorzystywać dwóch rozwiązań, to jest tabeli transpozycji oraz okna estymacji, jednocześnie.
+W dalszej części pracy porównano rezultaty oraz wybrano to~ulepszenie, które przyczyniło się do największego wzrostu siły silnika.
+Przeprowadzono także testy, które miały na celu sprawdzenie ilość wystąpień wyjścia poza zakres okna estymacji.
+Spośród przetestowanych opcji wybrano tę wartość $\delta$, która pozwalała na istotne polepszenie alfa-beta cięć, przy jednoczesnej próbie zachowania małej liczby powtórzeń.

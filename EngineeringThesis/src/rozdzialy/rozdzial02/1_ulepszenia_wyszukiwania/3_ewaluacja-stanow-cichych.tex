@@ -22,26 +22,21 @@ Algorytm rozwiązujący efekt horyzontu w literaturze nosi nazwę Quiescence Sea
     style=JavaStyle,
     caption=Implementacja algorytmu Quiescence Search,
     label=lst:trzeci]
-    public Integer search(int depth, int alpha, int beta) {
-        int standPat = evaluator.evaluate();
-        if(depth == 0)
-            return standPat;
+    public search(depth, alpha, beta) {
+        standPat = evaluator.evaluate();
+        if (depth == 0) return standPat;
 
-        if (standPat >= beta)
-            return beta;
-        if (alpha < standPat)
-            alpha = standPat;
+        if (standPat >= beta) return beta;
+        if (alpha < standPat) alpha = standPat;
 
-        ArrayList<Move> moves = generator.generateCaptureMoves();
+        moves = generator.generateCaptureMoves();
         for(Move move : moves) {
             board.makeMove(move);
-            int score = -search(depth-1, -beta, -alpha);
+            score = -search(depth-1, -beta, -alpha);
             board.unmakeMove();
 
-            if(score >= beta)
-                return beta;
-            if(score > alpha)
-                alpha = score;
+            if(score >= beta) return beta;
+            if(score > alpha) alpha = score;
         }
         return alpha;
     }

@@ -5,7 +5,7 @@
 W czasie testów zauważono, że podczas przeszukiwania drzewa nie następuje taka ilość alfa-beta cięć, która pozwalałaby na znaczne przyspieszenie obliczeń.
 Rozpoczynanie przeszukiwania węzłów gry od najlepszych posunięć pozwoliłoby na osiągnięcie teoretycznego limitu wskazanego w tabeli \ref{tab:alfa-beat-limit}.
 W żaden sposób nie ma jednak możliwości wskazania, który ruch prowadzi do najlepszej pozycji, przed wykonaniem tych ruchów.
-Istnieją jednak posunięcia, które można rozważyć w pierwszej kolejności, ze względu na ich szczególny charakter, a~tym~samym przyspieszyć pruning.
+Istnieją jednak posunięcia, które można rozważyć w pierwszej kolejności, ze względu na ich szczególny charakter, a~tym~samym przyspieszyć cięcie.
 Jeśli sortowanie jest niezależne od wcześniejszych obliczeń, to~jest to sortowanie statyczne.
 
 \subsubsection{Implementacja}
