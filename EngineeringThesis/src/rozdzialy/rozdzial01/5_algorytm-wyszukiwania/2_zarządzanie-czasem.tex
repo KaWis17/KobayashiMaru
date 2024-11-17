@@ -7,7 +7,7 @@ Koniecznym było zatem zaimplementowanie mechanizmu zarządzania, który pozwoli
 Pozostały czas otrzymany przez UCI w formie \texttt{go wtime <wtime> btime <btime> winc <winc> binc <binc>} pozwolił na implementacje rozwiązania opartego na~wzorze:
 \begin{align*}
     \text{Est pozostałych ruchów} &= {\max(40 - \text{wykonaneRuchy}, 10)} \\
-    \text{Est pozostałego czasu} &= time_{color} + (inc_{color} * \text{Est pozostałych ruchów}) \\
+    \text{Est pozostałego czasu} &= \mathrm{time_{color}} + (inc_{color} * \text{Est pozostałych ruchów}) \\
     \text{Propozycja czasu} &= \dfrac{\text{Est pozostałych ruchów}}{\text{Est pozostałego czasu}}
 \end{align*}
 

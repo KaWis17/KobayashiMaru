@@ -22,9 +22,10 @@ Klasa oceny heurystycznej silnika szachowego zwraca ocenę pozycji~$P$~dla kolor
     Ocena(P) =
     \begin{cases}
         H_0(P) & \text{if } H_0(P) \ne 0 \\
-        $\sum_{i=1}^{n} (c_i * H_i(P))$ & \text{else}\\
+        $\sum\limits_{i=1}^{n} (c_i \cdot H_i(P))$ & \text{else}\\
     \end{cases}
 \end{equation}
+gdzie,
 \begin{multicols}{2}
     \begin{itemize}[label={}]
         \item \(H_0\) – heurystyka win-loss-draw
