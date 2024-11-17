@@ -60,8 +60,8 @@ public class UciReceiver {
             case "setoption name Quiescence value false" -> Config.QUIESCENCE_SEARCH_ON = false;
             case "setoption name StaticMoveOrdering value true" -> Config.STATIC_MOVE_ORDERING_ON = true;
             case "setoption name StaticMoveOrdering value false" -> Config.STATIC_MOVE_ORDERING_ON = false;
-            case "setoption name ZobristHashing value true" -> Config.ZOBRITS_HASHING_ON = true;
-            case "setoption name ZobristHashing value false" -> Config.ZOBRITS_HASHING_ON = false;
+            case "setoption name ZobristHashing value true" -> Config.ZOBRIST_HASHING_ON = true;
+            case "setoption name ZobristHashing value false" -> Config.ZOBRIST_HASHING_ON = false;
             case "setoption name TranspositionTable value true" -> Config.TRANSPOSITION_TABLE_ON = true;
             case "setoption name TranspositionTable value false" -> Config.TRANSPOSITION_TABLE_ON = false;
             case "setoption name EstimationWindow value true" -> Config.ESTIMATION_WINDOW_ON = true;

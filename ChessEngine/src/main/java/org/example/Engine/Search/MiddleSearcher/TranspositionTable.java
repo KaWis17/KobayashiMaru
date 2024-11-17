@@ -39,6 +39,10 @@ public class TranspositionTable {
         transpositionTable = new HashMap<>();
     }
 
+    @Override
+    public String toString() {
+        return transpositionTable.toString();
+    }
 }
 
 class TranspositionResult {

@@ -123,7 +123,7 @@ public class Engine implements Constants {
                 UciSender.sendDebugMessage("ENABLED QUIESCENCE SEARCH WITH DISABLED ALPHA BETA IS NOT ALLOWED");
                 return true;
             }
-            if(Config.ZOBRITS_HASHING_ON) {
+            if(Config.ZOBRIST_HASHING_ON) {
                 UciSender.sendDebugMessage("ENABLED ZOBRIST HASHING WITH DISABLED ALPHA BETA IS NOT ALLOWED");
                 return true;
             }
@@ -141,7 +141,7 @@ public class Engine implements Constants {
             }
         }
 
-        if(Config.TRANSPOSITION_TABLE_ON && !Config.ZOBRITS_HASHING_ON) {
+        if(Config.TRANSPOSITION_TABLE_ON && !Config.ZOBRIST_HASHING_ON) {
             UciSender.sendDebugMessage("ENABLED TRANSPOSITION TABLE WITH DISABLED ZOBRIST HASHING IS NOT ALLOWED");
             return true;
         }

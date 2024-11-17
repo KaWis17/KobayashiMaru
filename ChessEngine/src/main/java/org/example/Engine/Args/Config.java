@@ -18,7 +18,7 @@ public class Config {
     public static boolean STATIC_MOVE_ORDERING_ON = true;
 
     /* ---------- ZOBRIST HASHING ---------- */
-    public static boolean ZOBRITS_HASHING_ON = true;
+    public static boolean ZOBRIST_HASHING_ON = true;
 
     /* ---------- TRANSPOSITION TABLE ---------- */
     public static boolean TRANSPOSITION_TABLE_ON = true;

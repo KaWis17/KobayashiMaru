@@ -13,7 +13,7 @@ public class ZobristHashing {
 
     ZobristHashing(Board board) {
         this.board = board;
-        random = new Random(9128461938461928L);
+        random = new Random(1294811425);
 
         boardRandoms = new long[64][15];
 
@@ -49,10 +49,12 @@ public class ZobristHashing {
 
     public void addOnSquare(byte square, byte color, byte piece) {
         hash = hash ^ boardRandoms[64 - square][color | piece];
+        hash = hash ^ blackRandom;
     }
 
     public void deleteOnSquare(byte square, byte color, byte piece) {
         hash = hash ^ boardRandoms[64 - square][color | piece];
+        hash = hash ^ blackRandom;
     }
 
     public void clear(){
