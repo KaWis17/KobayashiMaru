@@ -2,22 +2,23 @@ package org.example.Engine.Search.MiddleSearcher;
 
 import org.example.Engine.Args.Config;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class TranspositionTable {
-    HashMap<Long, TranspositionResult[]> transpositionTable = new HashMap<>();
+    LRU<Long, TranspositionResult[]> cache = new LRU<>(5_000_000);
 
     public void put(long hash, int depth, int score, boolean isWhiteToPlay){
         if(!Config.TRANSPOSITION_TABLE_ON)
             return;
 
         int side = (isWhiteToPlay) ? 0 : 1;
-        transpositionTable.computeIfAbsent(hash, k -> new TranspositionResult[2]);
-        TranspositionResult currentValue = transpositionTable.get(hash)[side];
+        cache.computeIfAbsent(hash, k -> new TranspositionResult[2]);
+        TranspositionResult currentValue = cache.get(hash)[side];
         if(currentValue != null && currentValue.depth >= depth)
             return;
 
-        transpositionTable.get(hash)[side] = new TranspositionResult(depth, score);
+        cache.get(hash)[side] = new TranspositionResult(depth, score);
     }
 
     public Integer get(long hash, int minimumAcceptableDepth, boolean isWhiteToEvaluate){
@@ -25,7 +26,7 @@ public class TranspositionTable {
             return null;
 
         int side = isWhiteToEvaluate ? 0 : 1;
-        TranspositionResult[] result = transpositionTable.get(hash);
+        TranspositionResult[] result = cache.get(hash);
         if(result == null || result[side] == null)
             return null;
         if(result[side].depth >= minimumAcceptableDepth) {
@@ -35,13 +36,9 @@ public class TranspositionTable {
         return null;
     }
 
-    public void reset(){
-        transpositionTable = new HashMap<>();
-    }
-
     @Override
     public String toString() {
-        return transpositionTable.toString();
+        return cache.toString();
     }
 }
 
@@ -59,5 +56,19 @@ class TranspositionResult {
                 "depth=" + depth +
                 ", score=" + score +
                 '}';
+    }
+}
+
+class LRU<K, V> extends LinkedHashMap<K, V> {
+    private final int capacity;
+
+    public LRU(int capacity) {
+        super(capacity, 0.75f, true);
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > this.capacity;
     }
 }

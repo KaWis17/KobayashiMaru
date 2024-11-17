@@ -34,12 +34,12 @@ public class QuiescenceSearch {
         int standPat = evaluator.evaluate();
 
         if(depth == 0) {
-            transpositionTable.put(board.zobristHashing.getHash(), depth, standPat, board.isWhiteToPlay());
+//            transpositionTable.put(board.zobristHashing.getHash(), depth, standPat, board.isWhiteToPlay());
             return standPat;
         }
 
         if (standPat >= beta) {
-            transpositionTable.put(board.zobristHashing.getHash(), depth, beta, board.isWhiteToPlay());
+//            transpositionTable.put(board.zobristHashing.getHash(), depth, beta, board.isWhiteToPlay());
             return beta;
         }
         if (alpha < standPat)
@@ -59,7 +59,7 @@ public class QuiescenceSearch {
                 board.unmakeMove();
 
                 if(score >= beta) {
-                    transpositionTable.put(board.zobristHashing.getHash(), depth, beta, board.isWhiteToPlay());
+//                    transpositionTable.put(board.zobristHashing.getHash(), depth, beta, board.isWhiteToPlay());
                     return beta;
                 }
                 if(score > alpha)
@@ -69,7 +69,7 @@ public class QuiescenceSearch {
                 board.unmakeMove();
         }
 
-        transpositionTable.put(board.zobristHashing.getHash(), depth, alpha, board.isWhiteToPlay());
+//        transpositionTable.put(board.zobristHashing.getHash(), depth, alpha, board.isWhiteToPlay());
         return alpha;
     }
 }
