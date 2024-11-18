@@ -5,7 +5,7 @@ public class Config {
     public static boolean DEBUG_ON = true;
 
     /* ---------- OPENING LIBRARY ---------- */
-    public static boolean OPENING_LIBRARY_ON = true;
+    public static boolean OPENING_LIBRARY_ON = false;
     public static String OPENING_LIBRARY_LOCATION = "/Users/kawis/Developer/KobayashiMaru/ChessEngine/resources/library.txt";
 
     /* ---------- ALPHA BETA PRUNING ---------- */

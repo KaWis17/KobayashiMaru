@@ -6,34 +6,28 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class TranspositionTable {
-    LRU<Long, TranspositionResult[]> cache = new LRU<>(5_000_000);
+    LRU<Long, TranspositionResult> cache = new LRU<>(1_000_000);
 
-    public void put(long hash, int depth, int score, boolean isWhiteToPlay){
-        if(!Config.TRANSPOSITION_TABLE_ON)
+    public void put(long hash, int depth, int score, TranspositionResult.Flag flag) {
+        if (!Config.TRANSPOSITION_TABLE_ON)
             return;
 
-        int side = (isWhiteToPlay) ? 0 : 1;
-        cache.computeIfAbsent(hash, k -> new TranspositionResult[2]);
-        TranspositionResult currentValue = cache.get(hash)[side];
-        if(currentValue != null && currentValue.depth >= depth)
+        TranspositionResult currentValue = cache.get(hash);
+        if (currentValue != null && currentValue.depth >= depth)
             return;
 
-        cache.get(hash)[side] = new TranspositionResult(depth, score);
+        cache.put(hash, new TranspositionResult(depth, score, flag));
     }
 
-    public Integer get(long hash, int minimumAcceptableDepth, boolean isWhiteToEvaluate){
-        if(!Config.TRANSPOSITION_TABLE_ON)
+    public TranspositionResult get(long hash, int minimumAcceptableDepth) {
+        if (!Config.TRANSPOSITION_TABLE_ON)
             return null;
 
-        int side = isWhiteToEvaluate ? 0 : 1;
-        TranspositionResult[] result = cache.get(hash);
-        if(result == null || result[side] == null)
+        TranspositionResult result = cache.get(hash);
+        if (result == null || result.depth < minimumAcceptableDepth)
             return null;
-        if(result[side].depth >= minimumAcceptableDepth) {
-            return result[side].score;
-        }
 
-        return null;
+        return result;
     }
 
     @Override
@@ -43,11 +37,19 @@ public class TranspositionTable {
 }
 
 class TranspositionResult {
+
+    enum Flag {
+        EXACT, LOWER_BOUND, UPPER_BOUND
+    }
+
     int depth;
     int score;
-    TranspositionResult(int depth, int score){
+    Flag flag;
+
+    TranspositionResult(int depth, int score, Flag flag) {
         this.depth = depth;
         this.score = score;
+        this.flag = flag;
     }
 
     @Override
@@ -55,6 +57,7 @@ class TranspositionResult {
         return "TranspositionResult{" +
                 "depth=" + depth +
                 ", score=" + score +
+                ", flag=" + flag +
                 '}';
     }
 }

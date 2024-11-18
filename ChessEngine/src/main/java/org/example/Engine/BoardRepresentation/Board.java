@@ -40,18 +40,20 @@ public class Board implements BoardHelper {
 
     public boolean makeMove(Move moveToMake) {
         moveMaker.makeMove(moveToMake);
-
+        zobristHashing.updateColor();
         return !isOpponentColorInCheck();
     }
 
     public boolean makeMove(String moveToMake) {
         Move move = new Move(moveToMake, this);
         moveMaker.makeMove(move);
+        zobristHashing.updateColor();
 
         return !isOpponentColorInCheck();
     }
 
     public void unmakeMove() {
+        zobristHashing.updateColor();
         moveUnMaker.unmakeMove();
     }
 

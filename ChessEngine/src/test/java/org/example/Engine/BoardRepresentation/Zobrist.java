@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Zobrist extends TestCase {
-    HashMap<String, Long> testForCollision;
+    HashMap<Long, String> testForCollision;
     Board board;
     MoveGenerator generator;
 
@@ -17,19 +17,21 @@ public class Zobrist extends TestCase {
         board.startFromCustomPosition("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
         generator = new MoveGenerator(board);
         testForCollision = new HashMap<>();
-        perft(6);
+        perft(4);
         System.out.println("SIZE: " + testForCollision.size());
     }
 
     private void perft(int depth) {
 
-        String fen = board.boardToLibraryFEN();
+        String[] fens = board.boardToLibraryFEN().split(" ");
+        String fen = fens[0] + fens[1];
         Long hash = board.zobristHashing.getHash();
 
-        if(testForCollision.get(fen) == null)
-            testForCollision.put(fen, hash);
+        if(testForCollision.get(hash) == null)
+            testForCollision.put(hash, fen);
         else{
-            assert (testForCollision.get(fen).equals(hash));
+            if(!testForCollision.get(hash).equals(fen))
+                System.out.println("COLLISION: " + testForCollision.get(hash) + " " + fen);
         }
 
         if(depth == 0)

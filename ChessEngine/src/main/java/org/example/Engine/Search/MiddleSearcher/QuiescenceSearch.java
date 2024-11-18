@@ -10,6 +10,9 @@ import org.example.Engine.StateEvaluation.Evaluator;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 public class QuiescenceSearch {
 
     Board board;
@@ -27,19 +30,23 @@ public class QuiescenceSearch {
     }
 
     public Integer search(int depth, int alpha, int beta) {
-        Integer transpositionValue = transpositionTable.get(board.zobristHashing.getHash(), depth, board.isWhiteToPlay());
-        if(transpositionValue != null)
-            return transpositionValue;
+
+        TranspositionResult result = transpositionTable.get(board.zobristHashing.getHash(), depth);
+        if (result != null) {
+            if (result.flag == TranspositionResult.Flag.EXACT) return result.score;
+            else if (result.flag == TranspositionResult.Flag.LOWER_BOUND) alpha = max(alpha, result.score);
+            else if (result.flag == TranspositionResult.Flag.UPPER_BOUND) beta = min(beta, result.score);
+
+            if (alpha >= beta) return result.score;
+        }
 
         int standPat = evaluator.evaluate();
 
         if(depth == 0) {
-//            transpositionTable.put(board.zobristHashing.getHash(), depth, standPat, board.isWhiteToPlay());
             return standPat;
         }
 
         if (standPat >= beta) {
-//            transpositionTable.put(board.zobristHashing.getHash(), depth, beta, board.isWhiteToPlay());
             return beta;
         }
         if (alpha < standPat)
@@ -59,7 +66,6 @@ public class QuiescenceSearch {
                 board.unmakeMove();
 
                 if(score >= beta) {
-//                    transpositionTable.put(board.zobristHashing.getHash(), depth, beta, board.isWhiteToPlay());
                     return beta;
                 }
                 if(score > alpha)
@@ -69,7 +75,6 @@ public class QuiescenceSearch {
                 board.unmakeMove();
         }
 
-//        transpositionTable.put(board.zobristHashing.getHash(), depth, alpha, board.isWhiteToPlay());
         return alpha;
     }
 }

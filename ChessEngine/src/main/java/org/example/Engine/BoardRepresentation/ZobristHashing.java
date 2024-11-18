@@ -49,11 +49,13 @@ public class ZobristHashing {
 
     public void addOnSquare(byte square, byte color, byte piece) {
         hash = hash ^ boardRandoms[64 - square][color | piece];
-        hash = hash ^ blackRandom;
     }
 
     public void deleteOnSquare(byte square, byte color, byte piece) {
         hash = hash ^ boardRandoms[64 - square][color | piece];
+    }
+
+    public void updateColor() {
         hash = hash ^ blackRandom;
     }
 

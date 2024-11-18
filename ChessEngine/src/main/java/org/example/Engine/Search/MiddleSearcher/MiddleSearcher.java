@@ -12,6 +12,8 @@ import org.example.UciSender;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static java.lang.Math.*;
+
 
 public class MiddleSearcher implements Search {
 
@@ -80,6 +82,8 @@ public class MiddleSearcher implements Search {
 
     private Result alphaBetaNegEntryPoint(int depth, int alpha, int beta) {
 
+        int alphaOrigin = alpha;
+
         int bestMoveValue = MINIMUM;
         Move bestMove = null;
 
@@ -104,7 +108,7 @@ public class MiddleSearcher implements Search {
                 board.unmakeMove();
 
                 if (bestMoveValue == MAXIMUM) {
-                    return new Result(bestMoveValue, bestMove);
+                    break;
                 }
 
                 if(score >= beta)
@@ -114,23 +118,37 @@ public class MiddleSearcher implements Search {
                 board.unmakeMove();
         }
 
+        if(bestMoveValue <= alphaOrigin)
+            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.UPPER_BOUND);
+        else if(bestMoveValue >= beta)
+            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.LOWER_BOUND);
+        else
+            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.EXACT);
+        
         return new Result(bestMoveValue, bestMove);
     }
 
     private Integer alphaBetaNeg(int depth, int alpha, int beta) {
+        int alphaOrigin = alpha;
 
-        Integer result = transpositionTable.get(board.zobristHashing.getHash(), depth, board.isWhiteToPlay());
+        if(board.isDrawByRepetition())
+            return evaluator.evaluate();
+
+        TranspositionResult result = transpositionTable.get(board.zobristHashing.getHash(), depth);
         if (result != null) {
-            return result;
+            if (result.flag == TranspositionResult.Flag.EXACT) return result.score;
+            else if (result.flag == TranspositionResult.Flag.LOWER_BOUND) alpha = max(alpha, result.score);
+            else if (result.flag == TranspositionResult.Flag.UPPER_BOUND) beta = min(beta, result.score);
+
+            if (alpha >= beta) return result.score;
         }
 
         if(depth == DEPTH_FOR_QUIESCENCE) {
-            if(!Config.QUIESCENCE_SEARCH_ON)
+            if(!Config.QUIESCENCE_SEARCH_ON) {
                 return evaluator.evaluate();
+            }
             else {
-                result = quiescenceSearch.search(depth-1, alpha, beta);
-                transpositionTable.put(board.zobristHashing.getHash(), depth, result, board.isWhiteToPlay());
-                return result;
+                return quiescenceSearch.search(depth-1, alpha, beta);
             }
         }
 
@@ -144,21 +162,22 @@ public class MiddleSearcher implements Search {
                 break;
 
             if(board.makeMove(move)) {
-                int score = -alphaBetaNeg(depth-1, -beta, -alpha);
-                if(score > bestMoveValue) {
-                    bestMoveValue = score;
-                    if(score > alpha)
-                        alpha = score;
-                }
+                bestMoveValue = max(bestMoveValue, -alphaBetaNeg(depth-1, -beta, -alpha));
+                alpha = max(alpha, bestMoveValue);
                 board.unmakeMove();
-
-                if(score >= beta)
+                if(alpha >= beta)
                     break;
             }
             else
                 board.unmakeMove();
         }
-        transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, board.isWhiteToPlay());
+
+        if(bestMoveValue <= alphaOrigin)
+            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.UPPER_BOUND);
+        else if(bestMoveValue >= beta)
+            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.LOWER_BOUND);
+        else
+            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.EXACT);
 
         return bestMoveValue;
     }
