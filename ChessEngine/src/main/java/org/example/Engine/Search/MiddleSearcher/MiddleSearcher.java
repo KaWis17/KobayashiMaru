@@ -111,7 +111,7 @@ public class MiddleSearcher implements Search {
                     break;
                 }
 
-                if(score >= beta)
+                if(alpha >= beta)
                     break;
             }
             else
@@ -153,6 +153,10 @@ public class MiddleSearcher implements Search {
         }
 
         ArrayList<Move> moves = moveGenerator.generateAllPseudoLegalMoves();
+
+        if(moves.isEmpty())
+            return evaluator.evaluate();
+
         if(Config.STATIC_MOVE_ORDERING_ON)
             Collections.sort(moves);
 

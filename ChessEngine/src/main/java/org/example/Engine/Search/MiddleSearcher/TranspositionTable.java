@@ -16,6 +16,13 @@ public class TranspositionTable {
         if (currentValue != null && currentValue.depth >= depth)
             return;
 
+        if(currentValue != null) {
+            currentValue.depth = depth;
+            currentValue.score = score;
+            currentValue.flag = flag;
+            return;
+        }
+
         cache.put(hash, new TranspositionResult(depth, score, flag));
     }
 
