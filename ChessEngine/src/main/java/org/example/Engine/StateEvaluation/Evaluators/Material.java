@@ -7,14 +7,16 @@ import org.example.Engine.StateEvaluation.Evaluation;
 public class Material implements Evaluation {
 
     Board board;
+    int weight;
 
-    public Material(Board board){
+    public Material(Board board, int weight){
         this.board = board;
+        this.weight = weight;
     }
 
     @Override
     public int evaluate() {
-        return evaluateColor(board.WHITE) - evaluateColor(board.BLACK);
+        return weight*(evaluateColor(board.WHITE) - evaluateColor(board.BLACK));
     }
 
     private int evaluateColor(byte color) {

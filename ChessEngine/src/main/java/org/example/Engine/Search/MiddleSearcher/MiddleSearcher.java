@@ -59,8 +59,8 @@ public class MiddleSearcher implements Search {
 
             if(result != null) {
                 if(Config.ESTIMATION_WINDOW_ON && i > 2) {
-                    if (result.score <= prevBestEval - estimationDelta || result.score >= prevBestEval + estimationDelta) {
-                        System.out.println("Estimation window miss with result " + result.score + " and prevBestEval " + prevBestEval);
+                    if ((result.score <= prevBestEval - estimationDelta) || (result.score >= prevBestEval + estimationDelta)) {
+                        System.out.println("\n\n\nEstimation window miss with result " + result.score + " and prevBestEval " + prevBestEval +"\n\n\n");
                         result = alphaBetaNegEntryPoint(i + DEPTH_FOR_QUIESCENCE, MINIMUM, MAXIMUM);
                         System.out.println("New result " + result.score + " " + result.move);
                     }

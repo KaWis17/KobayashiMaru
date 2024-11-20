@@ -8,9 +8,11 @@ import static org.example.Engine.BoardRepresentation.BoardHelper.*;
 public class PieceSquareTable implements Evaluation {
 
     Board board;
+    int weight;
 
-    public PieceSquareTable(Board board){
+    public PieceSquareTable(Board board, int weight){
         this.board = board;
+        this.weight = weight;
     }
 
     byte[] blackPawns = {
@@ -172,6 +174,6 @@ public class PieceSquareTable implements Evaluation {
             }
         }
 
-       return value*2;
+       return weight * value;
     }
 }

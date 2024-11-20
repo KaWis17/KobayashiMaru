@@ -145,7 +145,7 @@ public class Board implements BoardHelper {
         return BoardHelper.getPieceType(piece);
     }
 
-    public byte getPieceColor(byte piece){
+    public static byte getPieceColor(byte piece){
         return BoardHelper.getPieceColor(piece);
     }
 

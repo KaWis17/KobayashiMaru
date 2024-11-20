@@ -8,11 +8,10 @@ public class MaterialTest extends TestCase {
 
     public void testMaterial() {
         Board board = new Board();
-        board.startFromDefaultPosition();
-        board.makeMove(new Move("d2d4", board));
-        board.makeMove(new Move("e7e5", board));
-        board.makeMove(new Move("d4e5", board));
-        Material material = new Material(board);
+        board.startFromCustomPosition("8/8/8/8/8/8/8/5K2 w - - 0 1");
+        System.out.println(board);
+
+        Material material = new Material(board, 1);
         System.out.println(material.evaluate());
     }
 }

@@ -1,6 +1,7 @@
 package org.example.Engine.StateEvaluation;
 
 import org.example.Engine.BoardRepresentation.Board;
+import org.example.Engine.StateEvaluation.Evaluators.KingSafety;
 import org.example.Engine.StateEvaluation.Evaluators.Material;
 import org.example.Engine.StateEvaluation.Evaluators.PieceSquareTable;
 import org.example.Engine.StateEvaluation.Evaluators.CheckBonus;
@@ -17,9 +18,10 @@ public class Evaluator {
 
     public Evaluator(Board board) {
         this.board = board;
-        evaluators.add(new CheckBonus(board));
-        evaluators.add(new Material(board));
-        evaluators.add(new PieceSquareTable(board));
+        evaluators.add(new CheckBonus(board, 0));
+        evaluators.add(new Material(board, 5));
+        evaluators.add(new PieceSquareTable(board, 3));
+        evaluators.add(new KingSafety(board, 1));
         counter = 0;
     }
 
@@ -30,7 +32,7 @@ public class Evaluator {
         if(board.isBlackInCheckMate() || board.isWhiteInCheckMate())
             return -100_000_000;
         if(board.isDrawByRepetition())
-            return 10_000;
+            return 0;
 
         for(Evaluation evaluator: evaluators) {
             evalForWhite += evaluator.evaluate();

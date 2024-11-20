@@ -21,10 +21,10 @@ public class Config {
     public static boolean ZOBRIST_HASHING_ON = true;
 
     /* ---------- TRANSPOSITION TABLE ---------- */
-    public static boolean TRANSPOSITION_TABLE_ON = true;
+    public static boolean TRANSPOSITION_TABLE_ON = false;
 
     /* ---------- ESTIMATION WINDOW ---------- */
-    public static boolean ESTIMATION_WINDOW_ON = false;
+    public static boolean ESTIMATION_WINDOW_ON = true;
 
     /* ---------- MOVE EXTENSIONS ---------- */
     public static boolean MOVE_EXTENSIONS_ON = false;
