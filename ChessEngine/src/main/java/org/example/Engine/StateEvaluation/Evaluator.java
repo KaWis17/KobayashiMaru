@@ -1,10 +1,7 @@
 package org.example.Engine.StateEvaluation;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.StateEvaluation.Evaluators.KingSafety;
-import org.example.Engine.StateEvaluation.Evaluators.Material;
-import org.example.Engine.StateEvaluation.Evaluators.PieceSquareTable;
-import org.example.Engine.StateEvaluation.Evaluators.CheckBonus;
+import org.example.Engine.StateEvaluation.Evaluators.*;
 
 import java.util.ArrayList;
 
@@ -21,7 +18,8 @@ public class Evaluator {
         evaluators.add(new CheckBonus(board, 0));
         evaluators.add(new Material(board, 5));
         evaluators.add(new PieceSquareTable(board, 3));
-        evaluators.add(new KingSafety(board, 1));
+        evaluators.add(new KingSafety(board, 20));
+        evaluators.add(new PawnsStructure(board, 20));
         counter = 0;
     }
 

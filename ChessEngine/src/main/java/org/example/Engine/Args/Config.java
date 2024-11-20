@@ -33,10 +33,10 @@ public class Config {
     public static boolean PIECE_SQUARE_TABLE_ON = true;
 
     /* ---------- KING SAFETY ---------- */
-    public static boolean KING_SAFETY_ON = false;
+    public static boolean KING_SAFETY_ON = true;
 
     /* ---------- PAWN STRUCTURE ---------- */
-    public static boolean PAWN_STRUCTURE_ON = false;
+    public static boolean PAWN_STRUCTURE_ON = true;
 
     /* ---------- MOBILITY ---------- */
     public static boolean MOBILITY_ON = false;
