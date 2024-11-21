@@ -13,7 +13,7 @@ public class TranspositionTable {
             return;
 
         TranspositionResult currentValue = cache.get(hash);
-        if (currentValue != null && currentValue.depth >= depth)
+        if (currentValue != null && currentValue.depth > depth)
             return;
 
         if(currentValue != null) {

@@ -21,6 +21,10 @@ public class MoveUnMaker {
         else
             board.positionCount.replace(hash, value, value - 1);
         board.zobristHashing.updateColor();
+
+        if(board.isDraw())
+            board.zobristHashing.updateTranspositionHash();
+
         revertBoardRepresentation(board.currentBoardState);
         revertStateChange(board.stateHistory.pop());
     }

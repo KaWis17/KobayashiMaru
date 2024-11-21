@@ -33,14 +33,14 @@ public class QuiescenceSearch {
 
     public Integer search(int depth, int alpha, int beta) {
 
-        TranspositionResult result = transpositionTable.get(board.zobristHashing.getHash(), depth);
-        if (result != null) {
-            if (result.flag == TranspositionResult.Flag.EXACT) return result.score;
-            else if (result.flag == TranspositionResult.Flag.LOWER_BOUND) alpha = max(alpha, result.score);
-            else if (result.flag == TranspositionResult.Flag.UPPER_BOUND) beta = min(beta, result.score);
-
-            if (alpha >= beta) return result.score;
-        }
+//        TranspositionResult result = transpositionTable.get(board.zobristHashing.getTranspositionHash(), depth);
+//        if (result != null) {
+//            if (result.flag == TranspositionResult.Flag.EXACT) return result.score;
+//            else if (result.flag == TranspositionResult.Flag.LOWER_BOUND) alpha = max(alpha, result.score);
+//            else if (result.flag == TranspositionResult.Flag.UPPER_BOUND) beta = min(beta, result.score);
+//
+//            if (alpha >= beta) return result.score;
+//        }
 
         int standPat = evaluator.evaluate(middleSearcher.currentDepthSearchStart - depth);
 

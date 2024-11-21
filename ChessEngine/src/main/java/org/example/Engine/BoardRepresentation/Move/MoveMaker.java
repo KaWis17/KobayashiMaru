@@ -30,6 +30,10 @@ public class MoveMaker {
         updateBoardRepresentationsAfterMove(moveToMake, color, piece);
         createNewCurrentState(moveToMake, color, piece, capturedPiece);
 
+        if(board.isDraw()){
+            board.zobristHashing.updateTranspositionHash();
+        }
+
         Long hash = board.zobristHashing.getHash();
         Integer value = board.positionCount.get(hash);
         if (value == null || value == 0)

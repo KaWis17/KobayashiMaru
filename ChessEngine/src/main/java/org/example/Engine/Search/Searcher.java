@@ -59,6 +59,12 @@ public class Searcher implements Runnable {
         UciSender.sendBestMove(bestMove.toString());
     }
 
+    public void newGame() {
+        middleSearcher.newGame();
+        searchId = 0;
+        isLibrarySearchComplete = false;
+    }
+
     public void search() {
         if(Config.OPENING_LIBRARY_ON && !isLibrarySearchComplete)
             earlySearcher.search();

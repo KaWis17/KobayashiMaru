@@ -29,6 +29,10 @@ public class Board implements BoardHelper {
 
     public HashMap<Long, Integer> positionCount = new HashMap<>();
 
+    public void newGame() {
+        stateHistory.clear();
+        positionCount.clear();
+    }
 
     public void startFromDefaultPosition() {
         startFromCustomPosition(BoardHelper.STARTING_FEN);

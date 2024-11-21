@@ -36,11 +36,15 @@ public class MiddleSearcher implements Search {
         this.moveGenerator = moveGenerator;
         this.quiescenceSearch = new QuiescenceSearch(board, evaluator, moveGenerator, searcher, transpositionTable, this);
     }
+
+    public void newGame () {
+        transpositionTable = new TranspositionTable();
+    }
+
     int currentDepthSearchStart;
     @Override
     public void search() {
         UciSender.sendDebugMessage("Entered middle searcher");
-
         int estimationDelta = 30;
         int prevBestEval = -100_000_000;
 
@@ -121,25 +125,19 @@ public class MiddleSearcher implements Search {
         }
 
         if(bestMoveValue <= alphaOrigin)
-            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.UPPER_BOUND);
+            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.UPPER_BOUND);
         else if(bestMoveValue >= beta)
-            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.LOWER_BOUND);
+            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.LOWER_BOUND);
         else
-            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.EXACT);
-        
+            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.EXACT);
+
         return new Result(bestMoveValue, bestMove);
     }
 
     private Integer alphaBetaNeg(int depth, int alpha, int beta) {
         int alphaOrigin = alpha;
 
-        if(board.isDraw()) {
-            int result = evaluator.evaluate(currentDepthSearchStart - depth);
-            transpositionTable.put(board.zobristHashing.getHash(), depth, result, TranspositionResult.Flag.EXACT);
-            return result;
-        }
-
-        TranspositionResult result = transpositionTable.get(board.zobristHashing.getHash(), depth);
+        TranspositionResult result = transpositionTable.get(board.zobristHashing.getTranspositionHash(), depth);
         if (result != null) {
             if (result.flag == TranspositionResult.Flag.EXACT) return result.score;
             else if (result.flag == TranspositionResult.Flag.LOWER_BOUND) alpha = max(alpha, result.score);
@@ -182,11 +180,11 @@ public class MiddleSearcher implements Search {
         }
 
         if(bestMoveValue <= alphaOrigin)
-            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.UPPER_BOUND);
+            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.UPPER_BOUND);
         else if(bestMoveValue >= beta)
-            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.LOWER_BOUND);
+            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.LOWER_BOUND);
         else
-            transpositionTable.put(board.zobristHashing.getHash(), depth, bestMoveValue, TranspositionResult.Flag.EXACT);
+            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.EXACT);
 
         return bestMoveValue;
     }

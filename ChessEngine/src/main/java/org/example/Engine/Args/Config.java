@@ -12,7 +12,7 @@ public class Config {
     public static boolean ALPHA_BETA_ON = true;
 
     /* ---------- QUIESCENCE SEARCH ---------- */
-    public static boolean QUIESCENCE_SEARCH_ON = true;
+    public static boolean QUIESCENCE_SEARCH_ON = false;
 
     /* ---------- STATIC MOVE ORDERING ---------- */
     public static boolean STATIC_MOVE_ORDERING_ON = true;
@@ -21,7 +21,7 @@ public class Config {
     public static boolean ZOBRIST_HASHING_ON = true;
 
     /* ---------- TRANSPOSITION TABLE ---------- */
-    public static boolean TRANSPOSITION_TABLE_ON = false;
+    public static boolean TRANSPOSITION_TABLE_ON = true;
 
     /* ---------- ESTIMATION WINDOW ---------- */
     public static boolean ESTIMATION_WINDOW_ON = false;

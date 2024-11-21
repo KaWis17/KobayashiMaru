@@ -96,6 +96,11 @@ public class Engine implements Constants {
 //        System.out.println("EVAL FOR BLACK: " + multiply * -evaluation);
     }
 
+    public void newGame() {
+        searcher.newGame();
+        board.newGame();
+    }
+
     public void perft(int depth) {
         PerftTest.perft(board, depth);
     }

@@ -8,8 +8,10 @@ public class ZobristHashing {
     Random random;
 
     private long hash;
+    private long transpositionHash;
     long[][] boardRandoms;
     long blackRandom;
+    long drawRandom;
 
     ZobristHashing(Board board) {
         this.board = board;
@@ -33,6 +35,7 @@ public class ZobristHashing {
             boardRandoms[i][BoardHelper.BLACK | BoardHelper.KING] = random.nextLong();
         }
         blackRandom = random.nextLong();
+        drawRandom = random.nextLong();
     }
 
     public void createNew() {
@@ -45,26 +48,39 @@ public class ZobristHashing {
             if(piece != 0)
                 hash = hash ^ boardRandoms[64 - i][piece];
         }
+        transpositionHash = hash;
     }
 
     public void addOnSquare(byte square, byte color, byte piece) {
         hash = hash ^ boardRandoms[64 - square][color | piece];
+        transpositionHash = transpositionHash ^ boardRandoms[64 - square][color | piece];
     }
 
     public void deleteOnSquare(byte square, byte color, byte piece) {
         hash = hash ^ boardRandoms[64 - square][color | piece];
+        transpositionHash = transpositionHash ^ boardRandoms[64 - square][color | piece];
     }
 
     public void updateColor() {
         hash = hash ^ blackRandom;
+        transpositionHash = transpositionHash ^ blackRandom;
     }
 
     public void clear(){
         hash = 0;
+        transpositionHash = 0;
     }
 
     public long getHash(){
         return hash;
+    }
+
+    public long getTranspositionHash(){
+        return transpositionHash;
+    }
+
+    public void updateTranspositionHash() {
+        transpositionHash = transpositionHash ^ drawRandom;
     }
 
 }
