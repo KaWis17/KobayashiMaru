@@ -40,20 +40,17 @@ public class Board implements BoardHelper {
 
     public boolean makeMove(Move moveToMake) {
         moveMaker.makeMove(moveToMake);
-        zobristHashing.updateColor();
         return !isOpponentColorInCheck();
     }
 
     public boolean makeMove(String moveToMake) {
         Move move = new Move(moveToMake, this);
         moveMaker.makeMove(move);
-        zobristHashing.updateColor();
 
         return !isOpponentColorInCheck();
     }
 
     public void unmakeMove() {
-        zobristHashing.updateColor();
         moveUnMaker.unmakeMove();
     }
 
@@ -118,6 +115,15 @@ public class Board implements BoardHelper {
         return checkChecker.isBlackInCheckMate();
     }
 
+
+    public boolean isDraw() {
+        return isDrawByRepetition() || isDrawByFiftyMoves();
+    }
+
+    public boolean isDrawByFiftyMoves() {
+        return currentBoardState.halfMoveClock >= 100;
+    }
+
     public boolean isDrawByRepetition() {
         Integer value = positionCount.get(zobristHashing.getHash());
         if (value == null)
@@ -160,6 +166,8 @@ public class Board implements BoardHelper {
         sb.append("elements in positionCount: ").append(positionCount.size()).append("\n");
         sb.append("is threefold repetition: ").append(isDrawByRepetition()).append("\n");
         sb.append("is threefold repetition: ").append(positionCount).append("\n");
+        sb.append("current hash: ").append(zobristHashing.getHash()).append("\n");
+        sb.append("current hashValue: ").append(positionCount.get(zobristHashing.getHash())).append("\n");
 
         for(byte i=64; i>=1; --i) {
             switch(getPieceOnSquare(i)) {

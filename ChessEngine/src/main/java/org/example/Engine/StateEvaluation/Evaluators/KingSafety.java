@@ -46,7 +46,7 @@ public class KingSafety implements Evaluation {
                 if(Board.getPieceColor(piece) == color)
                     evaluation += pieceType;
                 else
-                    evaluation -= pieceType;
+                    evaluation -= 2*pieceType;
             }
 
         }

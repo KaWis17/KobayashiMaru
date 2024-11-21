@@ -20,13 +20,15 @@ public class QuiescenceSearch {
     MoveGenerator generator;
     Searcher searcher;
     TranspositionTable transpositionTable;
+    MiddleSearcher middleSearcher;
 
-    QuiescenceSearch(Board board, Evaluator evaluator, MoveGenerator generator, Searcher searcher, TranspositionTable transpositionTable) {
+    QuiescenceSearch(Board board, Evaluator evaluator, MoveGenerator generator, Searcher searcher, TranspositionTable transpositionTable, MiddleSearcher middleSearcher) {
         this.board = board;
         this.evaluator = evaluator;
         this.generator = generator;
         this.searcher = searcher;
         this.transpositionTable = transpositionTable;
+        this.middleSearcher = middleSearcher;
     }
 
     public Integer search(int depth, int alpha, int beta) {
@@ -40,7 +42,7 @@ public class QuiescenceSearch {
             if (alpha >= beta) return result.score;
         }
 
-        int standPat = evaluator.evaluate();
+        int standPat = evaluator.evaluate(middleSearcher.currentDepthSearchStart - depth);
 
         if(depth == 0) {
             return standPat;
@@ -53,6 +55,9 @@ public class QuiescenceSearch {
             alpha = standPat;
 
         ArrayList<Move> moves = generator.generateAllPseudoLegalCaptureMoves();
+        if(moves.isEmpty())
+            return standPat;
+
         if(Config.STATIC_MOVE_ORDERING_ON)
             Collections.sort(moves);
 

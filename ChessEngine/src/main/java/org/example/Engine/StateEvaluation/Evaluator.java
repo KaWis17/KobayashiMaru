@@ -5,8 +5,6 @@ import org.example.Engine.StateEvaluation.Evaluators.*;
 
 import java.util.ArrayList;
 
-
-
 public class Evaluator {
 
     static ArrayList<Evaluation> evaluators = new ArrayList<>();
@@ -18,19 +16,25 @@ public class Evaluator {
         evaluators.add(new CheckBonus(board, 0));
         evaluators.add(new Material(board, 5));
         evaluators.add(new PieceSquareTable(board, 3));
-        evaluators.add(new KingSafety(board, 20));
-        evaluators.add(new PawnsStructure(board, 20));
+        evaluators.add(new KingSafety(board, 5));
+        evaluators.add(new PawnsStructure(board, 5));
         counter = 0;
     }
 
-    public int evaluate() {
+    public int evaluate(int depthPassed) {
         counter++;
         int evalForWhite = 0;
 
-        if(board.isBlackInCheckMate() || board.isWhiteInCheckMate())
+        if(board.isDraw()) {
+            if(depthPassed % 2 == 1)
+                return 10_000;
+            else
+                return -10_000;
+        }
+
+        if(board.isBlackInCheckMate() || board.isWhiteInCheckMate()) {
             return -100_000_000;
-        if(board.isDrawByRepetition())
-            return 0;
+        }
 
         for(Evaluation evaluator: evaluators) {
             evalForWhite += evaluator.evaluate();

@@ -18,8 +18,9 @@ public class MoveMaker {
     }
 
     public void makeMove(Move moveToMake) {
+        board.zobristHashing.updateColor();
         byte pieceToMove = board.getPieceOnSquare(moveToMake.departure);
-        byte color = board.getPieceColor(pieceToMove);
+        byte color = Board.getPieceColor(pieceToMove);
         byte piece = board.getPieceType(pieceToMove);
 
         byte capturedPiece = board.getPieceOnSquare(moveToMake.destination);

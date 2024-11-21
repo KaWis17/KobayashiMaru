@@ -31,7 +31,7 @@ public class MoveGenerator {
     }
 
     public ArrayList<Move> generateAllLegalCaptureMoves() {
-        if(board.isDrawByRepetition())
+        if(board.isDraw())
             return new ArrayList<>();
 
         ArrayList<Move> moves = generateAllPseudoLegalCaptureMoves();
@@ -41,7 +41,7 @@ public class MoveGenerator {
 
     public ArrayList<Move> generateAllPseudoLegalMoves() {
 
-        if(board.isDrawByRepetition())
+        if(board.isDraw())
             return new ArrayList<>();
 
         ArrayList<Move> moves = new ArrayList<>(40);
@@ -62,7 +62,7 @@ public class MoveGenerator {
 
     public ArrayList<Move> generateAllPseudoLegalCaptureMoves() {
 
-        if(board.isDrawByRepetition())
+        if(board.isDraw())
             return new ArrayList<>();
 
         ArrayList<Move> moves = new ArrayList<>(20);

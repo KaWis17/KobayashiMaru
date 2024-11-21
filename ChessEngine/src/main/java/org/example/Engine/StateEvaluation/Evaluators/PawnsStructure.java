@@ -81,7 +81,7 @@ public class PawnsStructure implements Evaluation {
     public int evaluate() {
         if(!Config.PAWN_STRUCTURE_ON)
             return 0;
-        return evaluateColor(board.WHITE) - evaluateColor(board.BLACK);
+        return weight * (evaluateColor(board.WHITE) - evaluateColor(board.BLACK));
     }
 
     private int evaluateColor(byte color) {
@@ -156,24 +156,5 @@ public class PawnsStructure implements Evaluation {
                 return 7 - row;
         }
         return 0;
-    }
-
-    private void temp(long pawns){
-        System.out.println();
-        String binaryString = String.format("%64s", Long.toBinaryString(pawns)).replace(' ', '0');
-        for (int i = 0; i < binaryString.length(); i += 8) {
-            System.out.println(binaryString.substring(i, Math.min(i + 8, binaryString.length())));
-        }
-    }
-
-    private byte getColumnBits(long bitboard) {
-        byte result = 0;
-        for (int col = 0; col < 8; col++) {
-            long columnMask = 0x0101010101010101L << col;
-            if ((bitboard & columnMask) != 0) {
-                result |= (byte) (1 << col);
-            }
-        }
-        return result;
     }
 }

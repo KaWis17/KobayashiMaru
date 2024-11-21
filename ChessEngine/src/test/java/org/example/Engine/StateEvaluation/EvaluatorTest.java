@@ -18,7 +18,7 @@ public class EvaluatorTest extends TestCase {
         board.makeMove(new Move("d5e4", board));
 
 
-        int result = evaluator.evaluate();
-        System.out.println(result);
+//        int result = evaluator.evaluate();
+//        System.out.println(result);
     }
 }

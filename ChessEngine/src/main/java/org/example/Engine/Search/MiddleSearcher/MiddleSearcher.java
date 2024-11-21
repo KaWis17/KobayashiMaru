@@ -34,9 +34,9 @@ public class MiddleSearcher implements Search {
         this.searcher = searcher;
         this.evaluator = evaluator;
         this.moveGenerator = moveGenerator;
-        this.quiescenceSearch = new QuiescenceSearch(board, evaluator, moveGenerator, searcher, transpositionTable);
+        this.quiescenceSearch = new QuiescenceSearch(board, evaluator, moveGenerator, searcher, transpositionTable, this);
     }
-
+    int currentDepthSearchStart;
     @Override
     public void search() {
         UciSender.sendDebugMessage("Entered middle searcher");
@@ -48,13 +48,15 @@ public class MiddleSearcher implements Search {
             evaluator.counter = 0;
             Result result;
             if(Config.ALPHA_BETA_ON) {
+                currentDepthSearchStart = i + DEPTH_FOR_QUIESCENCE;
                 if (Config.ESTIMATION_WINDOW_ON && i > 2) {
-                    result = alphaBetaNegEntryPoint(i + DEPTH_FOR_QUIESCENCE, prevBestEval - estimationDelta, prevBestEval + estimationDelta);
+                    result = alphaBetaNegEntryPoint(currentDepthSearchStart, prevBestEval - estimationDelta, prevBestEval + estimationDelta);
                 } else
-                    result = alphaBetaNegEntryPoint(i + DEPTH_FOR_QUIESCENCE, MINIMUM, MAXIMUM);
+                    result = alphaBetaNegEntryPoint(currentDepthSearchStart, MINIMUM, MAXIMUM);
             }
             else {
-                result = negaMaxEntryPoint(i);
+                currentDepthSearchStart = i;
+                result = negaMaxEntryPoint(currentDepthSearchStart);
             }
 
             if(result != null) {
@@ -131,8 +133,11 @@ public class MiddleSearcher implements Search {
     private Integer alphaBetaNeg(int depth, int alpha, int beta) {
         int alphaOrigin = alpha;
 
-        if(board.isDrawByRepetition())
-            return evaluator.evaluate();
+        if(board.isDraw()) {
+            int result = evaluator.evaluate(currentDepthSearchStart - depth);
+            transpositionTable.put(board.zobristHashing.getHash(), depth, result, TranspositionResult.Flag.EXACT);
+            return result;
+        }
 
         TranspositionResult result = transpositionTable.get(board.zobristHashing.getHash(), depth);
         if (result != null) {
@@ -145,7 +150,7 @@ public class MiddleSearcher implements Search {
 
         if(depth == DEPTH_FOR_QUIESCENCE) {
             if(!Config.QUIESCENCE_SEARCH_ON) {
-                return evaluator.evaluate();
+                return evaluator.evaluate(currentDepthSearchStart - depth);
             }
             else {
                 return quiescenceSearch.search(depth-1, alpha, beta);
@@ -155,7 +160,7 @@ public class MiddleSearcher implements Search {
         ArrayList<Move> moves = moveGenerator.generateAllPseudoLegalMoves();
 
         if(moves.isEmpty())
-            return evaluator.evaluate();
+            return evaluator.evaluate(currentDepthSearchStart - depth);
 
         if(Config.STATIC_MOVE_ORDERING_ON)
             Collections.sort(moves);
@@ -221,7 +226,7 @@ public class MiddleSearcher implements Search {
     private Integer negaMax(int depth) {
 
         if(depth == 0) {
-            return evaluator.evaluate();
+            return evaluator.evaluate(currentDepthSearchStart - depth);
         }
 
         ArrayList<Move> moves = moveGenerator.generateAllPseudoLegalMoves();

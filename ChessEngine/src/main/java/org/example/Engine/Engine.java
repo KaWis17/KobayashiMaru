@@ -90,10 +90,10 @@ public class Engine implements Constants {
     // HELPERS
     public void displayBoard() {
         System.out.println(board);
-        int evaluation = evaluator.evaluate();
+//        int evaluation = evaluator.evaluate();
         int multiply = (board.isWhiteToPlay()) ? 1 : -1;
-        System.out.println("EVAL FOR WHITE: " + multiply * evaluation);
-        System.out.println("EVAL FOR BLACK: " + multiply * -evaluation);
+//        System.out.println("EVAL FOR WHITE: " + multiply * evaluation);
+//        System.out.println("EVAL FOR BLACK: " + multiply * -evaluation);
     }
 
     public void perft(int depth) {

@@ -20,7 +20,7 @@ public class MoveUnMaker {
             board.positionCount.remove(hash);
         else
             board.positionCount.replace(hash, value, value - 1);
-
+        board.zobristHashing.updateColor();
         revertBoardRepresentation(board.currentBoardState);
         revertStateChange(board.stateHistory.pop());
     }
