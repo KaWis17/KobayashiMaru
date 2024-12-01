@@ -6,14 +6,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class TranspositionTable {
-    LRU<Long, TranspositionResult> cache = new LRU<>(1_000_000);
+    LRU<Long, TranspositionResult> cache = new LRU<>(5_000_000);
 
     public void put(long hash, int depth, int score, TranspositionResult.Flag flag) {
         if (!Config.TRANSPOSITION_TABLE_ON)
             return;
 
         TranspositionResult currentValue = cache.get(hash);
-        if (currentValue != null && currentValue.depth > depth)
+        if (currentValue != null && currentValue.depth >= depth)
             return;
 
         if(currentValue != null) {
@@ -35,6 +35,10 @@ public class TranspositionTable {
             return null;
 
         return result;
+    }
+
+    public void clear() {
+        cache.clear();
     }
 
     @Override

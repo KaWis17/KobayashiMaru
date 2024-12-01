@@ -16,8 +16,8 @@ public class Evaluator {
         evaluators.add(new CheckBonus(board, 0));
         evaluators.add(new Material(board, 5));
         evaluators.add(new PieceSquareTable(board, 3));
-        evaluators.add(new KingSafety(board, 5));
-        evaluators.add(new PawnsStructure(board, 5));
+        evaluators.add(new KingSafety(board, 3));
+        evaluators.add(new PawnsStructure(board, 3));
         counter = 0;
     }
 

@@ -9,6 +9,7 @@ import org.example.Engine.Search.Searcher;
 import org.example.Engine.StateEvaluation.Evaluator;
 import org.example.UciSender;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -48,7 +49,12 @@ public class MiddleSearcher implements Search {
         int estimationDelta = 30;
         int prevBestEval = -100_000_000;
 
+//        if(Config.TRANSPOSITION_TABLE_ON)
+//            transpositionTable.clear();
+
         for(int i=1; i<255; i++) {
+
+            Time time = new Time(System.currentTimeMillis());
             evaluator.counter = 0;
             Result result;
             if(Config.ALPHA_BETA_ON) {
@@ -74,7 +80,7 @@ public class MiddleSearcher implements Search {
                 if(result != null) {
                     searcher.bestMove = result.move;
                     prevBestEval = result.score;
-                    UciSender.sendInfoMessage("depth " + i + " score cp " + result.score + " pv " + searcher.bestMove + " nodes " + evaluator.getCount());
+                    UciSender.sendInfoMessage("depth " + i + " score cp " + result.score + " pv " + searcher.bestMove + " nodes " + evaluator.getCount() + " time " + (System.currentTimeMillis() - time.getTime()) + " transposition: " + transpositionTable.cache.size());
                     if(result.score == MAXIMUM) {
                         return;
                     }
@@ -124,18 +130,21 @@ public class MiddleSearcher implements Search {
                 board.unmakeMove();
         }
 
-        if(bestMoveValue <= alphaOrigin)
-            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.UPPER_BOUND);
-        else if(bestMoveValue >= beta)
-            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.LOWER_BOUND);
-        else
-            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.EXACT);
+        if(searcher.isCurrentlyThinking) {
+            if(bestMoveValue <= alphaOrigin)
+                transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.UPPER_BOUND);
+            else if(bestMoveValue >= beta)
+                transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.LOWER_BOUND);
+            else
+                transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.EXACT);
+        }
 
         return new Result(bestMoveValue, bestMove);
     }
 
     private Integer alphaBetaNeg(int depth, int alpha, int beta) {
         int alphaOrigin = alpha;
+
 
         TranspositionResult result = transpositionTable.get(board.zobristHashing.getTranspositionHash(), depth);
         if (result != null) {
@@ -179,12 +188,14 @@ public class MiddleSearcher implements Search {
                 board.unmakeMove();
         }
 
-        if(bestMoveValue <= alphaOrigin)
-            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.UPPER_BOUND);
-        else if(bestMoveValue >= beta)
-            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.LOWER_BOUND);
-        else
-            transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.EXACT);
+        if(searcher.isCurrentlyThinking) {
+            if(bestMoveValue <= alphaOrigin)
+                transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.UPPER_BOUND);
+            else if(bestMoveValue >= beta)
+                transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.LOWER_BOUND);
+            else
+                transpositionTable.put(board.zobristHashing.getTranspositionHash(), depth, bestMoveValue, TranspositionResult.Flag.EXACT);
+        }
 
         return bestMoveValue;
     }
