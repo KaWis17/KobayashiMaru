@@ -10,12 +10,12 @@ Pozwoliło to na wykrywanie wielokrotnego powtórzenia pozycji, które niekoniec
 Choć według oficjalnych zasad automatyczny remis następuje dopiero po pięciokrotnym powtórzeniu, większość platform do rozgrywek online uznaje trzykrotne powtórzenie za obligatoryjny remis.
 Taka też wersja została zaimplementowana.
 
-Reguła remisu dyktowanego pięćdziesięcioma ruchami bez bicia lub ruchu pionem nie~została zaimplementowana.
-Ze statystyk wynikło, że takie sytuacje zdarzały się niezwykle rzadko, a gdy się pojawiały, pozycje obydwu graczy można było uznać za równą.
-Remis w takiej sytuacji uznano za korzystny dla obydwu graczy.
+Reguła remisu dyktowanego matem nie została zaimplementowana.
+Wynikało to z faktu, że~po wykonaniu ruchu należałoby sprawdzić możliwe odpowiedzi rywala, co okazało się~kosztowne.
+W praktyce jednak sytuacja ta nie występuje zbyt często i w najgorszym wypadku skutkuje remisem, natomiast brak implementacji tej reguły znacząco przyspieszył obliczenia.
 
 \subsubsection{Haszowanie Zobrist}
-Struktura HashMap zawierająca informacje o wcześniejszych pozycjach w grze w pierwotnej wersji została zaimplementowana z kluczami reprezentującymi pozycję FEN.
+Struktura HashMap zawierająca informacje o wcześniejszych pozycjach w grze w pierwotnej wersji została zaimplementowana z kluczami prezentującymi pozycję FEN.
 Z perspektywy czasu stało się jasnym natomiast, że każdorazowe generowanie klucza w postaci zmiennej typu String było niezmiernie kosztowne.
 
 Postanowiono zatem jako klucz użyć wartości zwracanej przez haszowanie Zobrist, które posiada parę cech znacząco przyspieszających cały proces.
@@ -32,7 +32,7 @@ Z tego względu istnieje ryzyko kolizji, którego nie da rady się pozbyć.
 Jest ono natomiast na~tyle małe, że zysk czasowy znacząco przewyższa możliwe komplikacje z nim związane.
 W celu otrzymania większej powtarzalności wyników zdecydowano się na zastosowanie tego samego ziarna~(ang.~\emph{seed}) dla generatora liczb pseudolosowych.
 Przeprowadzono testy jednostkowe, gdzie dla różnych pozycji na planszy przechodzono przez drzewo gry, a~następnie sprawdzano, czy wartości haszowania powtórzą się dla różnych pozycji.
-Kolizji nie zaobserwowano.
+Kolizji nie zaobserwowano ani razu.
 Powyższe rozwiązanie zostało także wykorzystane w dalszych etapach pracy, przy implementacji tabeli transpozycji.
 
 

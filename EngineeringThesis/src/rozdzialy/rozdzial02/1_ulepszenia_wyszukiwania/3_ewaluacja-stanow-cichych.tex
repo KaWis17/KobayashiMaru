@@ -1,4 +1,4 @@
-\subsection{Ewaluacja cichych stanów}
+\usepackage{biblatex}\subsection{Ewaluacja cichych stanów}
 \label{subsec:ewaluacja-cichych-stanow}
 
 \subsubsection{Opis zagadnienia}
@@ -6,7 +6,7 @@ Silnik znacznie przyspieszył znajdowanie ruchów dla danej głębokości.
 Zdarzały się jednak sytuacje, że zwracane wyniki znacznie odbiegały od optymalnych.
 Dla przykładu mogła zdarzyć się sytuacja, że liściem w drzewie było bicie hetmanem skoczka.
 Silnik zwracał wynik heurystyki jako bardzo wysoki i wykonywał powyższy ruch.
-Program nie brał jednak pod uwagę faktu, że~na~głębokości o jednej większej, hetman ten mógłby zostać zbity przez pionka.
+Program nie brał jednak pod uwagę faktu, że~na~głębokości o jednej większej, hetman ten mógłby zostać zbity przez wrogiego pionka.
 
 Taką sytuację nazywa się efektem horyzontu.
 Rozwiązaniem wykonywania nieoptymalnych ruchów, było wykonanie dodatkowego wyszukiwania po osiągnięciu głębokości końcowej.
@@ -42,10 +42,11 @@ Algorytm rozwiązujący efekt horyzontu w literaturze nosi nazwę Quiescence Sea
     }
 \end{lstlisting}
 
-Niektóre wersje tego algorytmu, oprócz ruchów prowadzących do bicia, korzystają także z roszad, czy~podwójnych ruchów piona, z uwagi na ich szczególny charakter.
+Niektóre wersje tego algorytmu, oprócz ruchów prowadzących do bicia, korzystają także z~roszad, czy~podwójnych ruchów piona, z uwagi na ich szczególny charakter.
 
 \subsubsection{Rezultat}
 
 W efekcie implementacji algorytmu osiągnięto silnik, który jest odporny na efekt horyzontu.
-Niestety, z uwagi na~ilość odwiedzonych wierzchołków w algorytmie Quiescence Search, prędkość wyszukiwania rozwiązań dla danej głębokości znacznie spowolniła.
+Z reguły, dodatkowe wyszukiwanie prowadzi do odwiedzenia większej liczby węzłów niż w przypadku zwykłego wyszukiwania.
+Co warte zaznaczenia natomiast, w niektórych przypadkach, chociażby wskazanych w dodatku \ref{ch:wyniki-perft}, algorytm Quiescence Search w połączeniu z alfa beta cięciem skutkował zmniejszeniem liczby odwiedzonych węzłów.
 Ostatecznie, czy korzystniejszym jest wyszukiwanie dla większych głębokości, czy korzystanie wyłącznie ze~stanów cichych zależy od konkretnej sytuacji na planszy.
