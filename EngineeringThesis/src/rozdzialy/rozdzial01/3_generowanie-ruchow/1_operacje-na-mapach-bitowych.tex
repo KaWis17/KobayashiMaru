@@ -3,11 +3,11 @@
 
 Jak już wcześniej wspomniano, iteracyjne generowanie ruchów każdej z bierek z osobna mogłoby okazać się zbyt czasochłonne.
 Z tego względu większość dostępnych posunięć tworzona jest dzięki przekształcaniu map bitowych reprezentujących konkretny typ figury.
-Optymalizacja przynosi szczególny efekt przy generowaniu ruchów pionów, ze względu na ich znaczną ilość przez większość czasu gry.
+Optymalizacja przynosi szczególny efekt przy generowaniu ruchów pionów, ze względu na~ich~znaczną ilość przez większość czasu gry.
 
-Pion ma do dyspozycji parę możliwych ruchów, które należało zaimplementować: ruch o~jedno pole do przodu, ruch o dwa pola do przodu, bicie w lewo i bicie w prawo.
+Pion ma do dyspozycji kilka możliwych ruchów, które należało zaimplementować: ruch o~jedno pole do przodu, ruch o dwa pola do przodu, bicie w lewo i bicie w prawo.
 
-Maski dla każdego z tych ruchów zostały wygenerowane w oddzielnej metodzie.
+Maski dla każdego z tych ruchów zostały wygenerowane w oddzielnych metodach.
 Przykładowo, dla ruchu o dwa pola do przodu wzór wygląda następująco:
 \begin{align*}
     moves & = empty && \text{pole docelowe musi być puste} \\
@@ -18,14 +18,14 @@ Przykładowo, dla ruchu o dwa pola do przodu wzór wygląda następująco:
 
 W taki sposób stworzono maskę bitową końcowych pól, na które piony mogą się przesuwać, skacząc o dwa pola.
 Na otrzymanym wyniku należy przeprowadzić serializację, to jest przekształcić go na listę dostępnych ruchów.
-Aby nie iterować przez wszystkie 64 bity, zastosowano technikę zwaną Bit Scan, która zwraca indeks najbardziej istotnego bitu na masce, dodaje ruch do listy, a następnie usuwa ten bit z maski.
-Operacja jest wykonywana do momentu, aż maska pozostanie pusta.
+Aby nie iterować przez wszystkie 64 bity, zastosowano technikę zwaną ang. \emph{Bit Scan}, która zwraca indeks najbardziej istotnego bitu na masce, dodaje ruch do listy, a następnie usuwa ten bit z maski.
+Operacja jest wykonywana do~momentu, aż maska pozostanie pusta.
 \begin{lstlisting}[
     language=Java,
     style=JavaStyle,
     caption=Metoda dodająca ruchy z maski wraz z przykładowym wywołaniem,
     label=lst:mask]
-     void addMovesFromMask(long movesMask, byte moveType, byte offset) {
+     addMovesFromMask(movesMask, moveType, offset) {
         while(movesMask != 0L) {
             index = (64 - Long.numberOfLeadingZeros(movesMask));
             possibleMoves.add(new Move(index+offset, index, moveType));

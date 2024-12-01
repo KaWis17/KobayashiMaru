@@ -10,9 +10,11 @@ Z tego względu konieczne było zaimplementowanie funkcji heurystycznych, które
 
 W podstawowej wersji silnika zaimplementowano dwie funkcje heurystyczne.
 
-Pierwsza z nich zwraca $MAX$ w przypadku mata króla przeciwnika, $MIN$ w przypadku mata własnego króla, oraz $-5000$ w przypadku pata, bądź trzykrotnego powtórzenia pozycji, w~celu demotywowania silnika do dążenia do remisu.
-Druga natomiast opiera się na~intuicyjnym założeniu, że korzystniejsza pozycja to taka, w które gracz ma więcej bierek na planszy niż~przeciwnik.
-Różnica między liczbą bierek konkretnego typu dla gracza oraz jego oponenta jest przemnażana przez wagę poszczególnej bierki.
+Zerowa: zwraca $MAX$ w przypadku mata króla przeciwnika, $MIN$ w przypadku mata własnego króla, oraz $-5000$ w przypadku remisu wynikającego z trzykrotnego powtórzenia pozycji bądź reguły 50 ruchów.
+Celem było demotywowanie silnika do wykonywania ruchów prowadzących do remisu.
+
+Pierwsza natomiast opiera się na~intuicyjnym założeniu, że korzystniejsza pozycja to taka, w które gracz ma więcej bierek na planszy niż~przeciwnik.
+Różnica między liczbą bierek konkretnego typu dla gracza oraz jego oponenta jest przemnażana przez jej wagę.
 W tym celu skorzystano ze skali zaproponowanej przez Claude Shannona, w której odpowiednio hetman, wieża, goniec, skoczek oraz pion mają wartości 900, 500, 300, 300 oraz 100.
 
 W dalszej części pracy przedstawiono kolejne funkcje heurystyczne, mające na celu poprawę precyzji oceny pozycji.
@@ -28,7 +30,7 @@ Klasa oceny heurystycznej silnika szachowego zwraca ocenę pozycji~$P$~dla kolor
 gdzie,
 \begin{multicols}{2}
     \begin{itemize}[label={}]
-        \item \(H_0\) – heurystyka win-loss-draw
+        \item \(H_0\) – heurystyka końca gry
         \item \(H_i\) – kolejne funkcje heurystyczne
         \item \(c_i\) – waga heurystyki $i$
     \end{itemize}

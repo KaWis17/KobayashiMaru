@@ -5,22 +5,22 @@
 Poprzednie wersje silnika rozpoczynając przeszukiwanie węzłów gry, dla każdego poziomu głębokości, zakładały wartości alfa i beta jako odpowiednio $-\infty$ i $+\infty$.
 W praktyce można jednak przypuszczać, że wartości zwrócone dla większych głębokości, nie będą w bardzo dużym stopniu odbiegać, od wartości zwróconych dla głębokości mniejszych.
 Rozpoczynając wyszukiwanie algorytmem miniMax z wartościami $alpha = sc_{n-1} - \delta$ oraz $beta = sc_{n-1} + \delta$, gdzie $sc_{n-1}$ to wartość zwrócona dla poprzedniej głębokości, a $\delta$ to okno estymacji, istnieje szansa wystąpienia większej ilości alfa-cięć oraz beta-cięć.
-Pomimo oczywistych korzyści wynikających z zastosowania powyższej techniki, istnieje także ryzyko, że w przypadku, gdy wartość wykracza poza okno estymacji, konieczne jest rozpoczęcie ponownego wykonania algorytm wyszukiwania.
+Pomimo oczywistych korzyści wynikających z zastosowania powyższej techniki, istnieje także ryzyko, że w przypadku, gdy~wartość wykracza poza okno estymacji, konieczne jest rozpoczęcie ponownego wykonania algorytm wyszukiwania.
 Ponowne uruchomienie odbywa się z szerszym oknem estymacji.
 
 \subsubsection{Implementacja}
 Kluczowe w implementacji algorytm było odpowiednie ustalenie wartości $\delta$.
 Zbyt wąskie okno skutkowałoby zbyt częstymi ponownymi przeszukiwaniami drzewa.
 Zbyt szerokie natomiast, prowadziłoby do braku efektów zastosowanego usprawnienia.
-Większość silników ustawia wartość $\delta$ na $1/3$ wartości pionka. \cite*{duch}
+Większość silników ustawia wartość $\delta$ na $1/3$ wartości pionka \cite*{duch}.
 Taką też wartość zastosowano w programie.
 W przypadku wyjścia poza zakres, okno estymacji poszerzone zostaje do $-\infty$ i $+\infty$, co w efekcie gwarantuje poprawne działanie.
 
 Dodatkowym utrudnieniem, stał się fakt, że przejście algorytmu, którego efektem będzie zwrócenie wartości spoza okna estymacji, wywoływało zapis nieprawdziwych wartości do tabeli transpozycji.
-Przy próbie jednoczesnego zastosowania obu rozwiązań, należałoby zastosować bufor, który zapisywałby wartości z danego przeszukania jedynie w przypadku, gdy wartość końcowa mieściła się w oknie estymacji.
+Przy próbie jednoczesnego zastosowania obu rozwiązań, należałoby utworzyć bufor, który zapisywałby wartości z danego przeszukania jedynie w przypadku, gdy wartość końcowa mieściła się w oknie estymacji.
 
 \subsubsection{Rezultat}
 W programie zdecydowano się nie wykorzystywać dwóch rozwiązań, to jest tabeli transpozycji oraz okna estymacji, jednocześnie.
-W dalszej części pracy porównano rezultaty oraz wybrano to~ulepszenie, które przyczyniło się do największego wzrostu siły silnika.
-Przeprowadzono także testy, które miały na celu sprawdzenie ilość wystąpień wyjścia poza zakres okna estymacji.
+Porównano rezultaty oraz wybrano to~ulepszenie, które przyczyniło się do największego wzrostu siły silnika.
+Przeprowadzono także testy, które miały na~celu sprawdzenie ilość wystąpień wyjścia poza zakres okna estymacji.
 Spośród przetestowanych opcji wybrano tę wartość $\delta$, która pozwalała na istotne polepszenie alfa-beta cięć, przy jednoczesnej próbie zachowania małej liczby powtórzeń.

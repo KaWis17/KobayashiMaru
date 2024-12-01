@@ -6,12 +6,12 @@ Przekroczenie tego limitu stanowiłoby automatyczną wygraną oponenta.
 Koniecznym było zatem zaimplementowanie mechanizmu zarządzania, który pozwoliłby na podział pozostałego czasu, na wykonanie poszczególnych ruchów.
 Pozostały czas otrzymany przez UCI w formie \texttt{go wtime <wtime> btime <btime> winc <winc> binc <binc>} pozwolił na implementacje rozwiązania opartego na~wzorze:
 \begin{align*}
-    \text{Est pozostałych ruchów} &= {\max(40 - \text{wykonaneRuchy}, 10)} \\
-    \text{Est pozostałego czasu} &= \mathrm{time_{color}} + (inc_{color} * \text{Est pozostałych ruchów}) \\
-    \text{Propozycja czasu} &= \dfrac{\text{Est pozostałych ruchów}}{\text{Est pozostałego czasu}}
+    \mathrm{Est pozostałych ruchów} &= {\max(40 - \mathrm{wykonaneRuchy}, 10)} \\
+    \mathrm{Est pozostałego czasu} &= \mathrm{time_{color}} + (inc_{color} * \mathrm{Est pozostałych ruchów}) \\
+    \mathrm{Propozycja czasu} &= \dfrac{\mathrm{Est pozostałych ruchów}}{\mathrm{Est pozostałego czasu}}
 \end{align*}
 
-Założono średnią ilość ruchów na poziomie czterdziestu.
+Założono średnią liczbę ruchów na poziomie czterdziestu.
 
 \subsubsection{Iteratywne pogłębianie wyszukiwania}
 Prędkość wykonania algorytmu negaMax zależy od wielu czynników, takich jak głębokość wyszukiwania, aktualna pozycja, prędkość generowania ruchów czy ilość dostępnych dla~programu zasobów.

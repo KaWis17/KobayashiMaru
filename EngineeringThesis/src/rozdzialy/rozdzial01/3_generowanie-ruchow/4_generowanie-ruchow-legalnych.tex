@@ -8,7 +8,7 @@ Natomiast ruch, po którym własny król znajduje się w szachu, nie tylko jest 
 
 W literaturze można znaleźć kilka podejść do problemu odfiltrowywania ruchów pseudolegalnych.
 Niektóre z nich korzystają z dodatkowych masek bitowych, reprezentujących pola atakowane przez bierki danej strony.
-W niniejszej implementacji zastosowano jednak rozwiązanie subiektywnie dla autora łatwiejsze.
+W niniejszej implementacji zastosowano jednak rozwiązanie w subiektywnym odczuciu autora łatwiejsze.
 
 Po wykonaniu konkretnego ruchu, w miejscu, gdzie znajduje się król, stawiana jest każda figura z kolei, oraz generowane są dostępne bicia.
 Jeśli wśród bić znajduje się bierka przeciwnika, tego samego typu, co aktualnie podstawiona, oznacza to, że król znajduje się w szachu, a więc posunięcie nie należy do kategorii ruchów legalnych.
@@ -17,11 +17,11 @@ Jeśli wśród bić znajduje się bierka przeciwnika, tego samego typu, co aktua
 
 Generatory ruchów szachowych posiadają skomplikowaną logikę.
 Z tego względu bardzo łatwo o popełnienie błędu w implementacji.
-Dopuszczenie choćby jednego błędu, skutkować będzie jego propagacją na większych głębokościach, a w skrajnych przypadkach doprowadzi do błędu programu.
+Dopuszczenie choćby jednego błędu, skutkować będzie jego propagacją na większych głębokościach, a w skrajnych przypadkach doprowadzi do~zakończenia programu.
 
-Ocena poprawności dzięki grze w szachowych posiada szereg wad dyskwalifikujących tę~metodę.
-Przede wszystkim, wymaga ręcznego rozegrania wielu partii, w celu odwiedzenia wystarczającej liczby węzłów drzewa.
-Co więcej, konkretna sytuacja jest czasochłonne do~zreplikowania, a pojawiające się błędy trudne do zalogowania.
+Ocena poprawności dzięki przeprowadzaniu z silnikiem rozgrywek szachowych jest~rozwiązaniem czasochłonnym.
+Odwiedzenie dużej ilości węzłów drzewa gry, w~celu~sprawdzenia poprawności wykonywania ruchów, jest praktycznie niemożliwe.
+Co~więcej, błędy w ten sposób powstałe są trudne do zlokalizowania.
 
 Z tego względu zastosowano Test Wydajności (ang.~\emph{Performance Testing}, w~skrócie Perft~Test).
 Choć nazwa mogłaby wskazywać na testowanie prędkości generowanych ruchów, test ten można przeprowadzić także w celu kontroli poprawności.

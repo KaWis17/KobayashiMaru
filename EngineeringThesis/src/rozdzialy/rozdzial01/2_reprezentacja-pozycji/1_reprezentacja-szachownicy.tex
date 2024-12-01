@@ -15,9 +15,9 @@ Ryzyko ich pojawienia zostało zminimalizowane dzięki wprowadzeniu testów jedn
 
 Naturalnym podejściem do reprezentacji szachownicy wydało się zastosowanie 64 elementowej tablicy, w której każde pole odpowiada konkretnemu miejscu na planszy.
 W tej implementacji poszczególne bierki zostały zakodowane liczbami od 1 do 6, natomiast liczby 0 i 8 odpowiednio reprezentowały biały oraz czarny kolor.
-W ten sposób, za pomocą pojedynczych bajtów, można było określić zarówno typ figury, jak i jej kolor na danym polu.
+W ten sposób, za pomocą pojedynczego baju, można było określić zarówno typ figury, jak i jej kolor na danym polu.
 
-Taka struktura danych jest szczególnie użyteczna, gdy konieczna jest szybka odpowiedź na~pytanie, czy na danym kwadracie znajduje się figura, a jeśli tak, to jaka.
+Taka struktura danych jest szczególnie użyteczna, gdy konieczna jest szybka odpowiedź na~pytanie, czy na konkretnym kwadracie znajduje się figura, a jeśli tak, to jaka.
 Dzięki prostemu indeksowaniu tablicy dostęp do informacji o stanie pojedynczego pola jest bardzo efektywny.
 
 Wada tej techniki objawia się w momencie, gdy wymagane jest odnalezienie wszystkich pól~zawierających konkretny typ figury.
@@ -48,12 +48,12 @@ Operacja ta, szczególnie przy~wielokrotnym wywołaniu, może znacząco obniży�
 \subsubsection{Tablice bitowe bierek}
 
 W celu zaadresowania powyższych spowolnień zastosowana została technika reprezentacji szachownicy za pomocą tablic bitowych, powszechnie znanych w środowisku programistów szachowych jako ang.~\emph{Bitboards}.
-Informacja o położeniu konkretnego typu bierki na planszy przechowywana jest w postaci tablicy liczb o rozmiarze 8 bajtów.
+Informacja o położeniach bierek konkretnego typu na planszy przechowywana jest w postaci tablicy liczb o rozmiarze 8 bajtów.
 
 Implementacja ta wykorzystuje kodowanie 64 polowej tablicy szachowej w 64 pojedynczych bitach zmiennej.
-Oznaczając figurę na danym polu za pomocą jedynki, a pozostałe pola jako zera, można w prosty sposób zawrzeć informacje o planszy w dwunastu pojedynczych liczbach.
-Pozycje bierek nie są natomiast jedyną informacją, którą można zakodować w tablicach bitowych.
-Wstępnie zainicjalizowane maski możliwych ruchów czy atakowanych pól, to tylko jedne z możliwych zastosowań, które na późniejszych etapach implementacji znacznie przyspieszały obliczenia.
+Oznaczając figurę na danym polu za pomocą jedynki, a jej brak jako zero, można w prosty sposób zawrzeć informacje o planszy w dwunastu pojedynczych liczbach typu \texttt{Long}.
+Pozycje bierek nie są natomiast jedyną informacją, którą można zakodować ~ten sposób.
+Zainicjowane w konstruktorze maski możliwych ruchów czy atakowanych pól, to tylko jedne z możliwych zastosowań, które na późniejszych etapach implementacji znacznie przyspieszały obliczenia.
 
 Powszechne użycie 64-bitowej architektury sprawiło, że operacje na danych takiej wielkości są bardzo efektywne, gdyż nie wymagają rozbicia instrukcji na mniejsze części.
 Dodatkowym atutem jest także szybkość manipulacji danymi przez operatory bitowe takie jak negacja, koniunkcja, alternatywa wykluczająca czy przesunięcie bitowe.

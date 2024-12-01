@@ -1,17 +1,20 @@
-\subsection{Tabela transpozycji}
+\usepackage{biblatex}\subsection{Tabela transpozycji}
 \label{subsec:tabela-transpozycji}
 
 \subsubsection{Opis zagadnienia}
 Silnik szachowy wielokrotnie znajduje się w tej samej pozycji planszy, musząc wyliczać wartości heurystyczne od nowa.
-Dzieje się tak, zarówno w przypadku dotarcia do pozycji w wyniku odmiennych sekwencji ruchów, jak i w wyniku wykonywania kolejnych ruchów.
-Rozwiązaniem tego problemu jest zastosowanie tabeli transpozycji, która przechowuje wyniki obliczeń dla pozycji, mając jednocześnie na uwadze głębokość, dla której wynik został obliczony.
-W sytuacji, gdy silnik ponownie napotka na tę samą pozycję, w pierwszej kolejności sprawdzi, czy w tabeli nie znajduje się już obliczony wynik dla tej samej, bądź większej głębokości.
+Dzieje się tak, zarówno w przypadku dotarcia do pozycji w wyniku odmiennych sekwencji ruchów, jak i w wyniku szukania kolejnego ruchu po~ruchu przeciwnika.
+Rozwiązaniem tego problemu jest zastosowanie tabeli transpozycji, która przechowuje wyniki obliczeń dla pozycji, mając jednocześnie na uwadze głębokość, dla~której wynik został obliczony.
+W sytuacji, gdy silnik ponownie napotka na tę samą pozycję, w~pierwszej kolejności sprawdzi, czy w tabeli nie znajduje się już obliczony wynik dla tej samej, bądź większej głębokości.
 
 \subsubsection{Implementacja}
 Do implementacji tabeli transpozycji zastosowano strukturę \texttt{LinkedHashMap}, dla której kluczami są wartości \texttt{Zobrist Hasz} planszy, a wartościami struktura zawierająca wynik obliczeń dla danej pozycji oraz głębokość.
 W trakcie działania programu silnik przechodzi przez miliony możliwych pozycji, natomiast możliwości przechowywania wyników są ograniczone.
 W przypadku przekroczenia z góry ustalonego limitu wpisów usuwane są te wartości, które zostały użyte najdawniej.
 Pozwala to na pozbycie się poddrzew, w których silnik nie będzie miał okazji się ponownie znaleźć, przy jednoczesnym zachowaniu prostoty implementacji.
+
+W algorytmie negaMax z zaimplementowanym alfa-beta cięciem, istotna jest nie tylko informacja o dokładnej wartości pozycji, ale także o górnej i dolnej granicy tej wartości.
+Taka~wersja została zaimplementowana w kodzie, wzorując się na pracy Dennisa Breukera~\cite*{transposition-phd}.
 
 \subsubsection{Rezultat}
 Po zastosowaniu ulepszenia zaobserwowano zmniejszenie liczby odwiedzonych węzłów w trakcie przeszukiwania drzewa gry.

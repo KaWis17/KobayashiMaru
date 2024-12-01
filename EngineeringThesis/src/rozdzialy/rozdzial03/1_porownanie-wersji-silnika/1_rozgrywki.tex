@@ -1,9 +1,9 @@
-\subsection{Metodologia badawcza}\label{subsec:metodologia-badawcza}
+%\subsection{Metodologia badawcza}\label{subsec:metodologia-badawcza}
 Najbardziej oczywistą, a zarazem najłatwiejszą do zaimplementowania metodą porównawczą jest rozegranie określonej liczby pojedynków pomiędzy oponentami, a następnie sprawdzenie współczynnika wygranych.
 Do przeprowadzenia testów wykorzystano program komputerowy Cutechess, służący nie tylko jako szachowy interfejs graficzny, ale także jako zarządca turniejowy dla silników implementujących protokół UCI.
 
-Pomiędzy parami silników rozegrano po 25 gier, każda trwająca 1 minutę na partię plus 0,6 sekundy na ruch.
-Aby zmniejszyć powtarzalność partii, gry rozpoczynały się nie od pozycji startowej, ale od losowych otwarć szachowych z biblioteki. \cite{lichess-book}
+Pomiędzy parami silników rozegrano po 25 gier, każda trwająca $1$ minutę na partię plus $0,6$~sekundy na ruch.
+Aby zmniejszyć powtarzalność partii, gry rozpoczynały się nie od pozycji startowej, ale od losowych otwarć szachowych z biblioteki \cite{lichess-book}.
 Pozycje te były wyrównane, aby~uniknąć przewagi początkowej któregokolwiek z silników.
 
 
@@ -57,8 +57,8 @@ Wykonanie testów dla tego ulepszenia było szczególne istotne, z tego względu
 Należało potwierdzić, że zysk związany z uniknięciem efektu horyzontu przewyższa koszty związane z dodatkowymi obliczeniami.
 Jak widać na obrazku \ref{fig:wyniki-stany-ciche}, silnik z ulepszeniem wygrał 56\% i zremisował 32\% partii, co sugeruje, że dodatkowe obliczenia były warte podjęcia.
 
-
 \subsubsection{Statyczne sortowanie ruchów}
+
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\linewidth]{rozdzialy/rozdzial03/1_porownanie-wersji-silnika/rysunki/wyniki-sortowanie}
@@ -78,8 +78,8 @@ Jeszcze raz potwierdza to znaczenie ułożenia odwiedzanych wierzchołków dla a
 \end{figure}
 Otrzymane rezultaty dla ulepszenia związanego z tabelą transpozycji mogły wskazywać na błąd w implementacji.
 Nowy silnik remisował większość pojedynków.
-Co jeszcze bardziej zaskakujące, analiza poszczególnych rozgrywek wskazywała, że silnik z ulepszeniem w większości zremisowanych gier obejmował zauważalne prowadzenie.
-W opinii autora jednym z możliwych powodów mógłoby być nierozróżnianie oceny jednej pozycji planszy, od drugiej, takiej samej, ale prowadzącej do niekorzystnego remisu.
+Co jeszcze bardziej zaskakujące, analiza poszczególnych rozgrywek wskazywała, że silnik z ulepszeniem w~większości zremisowanych gier obejmował zauważalne prowadzenie.
+W opinii autora jednym z~możliwych powodów mógłoby być nierozróżnianie oceny jednej pozycji planszy, od drugiej, takiej samej, ale prowadzącej do niekorzystnego remisu.
 Dla przykładu ocena heurystyczna trzykrotnie powtarzającej się pozycji powinna być różna.
 W efekcie silnik zapętlał się w pozycji z jego perspektywy korzystnej, prowadząc do remisu.
 Poprawa implementacji wymagałaby stworzenia oddzielnego haszowania rozróżniającego te dwie, na pozór identyczne, pozycje.
@@ -91,8 +91,8 @@ Powyżej przedstawiono te z wyników, które miały najwyższy wpływ na siłę 
 Biblioteka otwarć, choć istotna, nie została porównana, gdyż rozgrywki rozpoczynały się od wyrównanych pozycji w grze środkowej, a więc biblioteka otwarć nie miała wpływu na wynik.
 
 Tam, gdzie wynik był bardziej wyrównany, należałoby przeprowadzić testy na większej próbce badawczej, bądź wykonać testy korzystające z odmiennej, bardziej formalnej metodologii.
-Powszechnie stosowaną techniką jest Sekwencyjny Test Probabilistyczny (ang.\~\emph{Sequential Probability Ratio Test}, SPRT), który pozwala na zwiększenie wiarygodności wyników, a także na zredukowanie do minimy liczby rozgrywek potrzebnych do uzyskania wyników. \cite*{wiki-sprt}
-Program Cutechess posiada również możliwość przeprowadzenia testów SPRT, wykraczały one natomiast poza zakres niniejszej pracy.
+Powszechnie stosowaną techniką jest Sekwencyjny Test Probabilistyczny (ang. \emph{Sequential Probability Ratio Test}, SPRT), który pozwala na zwiększenie wiarygodności wyników, a także na zredukowanie do minimy liczby rozgrywek potrzebnych do uzyskania wyników \cite*{wiki-sprt}.
+Choć program Cutechess posiada również możliwość przeprowadzenia testów SPRT, wykraczały one natomiast poza zakres niniejszej pracy.
 
 
 %Największe różnice zaobserwowano w ulepszeniach:
