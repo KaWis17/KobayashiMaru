@@ -1,3 +1,4 @@
+\newpage
 \section{Generowanie ruchów}
 \label{sec:generowanie-ruchow}
 
@@ -6,11 +7,11 @@ Jego efektywna implementacja to taka, w której silnik spędza jak~najmniej czas
 
 Podstawowym rozróżnieniem stosowanych rozwiązań jest podział na generowanie ruchów pseudolegalnych oraz ruchów legalnych~\cite*{wiki-movegen}.
 Ruch pseudolegalny to taki, który nie narusza zasad ruchów poszczególnych bierek, natomiast istnieje ryzyko, że po jego wykonaniu własny król znajdzie się w szachu.
-Takie rozwiązanie jest możliwe do zastosowania, z~uwagi na~przekazanie odpowiedzialności za sprawdzenie legalności ruchu funkcji, która ten ruch wykonuje.
+Takie rozwiązanie jest możliwe do zastosowania, z~uwagi na~przekazanie odpowiedzialności za sprawdzenie legalności ruchu do funkcji, która ten ruch wykonuje.
 Główną zaletą tej metody jest znacznie łatwiejsza implementacja.
 
 Kolejnym aspektem wartym zaznaczenia, jest wydzielenie oddzielnego generatora dla~ruchów zbijających.
-Z perspektywy dalszej implementacji znacznie ułatwiło to rozwój silnika o ewaluacje stanów cichych.
+Z perspektywy dalszej implementacji znacznie ułatwiło to rozwój silnika o ewaluację stanów cichych.
 
 \input{rozdzialy/rozdzial01/3_generowanie-ruchow/1_operacje-na-mapach-bitowych}
 \input{rozdzialy/rozdzial01/3_generowanie-ruchow/2_hyperbola-quintessence}

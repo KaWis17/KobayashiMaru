@@ -3,8 +3,8 @@
 
 \subsubsection{Opis zagadnienia}
 Głównym problemem, który należało rozwiązać, były otwarcia partii rozgrywanych przez silnik.
-Gry szachowe zawsze rozpoczynają się z tego samego położenia, więc wiadomo, że~system znajdzie się w wielu pozycjach bezpośrednio wynikających z pierwszych posunięć.
-Program natomiast poświęcał na obliczenia wiele czasu, który lepiej byłoby spożytkować w~środkowym etapie rozgrywki.
+Gry szachowe zawsze rozpoczynają się z tego samego położenia, co oznacza, że~system musi znaleźć się w pozycjach bezpośrednio wynikających z pierwszych posunięć.
+Program poświęcał na początkowe obliczania zbyt wiele czasu, który lepiej byłoby spożytkować w środkowym etapie rozgrywki.
 
 Profesjonalni gracze, korzystając z dorobku i doświadczenia wielu pokoleń szachistów, zapamiętują pierwsze posunięcia do wykonania.
 Tym samym oszczędzają czas, który pozostaje na bardziej złożone pozycje w środkowej fazie gry.
@@ -18,7 +18,7 @@ W literaturze znanych jest wiele formatów zapisu biblioteki otwarć, np.\ EPD, 
 System wykorzystuje bibliotekę wygenerowaną przez Sebastiana Lague i~dostępną na licencji MIT w~implementacji jego silnika~\cite*{opening-library}.
 \subsubsection{Rezultat}
 Efektem prac stał się silnik, który początkowe posunięcia wykonuje za pomocą podpiętej biblioteki otwarć.
-Dzięki temu pierwsze ruchy wykonywane są bardzo szybko, pozostawiając cenny czas obliczeniowy na dalszą grę, tym samym zwiększając precyzję.
+Dzięki temu pierwsze ruchy wykonywane są bardzo szybko, pozostawiając cenny czas obliczeniowy na dalszą grę i tym samym zwiększając precyzję.
 
 We wcześniejszej wersji silnik był deterministyczny, to jest, dla konkretnej głębokości i pozycji, algorytm zwracał ten sam najlepszy ruch.
 Dodatkowym atutem stała się jego nieprzewidywalność.

@@ -18,7 +18,7 @@ Przykładowo, dla ruchu o dwa pola do przodu wzór wygląda następująco:
 
 W taki sposób stworzono maskę bitową końcowych pól, na które piony mogą się przesuwać, skacząc o dwa pola.
 Na otrzymanym wyniku należy przeprowadzić serializację, to jest przekształcić go na listę dostępnych ruchów.
-Aby nie iterować przez wszystkie 64 bity, zastosowano technikę zwaną ang. \emph{Bit Scan}, która zwraca indeks najbardziej istotnego bitu na masce, dodaje ruch do listy, a następnie usuwa ten bit z maski.
+Aby nie iterować przez wszystkie 64 bity, zastosowano technikę zwaną ang. \emph{Bit Scan}, która zwraca indeks najbardziej istotnego bitu na~masce, dodaje ruch do listy, a następnie usuwa ten bit z maski.
 Operacja jest wykonywana do~momentu, aż maska pozostanie pusta.
 \begin{lstlisting}[
     language=Java,

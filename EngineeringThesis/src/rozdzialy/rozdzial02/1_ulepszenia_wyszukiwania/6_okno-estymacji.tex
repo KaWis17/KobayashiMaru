@@ -3,7 +3,7 @@
 
 \subsubsection{Opis zagadnienia}
 Poprzednie wersje silnika rozpoczynając przeszukiwanie węzłów gry, dla każdego poziomu głębokości, zakładały wartości alfa i beta jako odpowiednio $-\infty$ i $+\infty$.
-W praktyce można jednak przypuszczać, że wartości zwrócone dla większych głębokości, nie będą w bardzo dużym stopniu odbiegać, od wartości zwróconych dla głębokości mniejszych.
+Można jednak przypuszczać, że wartości zwrócone dla większych głębokości, nie będą w bardzo dużym stopniu odbiegać, od wartości zwróconych dla głębokości mniejszych.
 Rozpoczynając wyszukiwanie algorytmem miniMax z wartościami $alpha = sc_{n-1} - \delta$ oraz $beta = sc_{n-1} + \delta$, gdzie $sc_{n-1}$ to wartość zwrócona dla poprzedniej głębokości, a $\delta$ to okno estymacji, istnieje szansa wystąpienia większej ilości alfa-cięć oraz beta-cięć.
 Pomimo oczywistych korzyści wynikających z zastosowania powyższej techniki, istnieje także ryzyko, że w przypadku, gdy~wartość wykracza poza okno estymacji, konieczne jest rozpoczęcie ponownego wykonania algorytm wyszukiwania.
 Ponowne uruchomienie odbywa się z szerszym oknem estymacji.
@@ -20,7 +20,7 @@ Dodatkowym utrudnieniem, stał się fakt, że przejście algorytmu, którego efe
 Przy próbie jednoczesnego zastosowania obu rozwiązań, należałoby utworzyć bufor, który zapisywałby wartości z danego przeszukania jedynie w przypadku, gdy wartość końcowa mieściła się w oknie estymacji.
 
 \subsubsection{Rezultat}
-W programie zdecydowano się nie wykorzystywać dwóch rozwiązań, to jest tabeli transpozycji oraz okna estymacji, jednocześnie.
+W programie zdecydowano się nie wykorzystywać jednocześnie dwóch rozwiązań, to jest tabeli transpozycji i okna estymacji.
 Porównano rezultaty oraz wybrano to~ulepszenie, które przyczyniło się do największego wzrostu siły silnika.
 Przeprowadzono także testy, które miały na~celu sprawdzenie ilość wystąpień wyjścia poza zakres okna estymacji.
 Spośród przetestowanych opcji wybrano tę wartość $\delta$, która pozwalała na istotne polepszenie alfa-beta cięć, przy jednoczesnej próbie zachowania małej liczby powtórzeń.

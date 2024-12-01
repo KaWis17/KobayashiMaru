@@ -3,14 +3,14 @@
 
 \subsubsection{Technika usuwania ruchów pseudo-legalnych}
 
-Po zaimplementowaniu logiki opisanej powyżej silnik był zdolny do generowania posunięć pseudolegalnych.
+Po zaimplementowaniu logiki opisanej powyżej, silnik był zdolny do generowania posunięć pseudolegalnych.
 Natomiast ruch, po którym własny król znajduje się w szachu, nie tylko jest ruchem nieoptymalnym, ale również z punktu widzenia reguł FIDE nielegalnym.
 
 W literaturze można znaleźć kilka podejść do problemu odfiltrowywania ruchów pseudolegalnych.
 Niektóre z nich korzystają z dodatkowych masek bitowych, reprezentujących pola atakowane przez bierki danej strony.
-W niniejszej implementacji zastosowano jednak rozwiązanie w subiektywnym odczuciu autora łatwiejsze.
+W niniejszej implementacji zastosowano jednak rozwiązanie, w subiektywnym odczuciu autora, łatwiejsze.
 
-Po wykonaniu konkretnego ruchu, w miejscu, gdzie znajduje się król, stawiana jest każda figura z kolei, oraz generowane są dostępne bicia.
+Po wykonaniu konkretnego ruchu, w miejscu, gdzie znajduje się król, stawiane są kolejne figury oraz generowane są dostępne bicia.
 Jeśli wśród bić znajduje się bierka przeciwnika, tego samego typu, co aktualnie podstawiona, oznacza to, że król znajduje się w szachu, a więc posunięcie nie należy do kategorii ruchów legalnych.
 
 \subsubsection{Test wydajności}
@@ -19,15 +19,15 @@ Generatory ruchów szachowych posiadają skomplikowaną logikę.
 Z tego względu bardzo łatwo o popełnienie błędu w implementacji.
 Dopuszczenie choćby jednego błędu, skutkować będzie jego propagacją na większych głębokościach, a w skrajnych przypadkach doprowadzi do~zakończenia programu.
 
-Ocena poprawności dzięki przeprowadzaniu z silnikiem rozgrywek szachowych jest~rozwiązaniem czasochłonnym.
+Ocena poprawności metodą przeprowadzania rozgrywek z silnikiem szachowym jest~rozwiązaniem czasochłonnym.
 Odwiedzenie dużej ilości węzłów drzewa gry, w~celu~sprawdzenia poprawności wykonywania ruchów, jest praktycznie niemożliwe.
-Co~więcej, błędy w ten sposób powstałe są trudne do zlokalizowania.
+Błędy w~ten~sposób powstałe są trudne do zlokalizowania.
 
 Z tego względu zastosowano Test Wydajności (ang.~\emph{Performance Testing}, w~skrócie Perft~Test).
 Choć nazwa mogłaby wskazywać na testowanie prędkości generowanych ruchów, test ten można przeprowadzić także w celu kontroli poprawności.
-Metoda ta opiera się~o~wykonanie algorytmu DFS dla ograniczonej głębokości na drzewie gry, przy jednoczesnym zliczaniu odwiedzonych węzłów.
+Metoda ta~opiera się~na~wykorzystaniu algorytmu DFS dla ograniczonej głębokości na drzewie gry, przy jednoczesnym zliczaniu odwiedzonych węzłów.
 Tak otrzymane wyniki można porównać z konsensusem osiągniętym przez twórców silników szachowych.
-Jako punkt odniesienia autor uznał wyniki generowane przez silnik Stockfish.
+Jako punkt odniesienia autor przyjął wyniki generowane przez silnik Stockfish.
 Przeprowadzenie testów z różnych pozycji startowych oraz dla~różnych głębokości pozwoliło na potwierdzenie poprawności implementowanego generatora, z~prawdopodobieństwem graniczącym z pewnością.
 Przykładowe wyniki zaprezentowano w dodatku \ref{ch:wyniki-perft}.
 

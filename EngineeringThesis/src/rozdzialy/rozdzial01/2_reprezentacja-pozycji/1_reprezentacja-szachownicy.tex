@@ -2,26 +2,26 @@
 \label{subsec:reprezentacja-szachownicy}
 
 Struktury danych, wybrane do reprezentacji szachownicy, w dużym stopniu determinują implementację funkcji generowania dostępnych ruchów, a co za tym idzie, bezpośrednio wpływają na wydajność całego silnika.
-Z tego względu ich dobór musiał zostać odpowiednio zaplanowany, uwzględniając ogół architektury programu.
-Po zapoznaniu się z proponowanymi w~literaturze rozwiązaniami, w projekcie zdecydowano się zastosować dwie redundantne techniki reprezentacji 64 pól szachowych.
+Z tego względu ich dobór musiał zostać odpowiednio zaplanowany, tak by uwzględniał ogół architektury programu.
+Po zapoznaniu się~z~proponowanymi w~literaturze rozwiązaniami, w projekcie zdecydowano się zastosować dwie redundantne techniki reprezentacji 64 pól szachowych.
 
-Obie charakteryzują się odmiennymi właściwościami, znajdując zastosowanie dla innych algorytmów wewnątrz programu.
+Obie charakteryzują się odmiennymi właściwościami i znajdują zastosowanie dla innych algorytmów wewnątrz programu.
 Różnią się one pod względem gęstości zawartych informacji, szybkości dostępu do danych oraz łatwości modyfikacji.
-Jedna z nich skupia się na każdym z~pól~szachownicy (ang.~\emph{Square Centric}), druga natomiast bierze pod uwagę położenie konkretnych rodzajów bierek (ang.~\emph{Piece Centric}).
+Pierwsza z nich skupia się~na~każdym z~pól~szachownicy (ang.~\emph{Square Centric}), druga natomiast bierze pod uwagę położenie konkretnych rodzajów bierek (ang.~\emph{Piece Centric}).
 
-Przy procesie implementacji omawianego fragmentu należało zachować szczególną ostrożność, aby ciągłe aktualizowanie dwóch niezależnych struktur danych nie doprowadziło do~ich rozspójnienia, a co za tym idzie wprowadzenia trudnych do odnalezienia błędów.
+Przy procesie implementacji omawianego fragmentu należało zachować szczególną ostrożność, aby ciągłe aktualizowanie dwóch niezależnych struktur danych nie doprowadziło do~ich rozspójnienia, a tym samym do wprowadzenia trudnych do odnalezienia błędów.
 Ryzyko ich pojawienia zostało zminimalizowane dzięki wprowadzeniu testów jednostkowych regularnie kontrolujących poprawność operacji podczas enumeracji drzewa gry.
 \subsubsection{Tablica pól szachowych}
 
 Naturalnym podejściem do reprezentacji szachownicy wydało się zastosowanie 64 elementowej tablicy, w której każde pole odpowiada konkretnemu miejscu na planszy.
 W tej implementacji poszczególne bierki zostały zakodowane liczbami od 1 do 6, natomiast liczby 0 i 8 odpowiednio reprezentowały biały oraz czarny kolor.
-W ten sposób, za pomocą pojedynczego baju, można było określić zarówno typ figury, jak i jej kolor na danym polu.
+W ten sposób, za pomocą pojedynczego bajtu, można było określić zarówno typ figury, jak i jej kolor na danym polu.
 
-Taka struktura danych jest szczególnie użyteczna, gdy konieczna jest szybka odpowiedź na~pytanie, czy na konkretnym kwadracie znajduje się figura, a jeśli tak, to jaka.
+Taka struktura danych jest szczególnie użyteczna, gdy oczekiwana jest szybka odpowiedź na~pytanie, czy na konkretnym kwadracie znajduje się figura, a jeśli tak, to jaka.
 Dzięki prostemu indeksowaniu tablicy dostęp do informacji o stanie pojedynczego pola jest bardzo efektywny.
 
-Wada tej techniki objawia się w momencie, gdy wymagane jest odnalezienie wszystkich pól~zawierających konkretny typ figury.
-W takim przypadku konieczna staje się iteracja całej tablicy, w celu zidentyfikowania odpowiednich miejsc.
+Wada tej techniki ujawnia się w momencie, gdy wymagane jest odnalezienie wszystkich pól~zawierających konkretny typ figury.
+W takim przypadku konieczną staje się iteracja całej tablicy, w celu zidentyfikowania odpowiednich miejsc.
 Operacja ta, szczególnie przy~wielokrotnym wywołaniu, może znacząco obniżyć wydajność implementowanego algorytmu.
 
 %\begin{lstlisting}[
@@ -47,17 +47,17 @@ Operacja ta, szczególnie przy~wielokrotnym wywołaniu, może znacząco obniży�
 
 \subsubsection{Tablice bitowe bierek}
 
-W celu zaadresowania powyższych spowolnień zastosowana została technika reprezentacji szachownicy za pomocą tablic bitowych, powszechnie znanych w środowisku programistów szachowych jako ang.~\emph{Bitboards}.
+W celu rozwiązania wyżej opisanych problemów zastosowana została technika reprezentacji szachownicy za pomocą tablic bitowych, powszechnie znanych w środowisku programistów szachowych jako ang.~\emph{Bitboards}.
 Informacja o położeniach bierek konkretnego typu na planszy przechowywana jest w postaci tablicy liczb o rozmiarze 8 bajtów.
 
 Implementacja ta wykorzystuje kodowanie 64 polowej tablicy szachowej w 64 pojedynczych bitach zmiennej.
-Oznaczając figurę na danym polu za pomocą jedynki, a jej brak jako zero, można w prosty sposób zawrzeć informacje o planszy w dwunastu pojedynczych liczbach typu \texttt{Long}.
+Oznaczając obecność figury na danym polu za pomocą jedynki, a jej brak jako zero, można w prosty sposób zawrzeć informacje o planszy w dwunastu pojedynczych liczbach typu \texttt{Long}.
 Pozycje bierek nie są natomiast jedyną informacją, którą można zakodować ~ten sposób.
-Zainicjowane w konstruktorze maski możliwych ruchów czy atakowanych pól, to tylko jedne z możliwych zastosowań, które na późniejszych etapach implementacji znacznie przyspieszały obliczenia.
+Zainicjowane w konstruktorze maski: możliwych ruchów i atakowanych pól, to~przykłady możliwych zastosowań, które na późniejszych etapach implementacji znacznie przyspieszały obliczenia.
 
 Powszechne użycie 64-bitowej architektury sprawiło, że operacje na danych takiej wielkości są bardzo efektywne, gdyż nie wymagają rozbicia instrukcji na mniejsze części.
-Dodatkowym atutem jest także szybkość manipulacji danymi przez operatory bitowe takie jak negacja, koniunkcja, alternatywa wykluczająca czy przesunięcie bitowe.
-Z reguły, a w szczególności na starszych procesorach, operacje bitowe są szybsze, niż ich odpowiedniki w postaci operacji arytmetycznych.
+Dodatkowym atutem jest szybkość manipulacji danymi przez operatory bitowe takie jak: negacja, koniunkcja, alternatywa wykluczająca i przesunięcie bitowe.
+Z reguły, w szczególności na starszych procesorach, operacje bitowe są szybsze, niż ich odpowiedniki w postaci operacji arytmetycznych.
 
 %\begin{lstlisting}[
 %    language=Java,

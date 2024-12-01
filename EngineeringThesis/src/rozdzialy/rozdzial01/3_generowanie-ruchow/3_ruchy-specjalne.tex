@@ -5,14 +5,14 @@ Pozostałymi ruchami do zaimplementowania było bicie w przelocie oraz cztery ro
 Z uwagi na znikomą ilość takich posunięć w danej pozycji oraz na złożoną logikę tych ruchów, zostały one wygenerowane explicite z zasad gry.
 
 Oba typy ruchów wymagały dodatkowej weryfikacji z danymi dostępnymi w reprezentacji stanu gry.
-Pierwszy z nich - en-passant - został wygenerowany przez nałożenie na siebie maski pola bicia w przelocie oraz maski pinów, odpowiednio przesuniętych o $\pm 7$ oraz $\pm 9$ kratek.
+Pierwszy z nich – en-passant – został wygenerowany przez nałożenie na siebie maski pola bicia w przelocie oraz maski pionów, odpowiednio przesuniętych o $\pm 7$ oraz $\pm 9$ kratek.
 
 Aby uzyskać prawo roszady, należy spełnić następujące warunki:
 \begin{enumerate}
     \item Ani król, ani wieża biorąca udział w roszadzie nie mogły wykonać wcześniej ruchu.
     \item Pola między królem a wieżą muszą być puste.
     \item Król nie może znajdować się w szachu.
-    \item Król nie może przechodzić bądź kończyć ruch na polach, atakowanych przez bierki przeciwnika.
+    \item Król nie może przechodzić bądź kończyć ruch na polach atakowanych przez bierki przeciwnika.
 \end{enumerate}
 
 

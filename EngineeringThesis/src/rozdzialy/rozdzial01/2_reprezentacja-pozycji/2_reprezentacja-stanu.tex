@@ -1,23 +1,24 @@
 \subsection{Reprezentacja stanu}
 \label{subsec:reprezentacja-stanu}
 
-Reprezentacja stanu zawiera resztę informacji koniecznych do przedstawienia pozycji.
+Reprezentacja stanu zawiera pozostałe informacje konieczne do przedstawienia pozycji.
 Znajduje się w niej logika dotycząca możliwych roszad, pola en-passant, czy liczby posunięć od~ostatniego bicia.
-Stan gry posiada również wiedzę o ruchu, który do danej pozycji doprowadził, aby ułatwić jego cofanie przez inne komponenty systemu.
+Stan gry posiada również dane o ruchu, który do określonej pozycji doprowadził, aby ułatwić jego cofanie przez inne komponenty systemu.
 
 W tej klasie zawarto także strukturę \texttt{HashMap} z~informacjami, jak często dana pozycja wystąpiła już w grze.
-Pozwoliło to na wykrywanie wielokrotnego powtórzenia pozycji, które niekoniecznie następują bezpośrednio po sobie.
+Pozwoliło to na wykrywanie wielokrotnego powtórzenia pozycji, które niekoniecznie następują po sobie.
 Choć według oficjalnych zasad automatyczny remis następuje dopiero po pięciokrotnym powtórzeniu, większość platform do rozgrywek online uznaje trzykrotne powtórzenie za obligatoryjny remis.
 Taka też wersja została zaimplementowana.
 Reguła remisu dyktowanego matem nie została wprowadzona.
-Wynikało to~z~faktu, że~po wykonaniu ruchu należałoby sprawdzić możliwe odpowiedzi rywala, co okazało się~kosztowne.
-W praktyce jednak sytuacja ta nie występuje zbyt często i w najgorszym wypadku skutkuje remisem, natomiast brak implementacji tej reguły znacząco przyspieszył obliczenia.
+Wynikało to~z~faktu, że~po wykonaniu ruchu należałoby sprawdzić możliwe odpowiedzi rywala, co okazałoby się~kosztowne.
+W praktyce sytuacja ta nie występuje zbyt często i w najgorszym wypadku skutkuje remisem, natomiast brak implementacji tej reguły znacząco przyspiesza obliczenia.
 
 \subsubsection{Haszowanie Zobrist}
 Struktura \texttt{HashMap} zawierająca informacje o wcześniejszych pozycjach w grze w pierwotnej wersji została zaimplementowana z kluczami reprezentującymi pozycję FEN.
-Z perspektywy czasu stało się natomiast jasnym, że każdorazowe generowanie klucza w postaci zmiennej typu \texttt{String} było niezmiernie kosztowne.
+Z perspektywy czasu okazało się, że każdorazowe generowanie klucza w postaci zmiennej typu \texttt{String} było niezmiernie kosztowne.
 
-Postanowiono zatem jako klucz użyć wartości zwracanej przez haszowanie Zobrist, które posiada parę cech znacząco przyspieszających cały proces.
+Postanowiono zatem jako klucza użyć wartości zwracanej przez haszowanie Zobrist.
+%Posiada ono cechy znacząco przyspieszające cały proces.
 Polega ono na przypisaniu kolorowi czarnemu oraz każdej figurze na każdym możliwym polu planszy losowej liczby typu \texttt{long}.
 Korzystając ze standardowego generatora liczb pseudolosowych, dostępnego w języku Java, otrzymano $769$ liczb.
 
@@ -28,7 +29,7 @@ W trakcie gry~nie~jest konieczne ponowne obliczanie wartości haszowania dla ca�
 Niestety, zaimplementowany algorytm jest funkcją nieiniekcyjną.
 Liczba możliwych pozycji w szachach znacząco przewyższa liczbę dostępnych wartości haszowania.
 Z tego względu istnieje ryzyko kolizji, którego przy tym rozwiązaniu nie da się pozbyć.
-Jest ono natomiast na~tyle małe, że zysk czasowy znacząco przewyższa możliwe komplikacje z nim związane.
+Jest ono natomiast na~tyle małe, że zysk czasowy znacząco przewyższył możliwe komplikacje z nim związane.
 W celu otrzymania większej powtarzalności wyników zdecydowano się na zastosowanie tego samego ziarna~(ang.~\emph{seed}) dla generatora liczb pseudolosowych.
 Przeprowadzono testy jednostkowe, gdzie dla różnych pozycji na planszy przechodzono przez drzewo gry, a~następnie sprawdzano, czy wartości haszowania powtórzą się dla różnych pozycji.
 Kolizji nie zaobserwowano ani~razu.

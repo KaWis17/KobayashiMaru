@@ -4,16 +4,16 @@
 \subsubsection{Opis zagadnienia}
 Szachy to gra dynamiczna, w której techniki stosowane przez szachistów w dużym stopniu zależą od pozycji na planszy.
 Jednym z podstawowych wskaźników wpływających na obierane strategie jest moment gry.
-Partia szachowa dzieli się na trzy etapy: \textbf{otwarcie} – najczęściej trwające do~10~ruchów, rozgrywane z zapamiętanej teorii szachowej, \textbg{grę środkową} – najdłuższy etap, w którym obie strony walczą o kontrolę nad planszą, oraz \textbf{grę końcową} – etap, w którym ilość bierek po obu stronach jest niska, a gracze próbują znaleźć techniki zamatowania przeciwnika.
+Partia szachowa dzieli się na trzy etapy: \textbf{otwarcie} – najczęściej trwające do~10~ruchów, rozgrywane z zapamiętanej teorii szachowej, \textbf{grę środkową} – najdłuższy etap, w którym obie strony walczą o kontrolę nad planszą, oraz \textbf{grę końcową} – etap, w którym ilość bierek po obu stronach jest niska, a gracze próbują znaleźć techniki zamatowania przeciwnika.
 
 \subsubsection{Implementacja}
 Pierwszy z nich zaimplementowany został dzięki Bibliotece Otwarć \ref{subsec:biblioteka-otwarc}.
 W celu odróżnienia gry środkowej od końcowej zastosowano kryterium, mówiące o pozostaniu po każdej stronie maksymalnie jednej figury wysokiej (hetmana, wieży) bądź dwóch figur niskich (gońca, skoczka).
 W przypadku spełnienia tego warunku silnik przechodzi do fazy końcowej, cechującej się odmienną oceną.
 
-Między innymi zmienia się tablica dla figury króla.
+W grze końcowej między innymi zmienia się tablica dla figury króla.
 W fazie środkowej król zazwyczaj unikał walki bezpiecznie schroniony po roszadzie w rogu planszy.
-Natomiast w fazie końcowej, z~uwagi na mniejszą ilość materiału zyskuje on na znaczeniu.
+Natomiast w fazie końcowej, z~uwagi na mniejszą ilość materiału jego możliwości ofensywne zyskują na znaczeniu.
 Powinien przesunąć się do centrum planszy, pomagając w ochronie pionków oraz znajdowaniu matów na przeciwniku.
 Co więcej, na znaczeniu zyskały same pionki, gdzie ich promocja na hetmana może przesądzić o losie partii.
 

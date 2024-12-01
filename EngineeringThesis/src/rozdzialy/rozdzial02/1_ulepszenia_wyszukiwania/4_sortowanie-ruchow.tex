@@ -4,7 +4,7 @@
 \subsubsection{Opis zagadnienia}
 W czasie testów zauważono, że podczas przeszukiwania drzewa nie następuje taka ilość alfa-beta cięć, która pozwalałaby na znaczne przyspieszenie obliczeń.
 Rozpoczynanie przeszukiwania węzłów gry od najlepszych posunięć pozwoliłoby na osiągnięcie teoretycznego limitu wskazanego w tabeli \ref{tab:alfa-beat-limit}.
-W żaden sposób nie ma jednak możliwości wskazania, który ruch prowadzi do najlepszej pozycji, przed wykonaniem tych ruchów.
+W żaden sposób nie ma jednak możliwości wskazania, który z~dostępnych ruchów prowadzi do najlepszej pozycji, przed wykonaniem tych ruchów.
 Istnieją jednak posunięcia, które można rozważyć w pierwszej kolejności, ze względu na ich szczególny charakter, a~tym~samym przyspieszyć cięcie.
 Jeśli sortowanie jest niezależne od wcześniejszych obliczeń, to~jest to sortowanie statyczne.
 
@@ -19,6 +19,6 @@ W celu porównania pomiędzy sobą dwóch dowolnych ruchów wykorzystano następ
 \end{itemize}
 
 \subsubsection{Rezultat}
-Dzięki zastosowaniu sortowania statycznego, udało się zwiększyć ilość alfa-beta cięć, co~spowodowało możliwości przeszukiwania drzew gry do większych głębokości.
+Dzięki zastosowaniu sortowania statycznego, udało się zwiększyć ilość alfa-beta cięć, co~skutkowało możliwością przeszukiwania drzew gry do większych głębokości.
 Szczególnie zauważalne było to ulepszenie w procesie wyszukiwania stanów cichych, gdzie każdy z~dostępnych ruchów można było zakwalifikować za pomocą MVV–LVA.
 Dodatek \ref{ch:wyniki-perft} zawiera przykładowe pozycje, w których porównano wyniki perft dla wersji klasycznej, z alfa-beta cięciem, oraz z sortowaniem ruchów.

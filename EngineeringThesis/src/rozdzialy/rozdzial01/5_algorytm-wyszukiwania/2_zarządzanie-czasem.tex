@@ -2,8 +2,8 @@
 \label{subsec:zarzadzanie-czasem}
 \subsubsection{Estymacja dostępnego czasu}
 Większość pojedynków szachowych odbywa się w czasie rzeczywistym, z narzuconym ograniczeniem co do łącznego czasu na wykonanie ruchu.
-Przekroczenie tego limitu stanowiłoby automatyczną wygraną oponenta.
-Koniecznym było zatem zaimplementowanie mechanizmu zarządzania, który pozwoliłby na podział pozostałego czasu, na wykonanie poszczególnych ruchów.
+Przekroczenie tego limitu oznacza automatyczną wygraną oponenta.
+Koniecznym było zatem zaimplementowanie mechanizmu zarządzania, który pozwoliłby na podział pozostałego czasu, na wykonanie kolejnych ruchów.
 Pozostały czas otrzymany przez UCI w formie \texttt{go wtime <wtime> btime <btime> winc <winc> binc <binc>} pozwolił na implementacje rozwiązania opartego na~wzorze:
 \begin{align*}
     \mathrm{Est pozostałych ruchów} &= {\max(40 - \mathrm{wykonaneRuchy}, 10)} \\
@@ -17,8 +17,8 @@ Założono średnią liczbę ruchów na poziomie czterdziestu.
 Prędkość wykonania algorytmu negaMax zależy od wielu czynników, takich jak głębokość wyszukiwania, aktualna pozycja, prędkość generowania ruchów czy ilość dostępnych dla~programu zasobów.
 Nie ma możliwości oszacowania, ile czasu zajmie jego wykonanie, a~przerwanie w trakcie działania, może skutkować wybraniem skrajnie nieopłacalnych posunięć.
 
-W tym celu zaimplementowano rozwiązanie iteracyjnego pogłębiania wyszukiwania, polegającego na szukaniu najlepszego ruchu dla kolejnych głębokościach.
+W tym celu zaimplementowano rozwiązanie iteracyjnego pogłębiania wyszukiwania, polegającego na szukaniu najlepszego ruchu na kolejnych głębokościach.
 W momencie upływu czasu na obliczenia zwracana jest wartość otrzymana z najgłębszego, w pełni ukończonego przeszukiwania.
 
-Takie podejście mogłoby wydawać się skrajnie nieoptymalne, gdyż wymaga wielokrotnego generowania drzewa gry.
+Takie podejście mogłoby wydawać się nieoptymalne, gdyż wymaga wielokrotnego generowania drzewa gry.
 W praktyce jednak jest to rozwiązanie gwarantujące otrzymanie w miarę dobrego ruchu, a ulepszenia algorytmu takie jak dynamiczne sortowanie ruchów pozwalają na osiągnięcie szybszych rezultatów, niż przy przeszukaniu drzewa od razu dla danej głębokości \cite*{wiki-deepening}.

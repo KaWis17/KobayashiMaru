@@ -2,14 +2,14 @@
 \label{subsec:struktura-pionow}
 
 \subsubsection{Opis zagadnienia}
-Po implementacji ulepszenia \ref{subsec:tablice-figur} silnik zyskał zdolność oceny pozycyjnej.
-Niedoskonałością było natomiast, że bierki oceniane były pojedynczo, to jest bez uwzględnienia ich wzajemnych relacji, oraz relacji w stosunku do bierek przeciwnika.
-Było to szczególnie przydatne w przypadku pionków.
+Po implementacji ulepszenia \ref{subsec:tablice-figur} silnik uzyskał zdolność oceny pozycyjnej.
+Problemem było natomiast, że bierki oceniane były pojedynczo, to jest bez uwzględnienia ich wzajemnych relacji, oraz relacji w stosunku do bierek przeciwnika.
+
 Termin \enquote{struktura pionów} jest szeroko znany w literaturze szachowej \cite*{stuktura-pionow} i odnosi się do technik mających na celu skoordynowaną obronę własnej części szachownicy oraz przeprowadzania ataków z wykorzystaniem pionów.
 Skuteczne pozycjonowanie pionków na planszy może prowadzić do uzyskania przewagi w grze.
 
 \subsubsection{Implementacja}
-Zasady rozumiane przez graczy szachowych w sposób intuicyjny należało przekształcić na zbór reguł możliwych do zrozumienia przez program, a prowadzących do skutecznej oceny pozycji.
+Zasady rozumiane przez graczy szachowych w sposób intuicyjny należało przekształcić na zbiór reguł możliwych do zrozumienia przez program, a prowadzących do skutecznej oceny pozycji.
 \begin{itemize}
     \item Pionki, które posiadają z tyłu po swojej prawej lub lewej stronie innego pionka, są uważane za dobrze chronione.
     \item Pionki nieposiadające za sobą innych pionków na sąsiednich kolumnach są traktowane jako izolowane i trudne do obrony.
@@ -22,6 +22,6 @@ Odbyło się to w sposób analogiczny do generowania dostępnych ruchów.
 
 \subsubsection{Rezultat}
 Rezultatem stał się silnik, który w sposób bardziej złożony oraz koherentny był w stanie ocenić swoją sytuację na planszy.
-Istniało natomiast ryzyko, że czas konieczny na przeprowadzanie koniecznych obliczeń znacząco przewyższy oferowane korzyści.
-Nie sposób było to sprawdzić w trakcie zwykłej gry przeciw silnikowi.
-Rzeczywiste efekty przedstawiono w rozdziale \ref{ch: ocena-sily-silnika}.
+Istniało natomiast ryzyko, że czas konieczny na przeprowadzanie obliczeń znacząco przewyższy oferowane korzyści.
+%Nie sposób było to sprawdzić w trakcie zwykłej gry przeciw silnikowi.
+%Rzeczywiste efekty przedstawiono w rozdziale \ref{ch: ocena-sily-silnika}.
