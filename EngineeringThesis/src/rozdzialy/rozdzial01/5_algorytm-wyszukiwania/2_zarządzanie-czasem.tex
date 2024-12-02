@@ -6,9 +6,9 @@ Przekroczenie tego limitu oznacza automatyczną wygraną oponenta.
 Koniecznym było zatem zaimplementowanie mechanizmu zarządzania, który pozwoliłby na podział pozostałego czasu, na wykonanie kolejnych ruchów.
 Pozostały czas otrzymany przez UCI w formie \texttt{go wtime <wtime> btime <btime> winc <winc> binc <binc>} pozwolił na implementacje rozwiązania opartego na~wzorze:
 \begin{align*}
-    \mathrm{Est pozostałych ruchów} &= {\max(40 - \mathrm{wykonaneRuchy}, 10)} \\
-    \mathrm{Est pozostałego czasu} &= \mathrm{time_{color}} + (inc_{color} * \mathrm{Est pozostałych ruchów}) \\
-    \mathrm{Propozycja czasu} &= \dfrac{\mathrm{Est pozostałych ruchów}}{\mathrm{Est pozostałego czasu}}
+    \text{Est pozostałych ruchów} &= {\max(40 - \text{wykonane ruchy}, 10)} \\
+    \text{Est pozostałego czasu} &= \mathrm{time_{color}} + (inc_{color} * \text{Est pozostałych ruchów}) \\
+    \text{Propozycja czasu} &= \dfrac{\text{Est pozostałych ruchów}}{\text{Est pozostałego czasu}}
 \end{align*}
 
 Założono średnią liczbę ruchów na poziomie czterdziestu.

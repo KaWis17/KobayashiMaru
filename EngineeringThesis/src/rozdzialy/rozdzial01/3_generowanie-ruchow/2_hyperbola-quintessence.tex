@@ -8,7 +8,8 @@ Choć są to trzy różne figury, to mają do dyspozycji dwa możliwe ruchy, ruc
 Ruchy hetmana są natomiast sumą dwóch powyższych generatorów.
 
 Większość silników szachowych korzystających z masek bitowych implementuje funkcję, która w literaturze zwana jest jako ang. \emph{Hyperbola Quintessence}.
-Pozwala ona na wygenerowanie dostępnych ruchów w jednej prostej oraz na uniknięcie zawiłej logiki iteracyjnej.
+Pozwala ona na wygenerowanie dostępnych ruchów w jednej prostej oraz na uniknięcie czasochłonnej i nieczytelnej logiki iteracyjnej.
+Poniższy przykład został zaczerpnięty ze źródła \cite{hyperbola-quintessence}.
 \begin{align*}
     o = \text{11010101} && o' = \text{10101011} && \text{pola zajęte przez bierki} \\
     r = \text{00010000} && r' = \text{00001000} && \text{pole figury dla której generujemy ruchy} \\

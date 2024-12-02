@@ -4,7 +4,7 @@
 \subsubsection{Opis zagadnienia}
 Poprzednie wersje silnika rozpoczynając przeszukiwanie węzłów gry, dla każdego poziomu głębokości, zakładały wartości alfa i beta jako odpowiednio $-\infty$ i $+\infty$.
 Można jednak przypuszczać, że wartości zwrócone dla większych głębokości, nie będą w bardzo dużym stopniu odbiegać, od wartości zwróconych dla głębokości mniejszych.
-Rozpoczynając wyszukiwanie algorytmem miniMax z wartościami $alpha = sc_{n-1} - \delta$ oraz $beta = sc_{n-1} + \delta$, gdzie $sc_{n-1}$ to wartość zwrócona dla poprzedniej głębokości, a $\delta$ to okno estymacji, istnieje szansa wystąpienia większej ilości alfa-cięć oraz beta-cięć.
+Rozpoczynając wyszukiwanie algorytmem miniMax z wartościami $alpha = wz_{n-1} - \delta$ oraz $beta = wz_{n-1} + \delta$, gdzie $wz_{n-1}$ to wartość zwrócona dla poprzedniej głębokości, a $\delta$ to okno estymacji, istnieje szansa wystąpienia większej ilości alfa-cięć oraz beta-cięć.
 Pomimo oczywistych korzyści wynikających z zastosowania powyższej techniki, istnieje także ryzyko, że w przypadku, gdy~wartość wykracza poza okno estymacji, konieczne jest rozpoczęcie ponownego wykonania algorytm wyszukiwania.
 Ponowne uruchomienie odbywa się z szerszym oknem estymacji.
 
