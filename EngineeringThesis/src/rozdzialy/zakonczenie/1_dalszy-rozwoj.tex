@@ -1,21 +1,31 @@
 \section {Możliwości dalszego rozwoju silnika}
 \label {sec: dalszy-rozwoj}
 
-Jak pokazano w ostatnim rozdziale, stworzony program reprezentuje wysoki poziom gry oraz może stanowić wyzwanie dla niejednego gracza.
-Jednakże silnik powstał w taki sposób, aby~umożliwić łatwą implementację dodatkowych usprawnień, które w dalszym stopniu mogłyby zwiększyć jego siłę.
-Można zdefiniować trzy teoretyczne ścieżki dalszego rozwoju programu:
+Jak pokazano w rozdziale \ref{ch: ocena-sily-silnika}, stworzony program reprezentuje wysoki poziom gry oraz może stanowić wyzwanie dla niejednego gracza.
+Silnik powstał w taki sposób, aby~umożliwić łatwą implementację dodatkowych usprawnień, które w dalszym stopniu mogłyby zwiększyć jego siłę.
+Można zdefiniować kilka ścieżek dalszego rozwoju oprogramowania:
 
-Zarządzanie czasem gry jest jednym z pól, które można by rozwinąć.
+Pierwszym z nich jest poprawa funkcji haszującej wykorzystywanej w tabeli transpozycji.
+Jej poprawa skutkowałaby zmniejszoną liczbą remisów, a co za tym idzie zwiększeniem współczynnika wygranych.
+Następnie należałoby zintegrować poprawioną wersję algorytmu z oknem estymacji.
+
+Kolejnym z aspektów wartych poprawy jest zarządzanie czasem gry.
 W obecnej konfiguracji silnik oblicza czas ruchu na podstawie pozostałego czasu, nie biorąc pod uwagę takich aspektów, jak przewaga nad przeciwnikiem, czy też pozycja na planszy.
 Niektóre ruchy, które wydają się oczywiste, gdyż znacznie poprawiają pozycję, mogłyby być wykonywane szybciej, pozostawiając cenny czas na obliczenia w bardziej złożonych, czy równiejszych sytuacjach.
+Implementacja polegałaby na obserwacji zmiany proponowanych ruchów oraz oceny heurystycznej dla różnych głębokości, a następnie na tej podstawie decydowała o szybszym zakończeniu przeszukiwania.
 
 Kolejnym polem do rozwoju jest sortowanie ruchów.
 Silnik przed wykonaniem ruchu stosuje statyczne sortowanie ruchu, tak jak opisano w rozdziale \ref {subsec:sortowanie-ruchow}.
-Po zapoznaniu z powszechnie stosowanymi w silnikach technikami możnaby przypuszczać, że istotnym ulepszeniem byłoby zastosowanie dynamicznego sortowania ruchów, czyli takiego, w którym sortowanie ruchów zależy od wyników wyszukiwań na niższych głębokościach.
+Możnaby przypuszczać, że istotnym ulepszeniem byłoby zastosowanie dynamicznego sortowania ruchów, czyli takiego, w którym ułożenie ruchów zależy od wyników wyszukiwań na niższych głębokościach.
 Dla przykładu możnaby rozpocząć od ruchów, które poprzednio doprowadziły do jak największego alfa beta cięcia.
 
 Naturalnym przedłużeniem prac nad silnikiem szachowych byłoby zaimplementowanie algorytmów z dziedziny sztucznej inteligencji i uczenia maszynowego.
 W kategorii heurystyk oceny pozycji możnaby zastosować implementację algorytmu genetycznego, w celu dostrojenia wag poszczególnych funkcji oceny, tak aby były one zbliżone do optymalnych.
 Natomiast w kategorii wyszukiwania ruchów, można by zaimplementować sieć neuronową, która proponowałaby obiecujące ruchy, na podstawie wyuczonej wiedzy z zestawu partii szachowych.
+
+Aktualna architektura systemu oraz automatyzacja procesu oceny skuteczności pozwala na eksperymentowanie z mniej oczywistymi, acz z punktu widzenia informatyki ciekawymi rozwiązaniami.
+Dla przykładu możliwym usprawnieniem jest komunikacja systemu z dużym modelem językowym (ang.~\emph{Large Language Model}, w~skrócie LLM), który zwracałby propozycje ruchów na podstawie przekazanych mu informacji o stanie gry.
+Takie ruchy byłyby sprawdzane w pierwszej kolejności, przyspieszając (bądź spowalniając) alfa-beta cięcia.
+
 
 

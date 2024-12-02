@@ -1,10 +1,11 @@
 %\subsection{Metodologia badawcza}\label{subsec:metodologia-badawcza}
-Najbardziej oczywistą, a zarazem najłatwiejszą do zaimplementowania metodą porównawczą jest rozegranie określonej liczby pojedynków pomiędzy oponentami, a następnie sprawdzenie współczynnika wygranych.
-Do przeprowadzenia testów wykorzystano program komputerowy Cutechess, służący nie tylko jako szachowy interfejs graficzny, ale także jako zarządca turniejowy dla silników implementujących protokół UCI.
+Najbardziej oczywistą, a zarazem najłatwiejszą do wykonania metodą porównawczą było rozegranie określonej liczby pojedynków pomiędzy oponentami, a następnie sprawdzenie współczynnika wygranych.
+Do przeprowadzenia testów wykorzystano program komputerowy Cutechess \cite*{cutechess}.
+Posłużył on nie tylko jako szachowy interfejs graficzny, ale także jako zarządca turniejowy dla silników implementujących protokół UCI.
 
-Pomiędzy parami silników rozegrano po 25 gier, każda trwająca $1$ minutę na partię plus $0,6$~sekundy na ruch.
-Aby zmniejszyć powtarzalność partii, gry rozpoczynały się nie od pozycji startowej, ale od losowych otwarć szachowych z biblioteki \cite{lichess-book}.
-Pozycje te były wyrównane, aby~uniknąć przewagi początkowej któregokolwiek z silników.
+Pomiędzy wybranymi parami silników rozegrano po 25 gier, każda trwająca $1$ minutę na~partię plus $0,6$~sekundy na ruch.
+Aby zmniejszyć powtarzalność, gry rozpoczynały się~nie~od~pozycji startowej, ale od losowych otwarć szachowych z biblioteki \cite{lichess-book}.
+Pozycje te~były wyrównane, aby~uniknąć przewagi początkowej któregokolwiek z silników.
 
 
 \subsection{Wybrane wyniki}\label{subsec:wybrane-wyniki}
@@ -31,7 +32,7 @@ Nie tylko nie przegrał ani jednej partii, ale wygrał aż 80\% z nich.
 Poprzednią wersję implementującą tablicę figur porównano z wersją, która dodatkowo posiadała ulepszenia w postaci struktury pionów oraz oceny bezpieczeństwa króla.
 Wyniki były bardziej zbliżone niż w poprzednim pojedynku, co sugeruje ich mniejszy wpływ na siłę silnika.
 Niemniej, były one na tyle znaczące, aby zagwarantować wygraną na poziomie 48\%.
-Z analizy pojedynczych partii wynikało, że silnik z ulepszeniami zyskiwał przewagę już w pierwszych ruchach gry, co dalej pozwalało mu na kontrolę nad planszą w późniejszych etapach.
+Z analizy pojedynczych partii wynikało, że silnik z ulepszeniami zyskiwał przewagę już w pierwszych ruchach gry, co  pozwalało mu na kontrolę nad planszą w późniejszych etapach.
 
 
 \subsubsection{Alfa-Beta cięcie}
@@ -41,7 +42,7 @@ Z analizy pojedynczych partii wynikało, że silnik z ulepszeniami zyskiwał prz
     \caption{Wyniki rozgrywek z alfa beta cięciem}
     \label{fig:wyniki-alfa-beta}
 \end{figure}
-Pierwsze sprawdzane ulepszenie co do algorytmów przeszukiwania drzewa gry przyniosło oczekiwane rezultaty.
+Pierwsze sprawdzone ulepszenie co do algorytmów przeszukiwania drzewa gry przyniosło oczekiwane rezultaty.
 Zmniejszenie liczby odwiedzonych węzłów pozwoliło na zwiększenie głębokości przeszukiwań, a co za tym idzie, pozwoliło silnikowi na lepsze ocenianie pozycji.
 Wynik 64\% wygranych oraz 24\% remisów utwierdza w przekonaniu o poprawności i~skuteczności implementacji algorytmu alfa-beta.
 
@@ -76,10 +77,10 @@ Jeszcze raz potwierdza to znaczenie ułożenia odwiedzanych wierzchołków dla a
     \caption{Wyniki rozgrywek z tabelą transpozycji}
     \label{fig:wyniki-transpozycje}
 \end{figure}
-Otrzymane rezultaty dla ulepszenia związanego z tabelą transpozycji mogły wskazywać na błąd w implementacji.
+Otrzymane rezultaty dla ulepszenia związanego z tabelą transpozycji wskazywały na błąd w implementacji.
 Nowy silnik remisował większość pojedynków.
-Co jeszcze bardziej zaskakujące, analiza poszczególnych rozgrywek wskazywała, że silnik z ulepszeniem w~większości zremisowanych gier obejmował zauważalne prowadzenie.
-W opinii autora jednym z~możliwych powodów mógłoby być nierozróżnianie oceny jednej pozycji planszy, od drugiej, takiej samej, ale prowadzącej do niekorzystnego remisu.
+Co zaskakujące, analiza poszczególnych rozgrywek wskazywała, że silnik z ulepszeniem w~większości zremisowanych gier obejmował zauważalne prowadzenie.
+W opinii autora jednym z~możliwych powodów mógło być nierozróżnianie oceny jednej pozycji planszy, od drugiej, takiej samej, ale prowadzącej do niekorzystnego remisu.
 Dla przykładu ocena heurystyczna trzykrotnie powtarzającej się pozycji powinna być różna.
 W efekcie silnik zapętlał się w pozycji z jego perspektywy korzystnej, prowadząc do remisu.
 Poprawa implementacji wymagałaby stworzenia oddzielnego haszowania rozróżniającego te dwie, na pozór identyczne, pozycje.
@@ -87,12 +88,14 @@ Poprawa implementacji wymagałaby stworzenia oddzielnego haszowania rozróżniaj
 
 
 \subsection{Podsumowanie}\label{subsec:podsumowanie}
-Powyżej przedstawiono te z wyników, które miały najwyższy wpływ na siłę silnika, bądź przedstawiały ciekawe zależności.
-Biblioteka otwarć, choć istotna, nie została porównana, gdyż rozgrywki rozpoczynały się od wyrównanych pozycji w grze środkowej, a więc biblioteka otwarć nie miała wpływu na wynik.
+Powyżej przedstawiono te z wyników, które miały największy wpływ na siłę silnika, bądź przedstawiały ciekawe zależności.
+Biblioteka otwarć, choć istotna, nie została porównana, gdyż rozgrywki rozpoczynały się od wyrównanych pozycji w grze środkowej, a więc biblioteka otwarć nie miałaby wpływu na wynik.
 
-Tam, gdzie wynik był bardziej wyrównany, należałoby przeprowadzić testy na większej próbce badawczej, bądź wykonać testy korzystające z odmiennej, bardziej formalnej metodologii.
-Powszechnie stosowaną techniką jest Sekwencyjny Test Probabilistyczny (ang. \emph{Sequential Probability Ratio Test}, SPRT), który pozwala na zwiększenie wiarygodności wyników, a także na zredukowanie do minimy liczby rozgrywek potrzebnych do uzyskania wyników \cite*{wiki-sprt}.
-Choć program Cutechess posiada również możliwość przeprowadzenia testów SPRT, wykraczały one natomiast poza zakres niniejszej pracy.
+W pozostałych ulepszeniach wynik był znacznie bardziej wyrównany, zahaczający o~błąd statystyczny.
+Aby przeprowadzić analizę tych usprawnień, należałoby przeprowadzić więcej rozgrywek pomiędzy silnikami, bądź skorzystać z bardziej wyrafinowanych metod statystycznych.
+Jedną z takich technik, powszechnie stosowanych w silnikach szachowych, jest Sekwencyjny Test Probabilistyczny (ang. \emph{Sequential Probability Ratio Test}, SPRT).
+Pozwala on na zwiększenie wiarygodności wyników, przy jednoczesnym zredukowaniu do minimum liczby przeprowadzanych rozgrywek \cite*{wiki-sprt}.
+Choć program Cutechess posiada również możliwość przeprowadzenia SPRT, wykraczały one poza zakres niniejszej pracy.
 
 
 %Największe różnice zaobserwowano w ulepszeniach:
