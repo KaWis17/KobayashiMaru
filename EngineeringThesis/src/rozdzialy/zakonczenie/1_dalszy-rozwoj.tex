@@ -7,7 +7,7 @@ Można zdefiniować kilka ścieżek dalszego rozwoju oprogramowania:
 
 Pierwszym z nich jest poprawa funkcji haszującej wykorzystywanej w tabeli transpozycji.
 Jej poprawa skutkowałaby zmniejszoną liczbą remisów, a co za tym idzie zwiększeniem współczynnika wygranych.
-Następnie należałoby zintegrować poprawioną wersję algorytmu z oknem estymacji.
+Następnie należałoby zintegrować poprawioną wersję algorytmu z~oknem estymacji.
 
 Kolejnym z aspektów wartych poprawy jest zarządzanie czasem gry.
 W obecnej konfiguracji silnik oblicza czas ruchu na podstawie pozostałego czasu, nie biorąc pod uwagę takich aspektów, jak przewaga nad przeciwnikiem, czy też pozycja na planszy.
@@ -16,8 +16,8 @@ Implementacja polegałaby na obserwacji zmiany proponowanych ruchów oraz oceny 
 
 Kolejnym polem do rozwoju jest sortowanie ruchów.
 Silnik przed wykonaniem ruchu stosuje statyczne sortowanie ruchu, tak jak opisano w rozdziale \ref {subsec:sortowanie-ruchow}.
-Możnaby przypuszczać, że istotnym ulepszeniem byłoby zastosowanie dynamicznego sortowania ruchów, czyli takiego, w którym ułożenie ruchów zależy od wyników wyszukiwań na niższych głębokościach.
-Dla przykładu możnaby rozpocząć od ruchów, które poprzednio doprowadziły do jak największego alfa beta cięcia.
+Możnaby przypuszczać, że~istotnym ulepszeniem byłoby zastosowanie dynamicznego sortowania ruchów, czyli takiego, w którym ułożenie ruchów zależy od wyników wyszukiwań na niższych głębokościach.
+Dla~przykładu możnaby rozpocząć od ruchów, które poprzednio doprowadziły do~jak~największego alfa beta cięcia.
 
 Naturalnym przedłużeniem prac nad silnikiem szachowych byłoby zaimplementowanie algorytmów z dziedziny sztucznej inteligencji i uczenia maszynowego.
 W kategorii heurystyk oceny pozycji możnaby zastosować implementację algorytmu genetycznego, w celu dostrojenia wag poszczególnych funkcji oceny, tak aby były one zbliżone do optymalnych.
