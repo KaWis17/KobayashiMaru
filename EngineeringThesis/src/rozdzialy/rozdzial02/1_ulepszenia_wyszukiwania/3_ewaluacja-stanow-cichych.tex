@@ -4,11 +4,11 @@
 \subsubsection{Opis zagadnienia}
 Silnik znacznie przyspieszył znajdowanie ruchów dla danej głębokości.
 Zdarzały się jednak sytuacje, że zwracane wyniki znacznie odbiegały od optymalnych.
-Dla przykładu mogła zdarzyć się sytuacja, że liściem w drzewie było bicie hetmanem skoczka \cite*{duch}.
+Dla przykładu mogła zdarzyć się sytuacja, że liściem w drzewie było bicie hetmanem skoczka.
 Silnik zwracał wynik heurystyki jako bardzo wysoki i wykonywał powyższy ruch.
 Program nie brał jednak pod uwagę faktu, że~na~głębokości o jednej większej, hetman ten mógłby zostać zbity przez wrogiego pionka.
 
-Taką sytuację nazywa się efektem horyzontu.
+Taką sytuację nazywa się efektem horyzontu \cite*{duch}.
 Rozwiązaniem wykonywania nieoptymalnych ruchów, było wykonanie dodatkowego wyszukiwania po osiągnięciu głębokości końcowej.
 Z liścia drzewa, które poprzednio zostało oceniane heurystycznie, wyprowadzono kolejne wyszukiwanie, w którym generowane ruchy są tylko biciami.
 Pozwoliło to na ocenę tak zwanych stanów cichych, czyli pozycji, gdzie nie ma żadnego dostępnego ruchu, który prowadziłby do~bicia.
