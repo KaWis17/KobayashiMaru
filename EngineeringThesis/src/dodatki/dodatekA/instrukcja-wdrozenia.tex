@@ -14,6 +14,7 @@ W celu implementacji tego rozwiązania została wykorzystana biblioteka lichess-
 Aby własnoręcznie skompilować kod źródłowy silnika, należy wykonać poniższe kroki:
 \begin{enumerate}
     \item Pobrać kod źródłowy z publicznie dostępnego repozytorium \url{https://github.com/KaWis17/KobayashiMaru}.
+    \item W przypadku korzystania z biblioteki otwarć określić w klasie \texttt{Config} jej lokalizację.
     \item Stworzyć plik \texttt{.jar} z kodem źródłowym, korzystając z dowolnego narzędzia do~budowania projektów w języku Java.
     \item Stworzyć skrypt \texttt{.sh} zawierający komendę uruchamiającą silnik, np.:~\texttt{java~-jar~KobayashiMaru.jar}.
     \item Sprawdzić poprawność przez odpalenie silnika w konsoli.
@@ -27,9 +28,9 @@ Aby własnoręcznie skompilować kod źródłowy silnika, należy wykonać poni�
     \centering
     \begin{tabular}{@{}ll@{}}
         a) & b) \\
-        \includegraphics[width=0.25\textwidth]{dodatki/dodatekA/rysunki/instrukcja}
+        \includegraphics[width=0.23\textwidth]{dodatki/dodatekA/rysunki/instrukcja}
         &
-        \includegraphics[width=0.5\textwidth]{dodatki/dodatekA/rysunki/nowa-gra}
+        \includegraphics[width=0.46\textwidth]{dodatki/dodatekA/rysunki/nowa-gra}
     \end{tabular}
     \caption{Interfejs graficzny CuteChess: a) dodawanie silnika, b) tworzenie rozgrywki}
     \label{fig: integracja-z-gui}

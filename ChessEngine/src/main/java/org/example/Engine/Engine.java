@@ -91,7 +91,7 @@ public class Engine implements Constants {
     public void displayBoard() {
         System.out.println(board);
 //        int evaluation = evaluator.evaluate();
-        int multiply = (board.isWhiteToPlay()) ? 1 : -1;
+//        int multiply = (board.isWhiteToPlay()) ? 1 : -1;
 //        System.out.println("EVAL FOR WHITE: " + multiply * evaluation);
 //        System.out.println("EVAL FOR BLACK: " + multiply * -evaluation);
     }

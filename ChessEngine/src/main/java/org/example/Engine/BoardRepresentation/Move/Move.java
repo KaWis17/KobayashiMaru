@@ -1,7 +1,6 @@
 package org.example.Engine.BoardRepresentation.Move;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardHelper;
 import static org.example.Engine.BoardRepresentation.BoardHelper.*;
 
 public class Move implements MoveConstants, Comparable<Move> {

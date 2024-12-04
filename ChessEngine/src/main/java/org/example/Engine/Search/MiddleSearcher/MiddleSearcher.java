@@ -109,7 +109,7 @@ public class MiddleSearcher implements Search {
                 return null;
 
             if(board.makeMove(move)){
-                int score = -alphaBetaNeg(depth-1, -beta, -alpha);
+                int score = -alphaBetaNeg(depth-1, -beta, -alpha, false);
                 if((score > bestMoveValue || bestMoveValue == MINIMUM) && searcher.isCurrentlyThinking)
                 {
                     bestMoveValue = score;
@@ -142,9 +142,8 @@ public class MiddleSearcher implements Search {
         return new Result(bestMoveValue, bestMove);
     }
 
-    private Integer alphaBetaNeg(int depth, int alpha, int beta) {
+    private Integer alphaBetaNeg(int depth, int alpha, int beta, boolean wasExtended) {
         int alphaOrigin = alpha;
-
 
         TranspositionResult result = transpositionTable.get(board.zobristHashing.getTranspositionHash(), depth);
         if (result != null) {
@@ -178,7 +177,16 @@ public class MiddleSearcher implements Search {
                 break;
 
             if(board.makeMove(move)) {
-                bestMoveValue = max(bestMoveValue, -alphaBetaNeg(depth-1, -beta, -alpha));
+                if(Config.MOVE_EXTENSIONS_ON && !wasExtended) {
+                    if(moves.size() == 1 || board.isBlackInCheck() || board.isWhiteInCheck())
+                        bestMoveValue = max(bestMoveValue, -alphaBetaNeg(depth, -beta, -alpha, true));
+
+                    else
+                        bestMoveValue = max(bestMoveValue, -alphaBetaNeg(depth-1, -beta, -alpha, false));
+                }
+                else {
+                    bestMoveValue = max(bestMoveValue, -alphaBetaNeg(depth-1, -beta, -alpha, false));
+                }
                 alpha = max(alpha, bestMoveValue);
                 board.unmakeMove();
                 if(alpha >= beta)

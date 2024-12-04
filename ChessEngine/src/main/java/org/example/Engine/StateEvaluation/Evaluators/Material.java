@@ -1,7 +1,6 @@
 package org.example.Engine.StateEvaluation.Evaluators;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.StateEvaluation.Evaluation;
 
 public class Material implements Evaluation {

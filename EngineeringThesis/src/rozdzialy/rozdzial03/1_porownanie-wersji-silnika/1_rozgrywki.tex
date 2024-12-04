@@ -77,19 +77,18 @@ Jeszcze raz potwierdza to znaczenie ułożenia odwiedzanych wierzchołków dla a
     \caption{Wyniki rozgrywek z tabelą transpozycji}
     \label{fig:wyniki-transpozycje}
 \end{figure}
-Otrzymane rezultaty dla ulepszenia związanego z tabelą transpozycji wskazywały na błąd w implementacji.
+Otrzymane rezultaty dla ulepszenia związanego z tabelą transpozycji wskazywały na~niedokładność w implementacji.
 Nowy silnik remisował większość pojedynków.
-Co zaskakujące, analiza poszczególnych rozgrywek wskazywała, że silnik z ulepszeniem w~większości zremisowanych gier obejmował zauważalne prowadzenie.
-W opinii autora jednym z~możliwych powodów mógło być nierozróżnianie oceny jednej pozycji planszy, od drugiej, takiej samej, ale prowadzącej do niekorzystnego remisu.
-Dla przykładu ocena heurystyczna trzykrotnie powtarzającej się pozycji powinna być różna.
+Analiza poszczególnych rozgrywek wskazywała, że silnik z ulepszeniem w~większości zremisowanych gier obejmował zauważalne prowadzenie.
+Jednym z~możliwych powodów mogło być~nierozróżnianie oceny jednej pozycji planszy, od~drugiej, takiej samej, ale~prowadzącej do~niekorzystnego remisu (np. trzykrotne powtórzenie).
 W efekcie silnik zapętlał się w pozycji z jego perspektywy korzystnej, prowadząc do remisu.
-Poprawa implementacji wymagałaby stworzenia oddzielnego haszowania rozróżniającego te dwie, na pozór identyczne, pozycje.
-%Jako że tabela transpozycji oraz okno estymacji i tak nie mogły zostać wykorzystane jednocześnie, zdecydowano się na porzucenie tego ulepszenia.
+Poprawa implementacji polegałaby na~stworzeniu oddzielnego haszowania rozróżniającego te dwie, na pozór identyczne, pozycje.
+Innym rozwiązaniem byłoby sprawdzanie, czy nastąpił remis, przed zwróceniem wartości z~tabeli transpozycji.
 
 
 \subsection{Podsumowanie}\label{subsec:podsumowanie}
 Powyżej przedstawiono te z wyników, które miały największy wpływ na siłę silnika, bądź przedstawiały ciekawe zależności.
-Biblioteka otwarć, choć istotna, nie została porównana, gdyż rozgrywki rozpoczynały się od wyrównanych pozycji w grze środkowej, a więc biblioteka otwarć nie miałaby wpływu na wynik.
+Biblioteka otwarć, choć istotna, nie została porównana, gdyż rozgrywki rozpoczynały się od wyrównanych pozycji w grze środkowej.
 
 W pozostałych ulepszeniach wynik był znacznie bardziej wyrównany, zahaczający o~błąd statystyczny.
 Aby przeprowadzić analizę tych usprawnień, należałoby przeprowadzić więcej rozgrywek pomiędzy silnikami, bądź skorzystać z bardziej wyrafinowanych metod statystycznych.

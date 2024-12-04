@@ -27,7 +27,7 @@ public class Config {
     public static boolean ESTIMATION_WINDOW_ON = false;
 
     /* ---------- MOVE EXTENSIONS ---------- */
-    public static boolean MOVE_EXTENSIONS_ON = false;
+    public static boolean MOVE_EXTENSIONS_ON = true;
 
     /* ---------- PIECE SQUARE TABLE ---------- */
     public static boolean PIECE_SQUARE_TABLE_ON = true;

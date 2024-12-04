@@ -81,7 +81,6 @@ public class UciReceiver {
         }
     }
 
-    // TODO: Implement this method
     private void processRegisterCommand() {
         UciSender.sendUnsupportedCommand();
     }
@@ -97,7 +96,6 @@ public class UciReceiver {
     }
 
     private void processGoCommand(String command) {
-        // TODO: Implement this method
         if(command.contains("ponder"))
             UciSender.sendUnsupportedCommand();
 
@@ -116,7 +114,6 @@ public class UciReceiver {
         engine.stopSearchManually();
     }
 
-    // TODO: Implement this method
     private void processPonderHitCommand() {
         UciSender.sendUnsupportedCommand();
     }

@@ -2,7 +2,6 @@ package org.example.Engine.Search.EarlySearcher;
 
 import org.example.Engine.Args.Config;
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.Move.Move;
 import org.example.Engine.Search.Search;
 import org.example.Engine.Search.Searcher;

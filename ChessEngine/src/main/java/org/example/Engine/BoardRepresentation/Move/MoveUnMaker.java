@@ -1,7 +1,6 @@
 package org.example.Engine.BoardRepresentation.Move;
 
 import org.example.Engine.BoardRepresentation.Board;
-import org.example.Engine.BoardRepresentation.BoardHelper;
 import org.example.Engine.BoardRepresentation.State;
 import static org.example.Engine.BoardRepresentation.BoardHelper.*;
 import static org.example.Engine.BoardRepresentation.Move.MoveConstants.*;
